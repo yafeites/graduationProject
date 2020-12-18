@@ -29,7 +29,7 @@ public class Plan {
         Vector[]vectors=new Vector[]{vectorX,vectorY,vectorZ};
 
         Obb obbA=new Obb("obstacle1",new Point(1890,0,65),vectors,new double[]{10,10,10});
-        Obb obbB=new Obb("obstacle2",new Point(1906,0,65),vectors,new double[]{5,5,5});
+        Obb obbB=new Obb("obstacle2",new Point(1905,0,65),vectors,new double[]{5,5,5});
         obstacles[0]=obbA;
 //        handJointInfo handJointInfo=p.reCalculateDegree(new Point(860,0,740));
 //        System.out.println("theta1: "+handJointInfo.theta1+" theta2: "+handJointInfo.theta2+" theta3: "+handJointInfo.theta3+
