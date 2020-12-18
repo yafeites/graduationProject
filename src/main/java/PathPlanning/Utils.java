@@ -20,4 +20,28 @@ public class Utils {
         vector.vextorY/=val;
         vector.vextorZ/=val;
     }
+    static double sin(double degree)
+    {
+        return  Math.sin(Math.toRadians(degree));
+    }
+    static double cos(double degree)
+    {
+        return  Math.cos(Math.toRadians(degree));
+    }
+    static double tan(double degree)
+    {
+        return  Math.tan(Math.toRadians(degree));
+    }
+    static double asin(double val)
+    {
+        return  Math.toDegrees(Math.asin(val));
+    }
+    static double acos(double val)
+    {
+        return  Math.toDegrees(Math.acos(val));
+    }
+    static double atan2(double val1,double val2)
+    {
+        return  Math.toDegrees(Math.atan2(val1,val2));
+    }
 }

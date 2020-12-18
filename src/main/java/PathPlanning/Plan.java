@@ -10,52 +10,7 @@ public class Plan {
     static handJointInfo initHandJointInfo = new handJointInfo(0, 0, 0, 0,0, new Point(0, 0, 0));
 
     static handJointInfo currentHandJointInfo = new handJointInfo(0, 0, 0, 0, 0,new Point(0, 0, 0));
-    //todo
-    //挖掘机手臂obb
-    static Obb arm1 = new Obb("arm1",
-            new Point(BaseHandInfo.L1_AB*Math.cos(Math.toRadians(currentHandJointInfo.theta1))
-                    *(Math.cos(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t)))
-                    +BaseHandInfo.a0
-                    *Math.cos(Math.toRadians(currentHandJointInfo.theta1)),
-                    BaseHandInfo.L1_AB
-                     *(Math.cos(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t)))
-                     *Math.sin(Math.toRadians(currentHandJointInfo.theta1))/2
-                    +BaseHandInfo.a0*currentHandJointInfo.theta1,
-                    BaseHandInfo.L1_AB
-                     *(Math.sin(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t)))
-                     +BaseHandInfo.d0)
-            ,new Vector[]{
-            new Vector(Math.cos(Math.toRadians(currentHandJointInfo.theta1))
-                    *Math.cos(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t))
-                    ,Math.sin(Math.toRadians(currentHandJointInfo.theta1))
-                            *Math.cos(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t))
-                    , Math.sin(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t)))
-            ,new Vector(-Math.cos(Math.toRadians(currentHandJointInfo.theta1))
-            *Math.sin(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t))
-                    ,-Math.sin(Math.toRadians(currentHandJointInfo.theta1))
-            *Math.sin(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t))
-                    ,Math.cos(Math.toRadians(currentHandJointInfo.theta2 +BaseHandInfo.diffTheta2Theta2t)))
-            ,new Vector(Math.sin(Math.toRadians(currentHandJointInfo.theta1))
-                    ,-Math.sin(Math.toRadians(currentHandJointInfo.theta1))
-                        ,0)}
-            ,new double[]{BaseHandInfo.arm1_x,BaseHandInfo.arm1_y,BaseHandInfo.arm1_z});
-    static Obb arm2 = new Obb("arm2",
-            new Point(0,0,0),
-            new Vector[3],
-            new double[3]);
-    static Obb dipper = new Obb("dipper",
-            new Point(0,0,0),
-            new Vector[3],
-            new double[3]);
-    static Obb bucket = new Obb("bucket",
-            new Point(0,0,0),
-            new Vector[3],
-            new double[3]);
-    static Obb[] hands = new Obb[]{
-            arm1,
-            arm2,
-            dipper,
-            bucket};
+
 
     public static void main(String[] args) {
         Plan p=new Plan();
@@ -130,11 +85,11 @@ public class Plan {
             Point point=new Point(force.vextorX+initNode.point.x,force.vextorY+initNode.point.y
             ,force.vextorZ+initNode.point.z);
             handJointInfo handJointInfo= reCalculateDegree(point);
-            fillObb(handJointInfo);
+            BaseHandInfo.changehand(handJointInfo);
             boolean isIntersection=false;
             for (int i = 0; i <obstacles.length ; i++) {
-                for (int j = 0; j <hands.length; j++) {
-                    if(intersectionTest(hands[j],obstacles[i]))
+                for (int j = 0; j <BaseHandInfo.hands.length; j++) {
+                    if(intersectionTest(BaseHandInfo.hands[j],obstacles[i]))
                     {
                         isIntersection=true;
                         break;
@@ -180,13 +135,6 @@ public class Plan {
         return  ret;
     }
 
-    public void fillObb(handJointInfo handJointInfo) {
-            currentHandJointInfo.theta1 =handJointInfo.theta1;
-            currentHandJointInfo.theta2 =handJointInfo.theta2;
-            currentHandJointInfo.theta3 =handJointInfo.theta3;
-            currentHandJointInfo.degree=handJointInfo.degree;
-            currentHandJointInfo.point=handJointInfo.point;
-    }
 
     //相交检测
     public boolean 	intersectionTest(Obb hand,Obb obstacles)
