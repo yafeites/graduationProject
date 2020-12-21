@@ -15,4 +15,13 @@ public class Vector {
         this.vextorY = vextorY;
         this.vextorZ = vextorZ;
     }
+
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "vextorX=" + vextorX +
+                ", vextorY=" + vextorY +
+                ", vextorZ=" + vextorZ +
+                '}';
+    }
 }

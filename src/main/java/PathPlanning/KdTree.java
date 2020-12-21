@@ -1,9 +1,6 @@
 package PathPlanning;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author 汪一江
@@ -11,9 +8,44 @@ import java.util.Set;
  * @Date 2020/12/16
  */
 public class KdTree {
-    List<Node > set=new ArrayList<Node>();
+    String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    List<Node>list=new ArrayList<>();
     Node getNearestNode (Node node)
     {
-        return set.get(0);
+        double distance=Double.MAX_VALUE;
+        Node ret=null;
+        for (Node n :list) {
+            double dis=Utils.getDistance(n.point,node.point);
+            if(dis<distance)
+            {
+                distance=dis;
+                ret=n;
+            }
+
+        }
+        return ret;
+
     }
+    void insert(Node node)
+    {
+        list.add(node);
+    }
+
+    Node getRandNode()
+    {
+        int val=list.size();
+        Random rand=new Random();
+        return list.get(rand.nextInt(val));
+    }
+
+
 }

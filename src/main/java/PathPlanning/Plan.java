@@ -1,6 +1,12 @@
 package PathPlanning;
 
 
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author 汪一江
  * @Destriction
@@ -11,42 +17,62 @@ public class Plan {
 
     static handJointInfo currentHandJointInfo = new handJointInfo(0, 0, 0, 0, 0,new Point(0, 0, 0));
 
-
+    static List<Obb> obstacles=new ArrayList<>();
     public static void main(String[] args) {
         Plan p=new Plan();
         Node start=new Node();
         start.root=start;
         start.level=1;
-        start.point=new Point(1330,0,280);
+        start.point=new Point(1000.0,0.0,280.0);
         Node end=new Node();
         end.root=end;
         end.level=1;
-        end.point=new Point(2880,0,0);
-        Obb[]obstacles=new Obb[1];
+        end.point=new Point(2280.0,0.0,0.0);
         Vector vectorX=new Vector(1,0,0);
         Vector vectorY=new Vector(0,1,0);
         Vector vectorZ=new Vector(0,0,1);
         Vector[]vectors=new Vector[]{vectorX,vectorY,vectorZ};
 
-        Obb obbA=new Obb("obstacle1",new Point(1890,0,65),vectors,new double[]{10,10,10});
-        Obb obbB=new Obb("obstacle2",new Point(1905,0,65),vectors,new double[]{5,5,5});
-        obstacles[0]=obbA;
-//        handJointInfo handJointInfo=p.reCalculateDegree(new Point(860,0,740));
-//        System.out.println("theta1: "+handJointInfo.theta1+" theta2: "+handJointInfo.theta2+" theta3: "+handJointInfo.theta3+
-//                "theta4: "+handJointInfo.theta4 );
-            System.out.println(p.intersectionTest(obbA,obbB));
-//        p.func(start,end,obstacles);
+        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors,new double[]{50,50,50});
+        Obb obbB=new Obb("obstacle2",new Point(1300,0.0,800),vectors,new double[]{50,50,50});
+        obstacles.add(obbA);
+        obstacles.add(obbB);
+        p.reCalculateDegree(end.point);
+
+
+        p.func(start,end);
 
     }
 
-    public void func(Node start, Node end, Obb[] obstacles) {
+    public void func(Node start, Node end) {
+       Node  lastOneNode=null;
+       Node lastTwoNode=null;
+        KdTree kdTreeS=new KdTree();
+        kdTreeS.setName("初始树");
+        kdTreeS.insert(start);
+        KdTree kdTreeE=new KdTree();
+        kdTreeE.setName("目标树");
+        kdTreeE.insert(end);
+        KdTree kdTreeMe=kdTreeS;
+        KdTree kdTreeYou=kdTreeE;
+
         Node initNode=start;
+        start.setTree(kdTreeS);
+        end.setTree(kdTreeE);
         Node targetNode=end;
         Vector force=new Vector(0,0,0);
         while (true)
         {
+            lastTwoNode=lastOneNode;
+            lastOneNode=initNode;
             if(Utils.getDistance(initNode.point,targetNode.point)<APFInfo.stepLength)
             {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                String str=df.format(new Date());
+                str=str.replace(' ','_');
+                printTree(start,end,str);
+                printNode(initNode,targetNode,str);
+                printObstacles(obstacles,str);
                 break;
             }
             //计算人工势能场引力
@@ -56,21 +82,20 @@ public class Plan {
             attractiveVector.vextorZ=targetNode.point.z-initNode.point.z;
             Utils.standardization(attractiveVector);
             double forceAtt=0.5*Math.pow(Utils.getDistance(targetNode.point,initNode.point)*APFInfo.attractiveForceRatio,2);
-//            double[] forceAttVect=new double[3];
             force.vextorX+=attractiveVector.vextorX*forceAtt;
             force.vextorY+=attractiveVector.vextorY*forceAtt;
             force.vextorZ+=attractiveVector.vextorZ*forceAtt;
             //计算斥力
-            for (int i = 0; i <obstacles.length ; i++) {
-                double distance=Utils.getDistance(obstacles[i].point,initNode.point);
+            for (int i = 0; i <obstacles.size() ; i++) {
+                double distance=Utils.getDistance(obstacles.get(i).point,initNode.point);
                 if(distance>APFInfo.minimumDistance2Obstacle)
                 {
                     continue;
                 }
                 Vector repulsiveVector=new Vector(0,0,0);
-                repulsiveVector.vextorX=-obstacles[i].point.x+initNode.point.x;
-                repulsiveVector.vextorY=-obstacles[i].point.y+initNode.point.y;
-                repulsiveVector.vextorZ=-obstacles[i].point.z+initNode.point.z;
+                repulsiveVector.vextorX=-obstacles.get(i).point.x+initNode.point.x;
+                repulsiveVector.vextorY=-obstacles.get(i).point.y+initNode.point.y;
+                repulsiveVector.vextorZ=-obstacles.get(i).point.z+initNode.point.z;
                 Utils.standardization(attractiveVector);
                 double forceRep=0.5*APFInfo.repulsiveForceRatio*Math.pow
                 (1/distance-1/APFInfo.minimumDistance2Obstacle,2);
@@ -84,37 +109,277 @@ public class Plan {
             force.vextorZ*=APFInfo.stepLength;
             Point point=new Point(force.vextorX+initNode.point.x,force.vextorY+initNode.point.y
             ,force.vextorZ+initNode.point.z);
-            handJointInfo handJointInfo= reCalculateDegree(point);
-            BaseHandInfo.changehand(handJointInfo);
-            boolean isIntersection=false;
-            for (int i = 0; i <obstacles.length ; i++) {
-                for (int j = 0; j <BaseHandInfo.hands.length; j++) {
-                    if(intersectionTest(BaseHandInfo.hands[j],obstacles[i]))
-                    {
-                        isIntersection=true;
-                        break;
-                            //todo
-                            //相交计算
-                    }
+            
+            //相交检测
+            if(intersection(point))
+            {
+                Node preNode=initNode;
+                initNode=kdTreeYou.getNearestNode(initNode);
+                targetNode=kdTreeMe.getNearestNode(initNode);
+                if(targetNode==lastOneNode&&initNode==lastTwoNode)
+                {
+                    Node node=generateByRand(preNode);
+                    initNode=kdTreeYou.getNearestNode(node);
+                    targetNode=kdTreeMe.getNearestNode(initNode);
+                    kdTreeMe.insert(node);
+                    System.out.println(node.tree.name);
+                    System.out.println("x:"+node.point.x+" y:"+node.point.y+" z:"+node.point.z);
 
                 }
+                KdTree temp=kdTreeMe;
+                kdTreeMe=kdTreeYou;
+                kdTreeYou=temp;
+//                swapTree(kdTreeMe,kdTreeYou);
+                force.vextorX=0;
+                force.vextorZ=0;
+                force.vextorY=0;
+                continue;
             }
-            if(!isIntersection)
-            {
-                Node newNode=new Node();
-                newNode.point=point;
-                newNode.father=initNode;
-                newNode.level=initNode.level+1;
-                newNode.root=initNode.root;
-                initNode.son=newNode;
+               Node newNode= createNode(point,initNode);
                 initNode=newNode;
+                kdTreeMe.insert(newNode);
+                System.out.println(newNode.tree.name);
                 System.out.println("x:"+newNode.point.x+" y:"+newNode.point.y+" z:"+newNode.point.z);
-            }
+
             force.vextorX=0;
             force.vextorZ=0;
             force.vextorY=0;
 
         }
+
+    }
+
+    private void printObstacles(List<Obb> obstacles,String str) {
+        String prepath = "D:\\file\\";
+        String path=prepath+str+"obstacles.txt";
+        File file = new File(path);
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+                writeObs(path,obstacles);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void writeObs(String path, List<Obb> obstacles) {
+        BufferedWriter out=null;
+        try {
+            out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(path,true)));
+            for (Obb obb:obstacles) {
+                out.write(obb.toString()+"\r\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(out!=null)
+            {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void printNode(Node initNode, Node targetNode,String str) {
+        String prepath = "D:\\file\\";
+        String path=prepath+str+"node.txt";
+        File file = new File(path);
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+                writeNode(path,initNode,targetNode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void writeNode(String path, Node initNode, Node targetNode) {
+        BufferedWriter out=null;
+        try {
+            out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(path,true)));
+            write(out,initNode,targetNode);
+            while (initNode.father!=null)
+            {
+                write(out,initNode.father,initNode);
+                initNode=initNode.father;
+            }
+            while (targetNode.father!=null)
+            {
+                write(out,targetNode.father,targetNode);
+                targetNode=targetNode.father;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(out!=null)
+            {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    private void printTree(Node start, Node end,String str) {
+
+        String prepath = "D:\\file\\";
+        String path=prepath+str+"tree.txt";
+        System.out.println(path);
+        File file = new File(path);
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+                writeTree(path,start,end);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void writeTree(String path, Node start, Node end) {
+        BufferedWriter out=null;
+        try {
+             out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(path,true)));
+             out.write("起始树"+"\r\n");
+            write(out,start);
+            out.write("目标树"+"\r\n");
+            write(out,end);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(out!=null)
+            {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void write(BufferedWriter out, Node node) {
+        if(node.sons.size()>0)
+        {
+            for (Node n:node.sons)
+            {
+                try {
+                    write(out,node,n);
+                    write(out,n);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+    private  void write (BufferedWriter out,Node node1,Node node2) throws IOException {
+        out.write(node1.point.x+","+node1.point.y+","+node1.point.z+" "+
+                node2.point.x+","+node2.point.y+","+node2.point.z+"\r\n");
+    }
+
+
+    private Node generateByRand(Node preNode) {
+        Node node=null;
+        while (true)
+        {
+            double a=Math.random();
+            if(Math.random()<0.5)
+            {
+                a=-a;
+            }
+            double b=Math.random();
+            if(Math.random()<0.5)
+            {
+                b=-b;
+            }
+            double c=Math.random();
+            if(Math.random()<0.5)
+            {
+                c=-c;
+            }
+            Vector vector=new Vector(a,b,c);
+            Utils.standardization(vector);
+            double rand=Math.random();
+            if(rand>RRTInfo.p0&&preNode.father!=null&&preNode.father.father!=null)
+            {
+                Node grandfather=preNode.father.father;
+                node  = extendTree(grandfather,vector);
+            }
+            else if(rand>RRTInfo.p1&&rand<=RRTInfo.p0&&preNode.father!=null)
+                {
+                    Node father=preNode.father;
+                    node=extendTree(father,vector);
+                }
+            else  if(rand>RRTInfo.p2&&rand<=RRTInfo.p1)
+                {
+                    node=extendTree(preNode,vector);
+                }
+
+            else
+            {
+                node=extendTree(preNode.getTree().getRandNode(),vector);
+            }
+            if(node==null)
+
+            {
+                continue;
+            }
+
+            return  node;
+
+        }
+
+    }
+
+    private Node extendTree(Node node, Vector vector) {
+
+         Point point= new Point(node.point.x+APFInfo.stepLength*vector.vextorX,
+                node.point.y+APFInfo.stepLength*vector.vextorY,
+                node.point.z+APFInfo.stepLength*vector.vextorZ);
+        if(intersection(point))
+        {
+            return null;
+        }
+        else
+        {
+            return createNode(point,node);
+        }
+
+    }
+
+    private Node createNode(Point point, Node node) {
+        Node newNode =new Node();
+        newNode.setPoint(point);
+        newNode.addAttr(node);
+        return  newNode;
+    }
+
+    void swapTree(KdTree A,KdTree B)
+    {
+        KdTree temp=A;
+         A=B;
+         B=temp;
 
     }
 
@@ -135,7 +400,22 @@ public class Plan {
         return  ret;
     }
 
+    public  boolean intersection (Point point)
+    {
+        handJointInfo handJointInfo= reCalculateDegree(point);
+        BaseHandInfo.changehand(handJointInfo);
+        for (int i = 0; i <obstacles.size() ; i++) {
+            for (int j = 0; j <BaseHandInfo.hands.length; j++) {
+                if(intersectionTest(BaseHandInfo.hands[j],obstacles.get(i)))
+                {
+                    return true;
+                }
 
+            }
+        }
+        return  false;
+        
+    }
     //相交检测
     public boolean 	intersectionTest(Obb hand,Obb obstacles)
     {
@@ -153,13 +433,13 @@ public class Plan {
         t1.vextorX=obstacles.point.x-hand.point.x;
         t1.vextorY=obstacles.point.y-hand.point.y;
         t1.vextorZ=obstacles.point.z-hand.point.z;
-        t1.vextorX=Dot(t1,hand.vectors[0]);
-        t1.vextorY=Dot(t1,hand.vectors[1]);
-        t1.vextorZ=Dot(t1,hand.vectors[2]);
+        double vextorX=Dot(t1,hand.vectors[0]);
+        double vextorY=Dot(t1,hand.vectors[1]);
+        double vextorZ=Dot(t1,hand.vectors[2]);
         double[]t=new double[3];
-        t[0]=t1.vextorX;
-        t[1]=t1.vextorY;
-        t[2]=t1.vextorZ;
+        t[0]=vextorX;
+        t[1]=vextorY;
+        t[2]=vextorZ;
 
         for (int i = 0; i < 3; i++) {
                 ra=hand.halfLength[i];
