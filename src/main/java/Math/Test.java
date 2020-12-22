@@ -1,5 +1,7 @@
 package Math;
 
+import PathPlanning.Utils;
+
 /**
  * @author 汪一江
  * @Destriction
@@ -7,7 +9,7 @@ package Math;
  */
 public class Test {
     public static void main(String[] args) {
-        System.out.println(Math.cos(1.25)*(440+1350+700+390)/1000);
+        System.out.println(Utils.cos(43)*1350+440);
 
     }
 }

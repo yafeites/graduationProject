@@ -153,8 +153,8 @@ public class BaseHandInfo {
         bucket.vectors[2].vextorX=Utils.sin(theta1);
         bucket.vectors[2].vextorY=-Utils.cos(theta1);
         bucket.vectors[2].vextorZ=0;
-        bucket.point.x=(x+pd.x)/2+bucket_y/2*Utils.cos(theta1)*Utils.sin(thetaPoint);
-        bucket.point.y=(y+pd.y)/2+bucket_y/2*Utils.sin(theta1)*Utils.sin(thetaPoint);
+        bucket.point.x=(x+pd.x)/2-bucket_y/2*Utils.cos(theta1)*Utils.sin(thetaPoint);
+        bucket.point.y=(y+pd.y)/2-bucket_y/2*Utils.sin(theta1)*Utils.sin(thetaPoint);
         bucket.point.z=(z+pd.z)/2+bucket_y/2*Utils.cos(thetaPoint);
 
     }

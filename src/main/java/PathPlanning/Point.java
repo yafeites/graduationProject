@@ -24,4 +24,11 @@ public class Point {
                 ", z=" + z +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Point p=(Point)obj;
+        return p.x==x&&p.y==y&&p.z==z;
+    }
+
 }

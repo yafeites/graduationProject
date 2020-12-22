@@ -24,4 +24,10 @@ public class Vector {
                 ", vextorZ=" + vextorZ +
                 '}';
     }
+    void  clean()
+    {
+        vextorX=0;
+        vextorY=0;
+        vextorZ=0;
+    }
 }

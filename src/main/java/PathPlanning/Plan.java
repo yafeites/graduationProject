@@ -11,9 +11,7 @@ import java.util.*;
  * @Date 2020/12/16
  */
 public class Plan {
-    static handJointInfo initHandJointInfo = new handJointInfo(0, 0, 0, 0,0, new Point(0, 0, 0));
-
-    static handJointInfo currentHandJointInfo = new handJointInfo(0, 0, 0, 0, 0,new Point(0, 0, 0));
+    String prepath = "E:\\file\\";
 
     static List<Obb> obstacles=new ArrayList<>();
     public static void main(String[] args) {
@@ -33,20 +31,27 @@ public class Plan {
 
         Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors,new double[]{50,50,50});
         Obb obbB=new Obb("obstacle2",new Point(1300,0.0,800),vectors,new double[]{50,50,50});
-        Obb obbC=new Obb("obstacle2",new Point(1500,100,300),vectors,new double[]{50,50,50});
+        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors,new double[]{50,50,50});
+        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors,new double[]{50,50,50});
+        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors,new double[]{50,50,50});
+
         obstacles.add(obbA);
         obstacles.add(obbB);
         obstacles.add(obbC);
+        obstacles.add(obbD);
+        obstacles.add(obbE);
         p.reCalculateDegree(end.point);
 
-
-        p.func(start,end);
+        long time=System.currentTimeMillis();
+//        p.rrt(start,end);
+        p.union(start,end);
+        System.out.println(System.currentTimeMillis()-time);
 
     }
-
-    public void func(Node start, Node end) {
-       Node  lastOneNode=null;
-       Node lastTwoNode=null;
+    public  void rrt(Node start,Node end)
+    {
+        Node  lastInitOneNode=null;
+        Node lastInitTwoNode=null;
         KdTree kdTreeS=new KdTree();
         kdTreeS.setName("初始树");
         kdTreeS.insert(start);
@@ -63,8 +68,88 @@ public class Plan {
         Vector force=new Vector(0,0,0);
         while (true)
         {
-            lastTwoNode=lastOneNode;
-            lastOneNode=initNode;
+            if(Utils.getDistance(initNode.point,targetNode.point)<APFInfo.stepLength)
+            {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                String str=df.format(new Date());
+                str=str.replace(' ','_');
+                str=str+"rrt";
+                printTree(start,end,str);
+                printNode(initNode,targetNode,str);
+                printObstacles(obstacles,str);
+                opt(initNode);
+                opt(targetNode);
+                printNode(initNode,targetNode,str+"opt");
+                break;
+            }
+            //计算人工势能场引力
+            force.vextorX=targetNode.point.x-initNode.point.x;
+            force.vextorY=targetNode.point.y-initNode.point.y;
+            force.vextorZ=targetNode.point.z-initNode.point.z;
+            Utils.standardization(force);
+            force.vextorX*=APFInfo.stepLength;
+            force.vextorY*=APFInfo.stepLength;
+            force.vextorZ*=APFInfo.stepLength;
+
+            Point point=new Point(force.vextorX+initNode.point.x,force.vextorY+initNode.point.y
+                    ,force.vextorZ+initNode.point.z);
+
+            //相交检测
+            if(intersection(point))
+            {
+                    Node node=generateByRRT(initNode);
+                    initNode=kdTreeYou.getNearestNode(node);
+                    targetNode=node;
+                    kdTreeMe.insert(node);
+                    System.out.println(node.tree.name);
+                    System.out.println("x:"+node.point.x+" y:"+node.point.y+" z:"+node.point.z);
+
+
+                KdTree temp=kdTreeMe;
+                kdTreeMe=kdTreeYou;
+                kdTreeYou=temp;
+                force.clean();
+
+                continue;
+            }
+
+            Node newNode= createNode(point,initNode);
+            initNode=newNode;
+            kdTreeMe.insert(newNode);
+            System.out.println(newNode.tree.name);
+            System.out.println("x:"+newNode.point.x+" y:"+newNode.point.y+" z:"+newNode.point.z);
+
+           force.clean();
+
+        }
+
+    }
+
+
+
+
+    public void union(Node start, Node end) {
+        Node lastNewNode=null;
+        Node  lastInitOneNode=null;
+       Node lastInitTwoNode=null;
+        KdTree kdTreeS=new KdTree();
+        kdTreeS.setName("初始树");
+        kdTreeS.insert(start);
+        KdTree kdTreeE=new KdTree();
+        kdTreeE.setName("目标树");
+        kdTreeE.insert(end);
+        KdTree kdTreeMe=kdTreeS;
+        KdTree kdTreeYou=kdTreeE;
+
+        Node initNode=start;
+        start.setTree(kdTreeS);
+        end.setTree(kdTreeE);
+        Node targetNode=end;
+        Vector force=new Vector(0,0,0);
+        while (true)
+        {
+            lastInitTwoNode=lastInitOneNode;
+            lastInitOneNode=initNode;
             if(Utils.getDistance(initNode.point,targetNode.point)<APFInfo.stepLength)
             {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
@@ -91,7 +176,7 @@ public class Plan {
             //计算斥力
             for (int i = 0; i <obstacles.size() ; i++) {
                 double distance=Utils.getDistance(obstacles.get(i).point,initNode.point);
-                if(distance>APFInfo.minimumDistance2Obstacle)
+                if(!inRange(initNode.point,obstacles.get(i)))
                 {
                     continue;
                 }
@@ -112,19 +197,20 @@ public class Plan {
             force.vextorZ*=APFInfo.stepLength;
             Point point=new Point(force.vextorX+initNode.point.x,force.vextorY+initNode.point.y
             ,force.vextorZ+initNode.point.z);
-            
             //相交检测
+
             if(intersection(point))
             {
                 Node preNode=initNode;
                 initNode=kdTreeYou.getNearestNode(initNode);
                 targetNode=kdTreeMe.getNearestNode(initNode);
-                if(targetNode==lastOneNode&&initNode==lastTwoNode)
+                if(targetNode==lastInitOneNode&&initNode==lastInitTwoNode)
                 {
                     Node node=generateByRand(preNode);
                     initNode=kdTreeYou.getNearestNode(node);
                     targetNode=kdTreeMe.getNearestNode(initNode);
                     kdTreeMe.insert(node);
+                    lastNewNode=node;
                     System.out.println(node.tree.name);
                     System.out.println("x:"+node.point.x+" y:"+node.point.y+" z:"+node.point.z);
 
@@ -132,24 +218,33 @@ public class Plan {
                 KdTree temp=kdTreeMe;
                 kdTreeMe=kdTreeYou;
                 kdTreeYou=temp;
-//                swapTree(kdTreeMe,kdTreeYou);
-                force.vextorX=0;
-                force.vextorZ=0;
-                force.vextorY=0;
+                force.clean();
+
                 continue;
             }
                Node newNode= createNode(point,initNode);
                 initNode=newNode;
                 kdTreeMe.insert(newNode);
+                lastNewNode=newNode;
                 System.out.println(newNode.tree.name);
                 System.out.println("x:"+newNode.point.x+" y:"+newNode.point.y+" z:"+newNode.point.z);
 
-            force.vextorX=0;
-            force.vextorZ=0;
-            force.vextorY=0;
+            force.clean();
+
 
         }
 
+    }
+
+    private boolean inRange(Point point, Obb obb) {
+        Vector vector=new Vector(point.x-obb.point.x,point.y-obb.point.y,point.z-obb.point.z);
+        if((Dot(obb.vectors[0],vector)<2.5*APFInfo.stepLength+obb.halfLength[0])
+        &&(Dot(obb.vectors[1],vector)<2.5*APFInfo.stepLength+obb.halfLength[1])
+        &&(Dot(obb.vectors[2],vector)<2.5*APFInfo.stepLength+obb.halfLength[2]))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void opt(Node node) {
@@ -197,7 +292,6 @@ public class Plan {
     }
 
     private void printObstacles(List<Obb> obstacles,String str) {
-        String prepath = "D:\\file\\";
         String path=prepath+str+"obstacles.txt";
         File file = new File(path);
         if(!file.exists())
@@ -235,7 +329,6 @@ public class Plan {
     }
 
     private void printNode(Node initNode, Node targetNode,String str) {
-        String prepath = "D:\\file\\";
         String path=prepath+str+"node.txt";
         File file = new File(path);
         System.out.println(path);
@@ -286,7 +379,6 @@ public class Plan {
 
     private void printTree(Node start, Node end,String str) {
 
-        String prepath = "D:\\file\\";
         String path=prepath+str+"tree.txt";
         System.out.println(path);
         File file = new File(path);
@@ -346,7 +438,39 @@ public class Plan {
                 node2.point.x+","+node2.point.y+","+node2.point.z+"\r\n");
     }
 
+    private Node generateByRRT(Node preNode) {
+        Node node=null;
+        while (true)
+        {
+            double a=Math.random();
+            if(Math.random()<0.5)
+            {
+                a=-a;
+            }
+            double b=Math.random();
+            if(Math.random()<0.5)
+            {
+                b=-b;
+            }
+            double c=Math.random();
+            if(Math.random()<0.5)
+            {
+                c=-c;
+            }
+            Vector vector=new Vector(a,b,c);
+            Utils.standardization(vector);
+                node=extendTree(preNode,vector);
+            if(node==null)
 
+            {
+                continue;
+            }
+
+            return  node;
+
+        }
+
+    }
     private Node generateByRand(Node preNode) {
         Node node=null;
         while (true)
@@ -414,6 +538,8 @@ public class Plan {
             return createNode(point,node);
         }
 
+
+
     }
 
     private Node createNode(Point point, Node node) {
@@ -423,13 +549,7 @@ public class Plan {
         return  newNode;
     }
 
-    void swapTree(KdTree A,KdTree B)
-    {
-        KdTree temp=A;
-         A=B;
-         B=temp;
 
-    }
 
     //逆运算关节角度
     public  handJointInfo reCalculateDegree(Point point) {

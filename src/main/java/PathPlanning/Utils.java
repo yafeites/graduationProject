@@ -6,13 +6,13 @@ package PathPlanning;
  * @Date 2020/12/16
  */
 public class Utils {
-    static  double getDistance(Point point1,Point point2)
+    public static  double getDistance(Point point1,Point point2)
     {
         return Math.sqrt(Math.pow(point1.x-point2.x,2)
                 +Math.pow(point1.y-point2.y,2)
                 + Math.pow(point1.z-point2.z,2));
     }
-    static void standardization(Vector vector)
+    public  static void standardization(Vector vector)
     {
         double val=Math.sqrt(vector.vextorX*vector.vextorX+vector.vextorY*vector.vextorY
                 +vector.vextorZ*vector.vextorZ);
@@ -20,11 +20,11 @@ public class Utils {
         vector.vextorY/=val;
         vector.vextorZ/=val;
     }
-    static double sin(double degree)
+    public static double sin(double degree)
     {
         return  Math.sin(Math.toRadians(degree));
     }
-    static double cos(double degree)
+    public static double cos(double degree)
     {
         return  Math.cos(Math.toRadians(degree));
     }
@@ -32,15 +32,15 @@ public class Utils {
     {
         return  Math.tan(Math.toRadians(degree));
     }
-    static double asin(double val)
+    public static double asin(double val)
     {
         return  Math.toDegrees(Math.asin(val));
     }
-    static double acos(double val)
+    public static double acos(double val)
     {
         return  Math.toDegrees(Math.acos(val));
     }
-    static double atan2(double val1,double val2)
+    public static double atan2(double val1,double val2)
     {
         return  Math.toDegrees(Math.atan2(val1,val2));
     }
