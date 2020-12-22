@@ -3,9 +3,7 @@ package PathPlanning;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 汪一江
@@ -35,8 +33,10 @@ public class Plan {
 
         Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors,new double[]{50,50,50});
         Obb obbB=new Obb("obstacle2",new Point(1300,0.0,800),vectors,new double[]{50,50,50});
+        Obb obbC=new Obb("obstacle2",new Point(1500,100,300),vectors,new double[]{50,50,50});
         obstacles.add(obbA);
         obstacles.add(obbB);
+        obstacles.add(obbC);
         p.reCalculateDegree(end.point);
 
 
@@ -73,6 +73,9 @@ public class Plan {
                 printTree(start,end,str);
                 printNode(initNode,targetNode,str);
                 printObstacles(obstacles,str);
+                opt(initNode);
+                opt(targetNode);
+                printNode(initNode,targetNode,str+"opt");
                 break;
             }
             //计算人工势能场引力
@@ -149,6 +152,50 @@ public class Plan {
 
     }
 
+    private void opt(Node node) {
+        List<Node>list=new ArrayList<>();
+        while (node!=node.root)
+        {
+            for (Node n:node.tree.list) {
+                if(Utils.getDistance(n.point,node.point)<2.5*APFInfo.stepLength)
+                {
+                    list.add(n);
+                }
+            }
+            Collections.sort(list, new Comparator<Node>() {
+                @Override
+                public int compare(Node node1, Node node2) {
+                    if(node1.level!=node2.level)
+                    {
+                        return -node1.level+node2.level;
+                    }
+                    else return (int)(-Utils.getDistance(node1.point,node1.root.point)+
+                            Utils.getDistance(node2.point,node1.root.point));
+                }
+            });
+            for(int i=list.size()-1;i>=0;i--)
+            {
+                Node node1=list.get(i);
+                if(node1.level<node.level)
+                {
+                    if(intersection(new Point((node.point.x+node1.point.x)/2,(node.point.y+node1.point.y)/2,
+                    (node.point.z+node1.point.z)/2)))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        node.father=node1;
+                        node.level=node.father.level+1;
+                        System.out.println(node.point);
+                        break;
+                    }
+                }
+            }
+            node=node.father;
+        }
+    }
+
     private void printObstacles(List<Obb> obstacles,String str) {
         String prepath = "D:\\file\\";
         String path=prepath+str+"obstacles.txt";
@@ -191,6 +238,7 @@ public class Plan {
         String prepath = "D:\\file\\";
         String path=prepath+str+"node.txt";
         File file = new File(path);
+        System.out.println(path);
         if(!file.exists())
         {
             try {
