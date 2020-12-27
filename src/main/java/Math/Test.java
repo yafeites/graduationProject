@@ -8,8 +8,11 @@ import PathPlanning.Utils;
  * @Date 2020/12/3
  */
 public class Test {
+
     public static void main(String[] args) {
-        System.out.println(Utils.cos(43)*1350+440);
+        int a=1;
+        double a1=a*2.5;
+        System.out.println(a1);
 
     }
 }

@@ -43,8 +43,11 @@ public class Plan {
         p.reCalculateDegree(end.point);
 
         long time=System.currentTimeMillis();
+        for (int i=0;i<100;i++)
+        {
 //        p.rrt(start,end);
-        p.union(start,end);
+            p.union(start,end);
+        }
         System.out.println(System.currentTimeMillis()-time);
 
     }
@@ -80,6 +83,7 @@ public class Plan {
                 opt(initNode);
                 opt(targetNode);
                 printNode(initNode,targetNode,str+"opt");
+                printPoint(initNode,targetNode,str);
                 break;
             }
             //计算人工势能场引力
@@ -161,6 +165,22 @@ public class Plan {
                 opt(initNode);
                 opt(targetNode);
                 printNode(initNode,targetNode,str+"opt");
+                printPoint(initNode,targetNode,str);
+                break;
+            }
+            Node near=kdTreeYou.getNearestNode(initNode);
+            if(Utils.getDistance(initNode.point,near.point)<APFInfo.stepLength)
+            {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                String str=df.format(new Date());
+                str=str.replace(' ','_');
+                printTree(start,end,str);
+                printNode(initNode,near,str);
+                printObstacles(obstacles,str);
+                opt(initNode);
+                opt(near);
+                printNode(initNode,near,str+"opt");
+                printPoint(initNode,near,str);
                 break;
             }
             //计算人工势能场引力
@@ -176,6 +196,10 @@ public class Plan {
             //计算斥力
             for (int i = 0; i <obstacles.size() ; i++) {
                 double distance=Utils.getDistance(obstacles.get(i).point,initNode.point);
+//                if(distance>APFInfo.minimumDistance2Obstacle)
+//                {
+//                    continue;
+//                }
                 if(!inRange(initNode.point,obstacles.get(i)))
                 {
                     continue;
@@ -222,6 +246,19 @@ public class Plan {
 
                 continue;
             }
+            Node nearestNode=kdTreeMe.getNearestNode(point );
+            if(nearestNode.point.equals(point))
+            {
+                Node node=generateByRand(initNode);
+                initNode=kdTreeYou.getNearestNode(node);
+                targetNode=kdTreeMe.getNearestNode(initNode);
+                kdTreeMe.insert(node);
+                KdTree temp=kdTreeMe;
+                kdTreeMe=kdTreeYou;
+                kdTreeYou=temp;
+                force.clean();
+                continue;
+            }
                Node newNode= createNode(point,initNode);
                 initNode=newNode;
                 kdTreeMe.insert(newNode);
@@ -236,11 +273,91 @@ public class Plan {
 
     }
 
+    private void printPoint(Node initNode, Node targetNode, String str) {
+        String path=prepath+str+"point.txt";
+        File file = new File(path);
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+                writePoint(path,initNode,targetNode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void writePoint(String path, Node initNode, Node targetNode) {
+        BufferedWriter out=null;
+        try {
+            out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(path,true)));
+           if(initNode.tree.name.equals("初始树"))
+           {
+               writePointFromRoot(out,initNode);
+               writePointFromPoint(out,targetNode);
+           }
+           else
+           {
+               writePointFromRoot(out,targetNode);
+               writePointFromPoint(out,initNode);
+           }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(out!=null)
+            {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void writePointFromRoot(BufferedWriter out, Node node) throws IOException {
+        List<Node>list=new ArrayList<>();
+        while (node!=null)
+        {
+            list.add(node);
+            node=node.father;
+        }
+        for(int i=list.size()-1;i>=0;i--)
+        {
+            node=list.get(i);
+//            if(i==list.size()-1)
+//            {
+//                for (int j = 0; j <4 ; j++) {
+//                    out.write(node.point.x+","+node.point.y+","+node.point.z+"\r\n");
+//                }
+//                continue;
+//            }
+            out.write(node.point.x+","+node.point.y+","+node.point.z+"\r\n");
+        }
+
+    }
+    private void writePointFromPoint(BufferedWriter out, Node node) throws IOException {
+            while (node!=null)
+            {
+//                if(node.root==node)
+//                {
+//                    for (int i = 0; i < 4; i++) {
+//                        out.write(node.point.x+","+node.point.y+","+node.point.z+"\r\n");
+//                    }
+//                    return;
+//                }
+                out.write(node.point.x+","+node.point.y+","+node.point.z+"\r\n");
+                node=node.father;
+            }
+    }
+
     private boolean inRange(Point point, Obb obb) {
         Vector vector=new Vector(point.x-obb.point.x,point.y-obb.point.y,point.z-obb.point.z);
-        if((Dot(obb.vectors[0],vector)<2.5*APFInfo.stepLength+obb.halfLength[0])
-        &&(Dot(obb.vectors[1],vector)<2.5*APFInfo.stepLength+obb.halfLength[1])
-        &&(Dot(obb.vectors[2],vector)<2.5*APFInfo.stepLength+obb.halfLength[2]))
+        if((Math.abs(Dot(obb.vectors[0],vector))<1.5*APFInfo.stepLength+obb.halfLength[0])
+        &&(Math.abs(Dot(obb.vectors[1],vector))<1.5*APFInfo.stepLength+obb.halfLength[1])
+        &&(Math.abs(Dot(obb.vectors[2],vector))<1.5*APFInfo.stepLength+obb.halfLength[2]))
         {
             return true;
         }
@@ -264,8 +381,19 @@ public class Plan {
                     {
                         return -node1.level+node2.level;
                     }
-                    else return (int)(-Utils.getDistance(node1.point,node1.root.point)+
-                            Utils.getDistance(node2.point,node1.root.point));
+
+                    else
+                    {
+                        double dis1=Utils.getDistance(node1.point,node1.root.point);
+                        double dis2=Utils.getDistance(node2.point,node1.root.point);
+                        return -Double.compare(dis1,dis2);
+                    }
+
+//                         return (-Utils.getDistance(node1.point,node1.root.point)+
+//                            Utils.getDistance(node2.point,node1.root.point));
+
+
+
                 }
             });
             for(int i=list.size()-1;i>=0;i--)
@@ -328,7 +456,7 @@ public class Plan {
         }
     }
 
-    private void printNode(Node initNode, Node targetNode,String str) {
+    private void printNode(Node initNode, Node targetNode, String str) {
         String path=prepath+str+"node.txt";
         File file = new File(path);
         System.out.println(path);

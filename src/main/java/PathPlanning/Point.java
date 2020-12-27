@@ -12,9 +12,9 @@ public class Point {
         this.z = z;
     }
 
-    double x;
-    double y;
-    double z;
+   public double x;
+    public double y;
+    public double z;
 
     @Override
     public String toString() {

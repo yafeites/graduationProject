@@ -35,6 +35,23 @@ public class KdTree {
         return ret;
 
     }
+    Node getNearestNode (Point point)
+    {
+        double distance=Double.MAX_VALUE;
+        Node ret=null;
+        for (Node n :list) {
+            double dis=Utils.getDistance(n.point,point);
+            if(dis<distance)
+            {
+                distance=dis;
+                ret=n;
+            }
+
+        }
+        return ret;
+
+    }
+
     void insert(Node node)
     {
         list.add(node);

@@ -6,9 +6,9 @@ package PathPlanning;
  * @Date 2020/12/16
  */
 public class Vector {
-    double vextorX;
-    double vextorY;
-    double vextorZ;
+    public double vextorX;
+    public double vextorY;
+    public double vextorZ;
 
     public Vector(double vextorX, double vextorY, double vextorZ) {
         this.vextorX = vextorX;
