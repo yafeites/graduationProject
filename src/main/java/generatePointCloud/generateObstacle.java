@@ -25,24 +25,35 @@ public class generateObstacle {
         Vector vectorY = new Vector(0, 1, 0);
         Vector vectorZ = new Vector(0, 0, 1);
         Vector[] vectors = new Vector[]{vectorX, vectorY, vectorZ};
-        Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors, new double[]{50, 50, 50});
-        o.generate(obbA,str);
+        Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors, new double[]{100, 100, 100});
+        Obb obbB=new Obb("obstacle2",new Point(1300,0.0,800),vectors,new double[]{50,50,50});
+        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors,new double[]{50,50,50});
+        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors,new double[]{50,50,50});
+        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors,new double[]{50,50,50});
+        List<Point>list=new ArrayList<>();
+        list.addAll(o.generate(obbA));
+        list.addAll(o.generate(obbB));
+        list.addAll(o.generate(obbC));
+        list.addAll(o.generate(obbD));
+        list.addAll(o.generate(obbE));
+        LaserHelper.laserBydegree(list,"obstacleAll");
+//        LaserHelper.printNode(list,"obstacleAll");
     }
-    public   List generate(Obb obb, String str) {
+    public   List generate(Obb obb) {
         List<Point>list=new ArrayList<>();
         double x = obb.halfLength[0];
         double y = obb.halfLength[1];
         double z = obb.halfLength[2];
-        for (int i = (int) -x; i <= x; i++) {
-            double pointX = 0;
-            for (int i1 = 0; i1 < 1000; i1++) {
-                pointX = i + (i1 - 1) * 0.001;
-            }
-            for (int j = (int) -y; j <= y; j++) {
-                double pointY = 0;
-                for (int j1 = 0; j1 < 1000; j1++) {
-                    pointY = j + (j1 - 1) * 0.001;
-                }
+        for (int i = (int) -x; i <= x; i+=2) {
+            double pointX = i;
+//            for (int i1 = 0; i1 < 100; i1++) {
+//                pointX = i + i1  * 0.01;
+//            }
+            for (int j = (int) -y; j <= y; j+=2) {
+                double pointY = j;
+//                for (int j1 = 0; j1 < 100; j1++) {
+//                    pointY = j + j1  * 0.01;
+//                }
                 if (Math.random() > 0.2) {
                     Point point = create(obb, pointX, pointY, z + (Math.random() > 0.5 ? 1 : -1) * 5 * Math.random());
                     list.add(point);
@@ -53,16 +64,16 @@ public class generateObstacle {
                 }
             }
         }
-        for (int i = (int) -y; i <= y; i++) {
-            double pointY = 0;
-            for (int i1 = 0; i1 < 1000; i1++) {
-                pointY = i + (i1 - 1) * 0.001;
-            }
-            for (int j = (int) -z; j <= z; j++) {
-                double pointZ = 0;
-                for (int j1 = 0; j1 < 1000; j1++) {
-                    pointZ = j + (j1 - 1) * 0.001;
-                }
+        for (int i = (int) -y; i <= y; i+=2) {
+            double pointY = i;
+//            for (int i1 = 0; i1 < 100; i1++) {
+//                pointY = i + i1  * 0.01;
+//            }
+            for (int j = (int) -z; j <= z; j+=2) {
+                double pointZ = j;
+//                for (int j1 = 0; j1 < 100; j1++) {
+//                    pointZ = j + j1 * 0.01;
+//                }
                 if (Math.random() > 0.2) {
                     Point point = create(obb,x+ (Math.random() > 0.5 ? 1 : -1) * 5 * Math.random() , pointY, pointZ );
                     list.add(point);
@@ -73,16 +84,16 @@ public class generateObstacle {
                 }
             }
         }
-        for (int i = (int) -x; i <= x; i++) {
-            double pointX = 0;
-            for (int i1 = 0; i1 < 1000; i1++) {
-                pointX = i + (i1 - 1) * 0.001;
-            }
-            for (int j = (int) -z; j <= z; j++) {
-                double pointZ = 0;
-                for (int j1 = 0; j1 < 1000; j1++) {
-                    pointZ = j + (j1 - 1) * 0.001;
-                }
+        for (int i = (int) -x; i <= x; i+=2) {
+            double pointX = i;
+//            for (int i1 = 0; i1 < 100; i1++) {
+//                pointX = i + i1 * 0.01;
+//            }
+            for (int j = (int) -z; j <= z; j+=2) {
+                double pointZ = j;
+//                for (int j1 = 0; j1 < 100; j1++) {
+//                    pointZ = j + j1 * 0.01;
+//                }
                 if (Math.random() > 0.2) {
                     Point point = create(obb,pointX , y+ (Math.random() > 0.5 ? 1 : -1) * 5 * Math.random(), pointZ );
                     list.add(point);

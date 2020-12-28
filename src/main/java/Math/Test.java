@@ -12,7 +12,7 @@ public class Test {
     public static void main(String[] args) {
         int a=1;
         double a1=a*2.5;
-        System.out.println(a1);
+        System.out.println(Utils.atan2(-5,-5));
 
     }
 }
