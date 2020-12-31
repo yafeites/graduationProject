@@ -9,7 +9,7 @@ public class BaseHandInfo {
     public static void main(String[] args) {
 
     }
-    static  final double bias=300;
+    static  final double bias=200;
     //铲斗与水平方向夹角
     static final double thetaPoint = -90.0;
     //todo
@@ -36,7 +36,7 @@ public class BaseHandInfo {
     static final double dipper_z = 200;
     static final double bucket_x = 390;
     static final double bucket_y = 200;
-    static final double bucket_z = 200;
+    static final double bucket_z = 400;
     static final double theta2e = Utils.acos((L1_AB * L1_AB + L1 * L1 - L1_BC * L1_BC) / (2 * L1_AB * L1));
     static Obb arm1 = new Obb("arm1",
             new Point(0, 0, 0)
@@ -77,12 +77,19 @@ public class BaseHandInfo {
         return Utils.acos((L1 * Utils.cos(theta2) - L1_AB * Utils.cos(theta2t)) / L1_BC);
     }
 
-    public static Point getLaserPoint(double theta1, double theta2t) {
-        double theta2 = theta2t-theta2e;
+    public static Point getLaserPointOne(double theta1, double theta2) {
+//        double theta2 = theta2t-theta2e;
         pc.x = L1 * Utils.cos(theta1) * Utils.cos(theta2) + a0 * Utils.cos(theta1);
         pc.y = L1 * Utils.cos(theta2) * Utils.sin(theta1) + a0 * Utils.sin(theta1);
         pc.z = L1 * Utils.sin(theta2) + d0;
         return  new Point(pc.x+bias*Utils.sin(theta1),pc.y-bias*Utils.cos(theta1),pc.z);
+    }
+    public static Point getLaserPointTwo(double theta1, double theta2) {
+//        double theta2 = theta2t-theta2e;
+        pc.x = L1 * Utils.cos(theta1) * Utils.cos(theta2) + a0 * Utils.cos(theta1);
+        pc.y = L1 * Utils.cos(theta2) * Utils.sin(theta1) + a0 * Utils.sin(theta1);
+        pc.z = L1 * Utils.sin(theta2) + d0;
+        return  new Point(pc.x-bias*Utils.sin(theta1),pc.y+bias*Utils.cos(theta1),pc.z);
     }
 
     public static void changehand(handJointInfo currentHandJointInfo) {

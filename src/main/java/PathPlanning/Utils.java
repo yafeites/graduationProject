@@ -28,7 +28,7 @@ public class Utils {
     {
         return  Math.cos(Math.toRadians(degree));
     }
-    static double tan(double degree)
+    public static double tan(double degree)
     {
         return  Math.tan(Math.toRadians(degree));
     }
@@ -44,4 +44,6 @@ public class Utils {
     {
         return  Math.toDegrees(Math.atan2(val1,val2));
     }
+
+
 }

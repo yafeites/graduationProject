@@ -19,7 +19,7 @@ public class Plan {
         Node start=new Node();
         start.root=start;
         start.level=1;
-        start.point=new Point(1000.0,0.0,280.0);
+        start.point=new Point(1100.0,0.0,280.0);
         Node end=new Node();
         end.root=end;
         end.level=1;
@@ -30,24 +30,29 @@ public class Plan {
         Vector[]vectors=new Vector[]{vectorX,vectorY,vectorZ};
 
         Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors,new double[]{50,50,50});
-        Obb obbB=new Obb("obstacle2",new Point(1300,0.0,800),vectors,new double[]{50,50,50});
+        Obb obbB=new Obb("obstacle2",new Point(1380,0.0,800),vectors,new double[]{50,50,50});
         Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors,new double[]{50,50,50});
         Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors,new double[]{50,50,50});
         Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors,new double[]{50,50,50});
-
+//        Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors, new double[]{100, 100, 100});
+//        Obb obbB = new Obb("obstacle2", new Point(1500, 0.0, 800), vectors, new double[]{150, 150, 50});
+//        Obb obbC = new Obb("obstacle3", new Point(1200, 0, 65), vectors, new double[]{50, 50, 50});
+//        Obb obbD = new Obb("obstacle4", new Point(1300.0, 200, 65.0), vectors, new double[]{100, 100, 50});
+//        Obb obbE = new Obb("obstacle5", new Point(1600.0, -200, 65.0), vectors, new double[]{150, 150, 150});
         obstacles.add(obbA);
         obstacles.add(obbB);
-        obstacles.add(obbC);
-        obstacles.add(obbD);
-        obstacles.add(obbE);
-        p.reCalculateDegree(end.point);
-
+//        obstacles.add(obbC);
+//        obstacles.add(obbD);
+//        obstacles.add(obbE);
+        handJointInfo handJointInfo=p.reCalculateDegree(end.point);
+        BaseHandInfo.changehand(handJointInfo);
+        System.out.println(p.intersection(start.point));
         long time=System.currentTimeMillis();
-        for (int i=0;i<100;i++)
-        {
+//        for (int i=0;i<100;i++)
+//        {
 //        p.rrt(start,end);
             p.union(start,end);
-        }
+//        }
         System.out.println(System.currentTimeMillis()-time);
 
     }
@@ -234,6 +239,7 @@ public class Plan {
                     initNode=kdTreeYou.getNearestNode(node);
                     targetNode=kdTreeMe.getNearestNode(initNode);
                     kdTreeMe.insert(node);
+                    kdTreeMe.getLastTenList().add(node);
                     lastNewNode=node;
                     System.out.println(node.tree.name);
                     System.out.println("x:"+node.point.x+" y:"+node.point.y+" z:"+node.point.z);
@@ -246,13 +252,14 @@ public class Plan {
 
                 continue;
             }
-            Node nearestNode=kdTreeMe.getNearestNode(point );
-            if(nearestNode.point.equals(point))
+            Node nearestNode=kdTreeMe.getNearestNode(point);
+            if(nearestNode.point.equals(point)||islocalOptimum(kdTreeMe,point))
             {
                 Node node=generateByRand(initNode);
                 initNode=kdTreeYou.getNearestNode(node);
                 targetNode=kdTreeMe.getNearestNode(initNode);
                 kdTreeMe.insert(node);
+                kdTreeMe.getLastTenList().add(node);
                 KdTree temp=kdTreeMe;
                 kdTreeMe=kdTreeYou;
                 kdTreeYou=temp;
@@ -262,7 +269,8 @@ public class Plan {
                Node newNode= createNode(point,initNode);
                 initNode=newNode;
                 kdTreeMe.insert(newNode);
-                lastNewNode=newNode;
+            kdTreeMe.getLastTenList().add(newNode);
+            lastNewNode=newNode;
                 System.out.println(newNode.tree.name);
                 System.out.println("x:"+newNode.point.x+" y:"+newNode.point.y+" z:"+newNode.point.z);
 
@@ -271,6 +279,22 @@ public class Plan {
 
         }
 
+    }
+
+    private boolean islocalOptimum(KdTree kdTreeMe, Point point) {
+        List<Node>list=kdTreeMe.getLastTenList();
+        if(list.size()<5)
+        {
+            return false;
+        }
+        for(int i=list.size()-1;i<list.size()-5;i--)
+        {
+            if(Utils.getDistance(point,list.get(i).point)>=50)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void printPoint(Node initNode, Node targetNode, String str) {

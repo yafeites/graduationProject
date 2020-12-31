@@ -17,8 +17,17 @@ public class KdTree {
     public void setName(String name) {
         this.name = name;
     }
-
+    List<Node>lastTenList=new ArrayList<>();
     List<Node>list=new ArrayList<>();
+
+    public List<Node> getLastTenList() {
+        return lastTenList;
+    }
+
+    public void setLastTenList(List<Node> lastTenList) {
+        this.lastTenList = lastTenList;
+    }
+
     Node getNearestNode (Node node)
     {
         double distance=Double.MAX_VALUE;

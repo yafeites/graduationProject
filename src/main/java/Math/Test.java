@@ -10,9 +10,8 @@ import PathPlanning.Utils;
 public class Test {
 
     public static void main(String[] args) {
-        int a=1;
-        double a1=a*2.5;
-        System.out.println(Utils.atan2(-5,-5));
+        System.out.println(650.0/1250);
+        System.out.println(Math.pow(1.3,0.33));
 
     }
 }

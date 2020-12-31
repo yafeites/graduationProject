@@ -11,8 +11,17 @@ public class Point {
         this.y = y;
         this.z = z;
     }
+    private   String name;
 
-   public double x;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double x;
     public double y;
     public double z;
 
