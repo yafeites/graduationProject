@@ -19,36 +19,42 @@ public class Plan {
         Node start=new Node();
         start.root=start;
         start.level=1;
-        start.point=new Point(1100.0,0.0,280.0);
+        start.point=new Point(1000.0,0.0,280.0);
         Node end=new Node();
         end.root=end;
         end.level=1;
         end.point=new Point(2280.0,0.0,0.0);
-        Vector vectorX=new Vector(1,0,0);
-        Vector vectorY=new Vector(0,1,0);
-        Vector vectorZ=new Vector(0,0,1);
-        Vector[]vectors=new Vector[]{vectorX,vectorY,vectorZ};
-
-        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors,new double[]{50,50,50});
-        Obb obbB=new Obb("obstacle2",new Point(1380,0.0,800),vectors,new double[]{50,50,50});
-        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors,new double[]{50,50,50});
-        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors,new double[]{50,50,50});
-        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors,new double[]{50,50,50});
-//        Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors, new double[]{100, 100, 100});
-//        Obb obbB = new Obb("obstacle2", new Point(1500, 0.0, 800), vectors, new double[]{150, 150, 50});
-//        Obb obbC = new Obb("obstacle3", new Point(1200, 0, 65), vectors, new double[]{50, 50, 50});
-//        Obb obbD = new Obb("obstacle4", new Point(1300.0, 200, 65.0), vectors, new double[]{100, 100, 50});
-//        Obb obbE = new Obb("obstacle5", new Point(1600.0, -200, 65.0), vectors, new double[]{150, 150, 150});
+        Vector vectorX1=new Vector(1,0,0);
+        Vector vectorY1=new Vector(0,1,0);
+        Vector vectorZ1=new Vector(0,0,1);
+        Vector[]vectors1=new Vector[]{vectorX1,vectorY1,vectorZ1};
+        Vector vectorX2=new Vector(Utils.sin(30),-Utils.cos(30),0);
+        Vector vectorY=new Vector(0,Utils.sin(30),1);
+        Vector vectorZ=new Vector(Utils.cos(30),0,0);
+        Vector[]vectors2=new Vector[]{vectorX1,vectorY,vectorZ};
+        //最老的obb
+        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
+        Obb obbB=new Obb("obstacle2",new Point(1380,0.0,800),vectors1,new double[]{50,50,50});
+        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors1,new double[]{50,50,50});
+        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
+        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
+//        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
+//        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
+//                Obb obbB=new Obb("obstacle2",new Point(1380,0.0,800),vectors1,new double[]{50,50,50});
+//
+//        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors2,new double[]{50,50,50});
+//        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
+//        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
         obstacles.add(obbA);
-        obstacles.add(obbB);
+//        obstacles.add(obbB);
 //        obstacles.add(obbC);
 //        obstacles.add(obbD);
 //        obstacles.add(obbE);
-        handJointInfo handJointInfo=p.reCalculateDegree(end.point);
+        handJointInfo handJointInfo=p.reCalculateDegree(start.point);
         BaseHandInfo.changehand(handJointInfo);
-        System.out.println(p.intersection(start.point));
+//        System.out.println(p.intersection(start.point));
         long time=System.currentTimeMillis();
-//        for (int i=0;i<100;i++)
+        for (int i=0;i<10;i++)
 //        {
 //        p.rrt(start,end);
             p.union(start,end);

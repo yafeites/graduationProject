@@ -21,61 +21,63 @@ public class generateObstacle {
         Vector vectorX = new Vector(1, 0, 0);
         Vector vectorY = new Vector(0, 1, 0);
         Vector vectorZ = new Vector(0, 0, 1);
+        Vector vectorX30 = new Vector(Utils.cos(30), Utils.cos(60), 0);
+        Vector vectorY30 = new Vector(Utils.cos(60), -Utils.cos(30), 0);
+        Vector vectorZ30 = new Vector(0, 0, 1);
+        Vector[] vectors30 = new Vector[]{vectorX30, vectorY30, vectorZ30};
+        Vector vectorX60 = new Vector(Utils.cos(60), -Utils.cos(30), 0);
+        Vector vectorY60 = new Vector(-Utils.cos(60), -Utils.cos(30), 0);
+        Vector vectorZ60 = new Vector(0, 0, 1);
+        Vector[] vectors60 = new Vector[]{vectorX60, vectorY60, vectorZ60};
+
         Vector[] vectors = new Vector[]{vectorX, vectorY, vectorZ};
-        Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors, new double[]{200, 100, 100});
+        //常规盒
+//        Obb obbA = new Obb("obstacle1", new Point(1950.0, 0.0, 65.0), vectors30, new double[]{200, 100, 100});
 //        Obb obbB = new Obb("obstacle2", new Point(1900, 500, 800), vectors, new double[]{150, 500, 150});
 //        Obb obbC = new Obb("obstacle3", new Point(1900, 0, 65), vectors, new double[]{50, 50, 150});
-//        Obb obbD = new Obb("obstacle4", new Point(1300.0, 300, 65.0), vectors, new double[]{150, 150, 150});
+//        Obb obbD = new Obb("obstacle4", new Point(1300.0, 300, 65.0), vectors60, new double[]{50, 150, 150});
 //        Obb obbE = new Obb("obstacle5", new Point(1600.0, -300, 65.0), vectors, new double[]{150, 150, 150});
+        //测试盒
+        Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors30, new double[]{100, 75, 100});
+        Obb obbB = new Obb("obstacle2", new Point(1900, 500, 750), vectors, new double[]{150, 500, 100});
+//        Obb obbC = new Obb("obstacle3", new Point(1900, 0, 65), vectors, new double[]{50, 50, 150});
+        Obb obbD = new Obb("obstacle4", new Point(1300.0, 300, 65.0), vectors60, new double[]{100, 75, 100});
+        Obb obbE = new Obb("obstacle5", new Point(1600.0, -300, 65.0), vectors, new double[]{100, 75, 100});
         List<Point>list=new ArrayList();
-
-//       LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2020-12-31-10-15-18点云分离obbA","obbA")),"修复obbA") ;
-//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2020-12-31-10-15-18点云分离obbB","obbB")),"修复obbB") ;
-//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2020-12-31-10-15-18点云分离obbD","obbD")),"修复obbD") ;
-//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2020-12-31-10-15-18点云分离obbE","obbE")),"修复obbE") ;
-//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2020-12-31-10-15-18点云分离球体","球体")),"修复球体") ;
-
-        list.addAll(o.getPointFromFile("2020-12-30-12-20-37地面点云","ground"));
-        list.addAll(o.getPointFromFile("2020-12-30-15-49-37obbA","obbA"));
-        list.addAll(o.getPointFromFile("2020-12-30-15-53-16obbB","obbB"));
-        list.addAll(o.getPointFromFile("2020-12-30-15-53-27obbD","obbD"));
-        list.addAll(o.getPointFromFile("2020-12-30-15-53-39obbE","obbE"));
-//        list.addAll(o.getPointFromFile("2020-12-30-11-55-21随机点","随机点"));
-        list.addAll(o.getPointFromFile("2020-12-31-10-06-44球形","球体"));
+        //生成点云数据
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGround("ground")),"地面点云");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(1200, -300, 65),122,"球体")),"球形");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbA,"obbA")),"obbA");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbB, "obbB")),"obbB");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbD, "obbD")),"obbD");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE, "obbE")),"obbE");
+        //生成所有点云合在一起照片
+        list.addAll(o.getPointFromFile("2021-01-05-20-45-26地面点云","ground"));
+        list.addAll(o.getPointFromFile("2021-01-07-10-17-10obbA","obbA"));
+        list.addAll(o.getPointFromFile("2021-01-07-10-18-18obbB","obbB"));
+        list.addAll(o.getPointFromFile("2021-01-07-10-18-21obbD","obbD"));
+        list.addAll(o.getPointFromFile("2021-01-07-10-18-23obbE","obbE"));
+        list.addAll(o.getPointFromFile("2020-12-30-11-55-21随机点","随机点"));
+        list.addAll(o.getPointFromFile("2021-01-07-10-17-08球形","球体"));
         List list1=LaserHelper.laserBydegree(list);
-//        LaserHelper.printDividPointCloud(list1,"点云分离");
+        LaserHelper.printPointCloud(list1,"所有点云");
+        LaserHelper.printRandPoint("随机点");
+        LaserHelper.printDividPointCloud(list1,"点云分离");
         LaserHelper.printNonGround(list1,"障碍物");
+        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
 
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGround("ground")),"地面点云");
-//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(2000, -300, 800),150,"球体")),"球形");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbA,"obbA")),"obbA");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbB, "obbB")),"obbB");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbD, "obbD")),"obbD");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE, "obbE")),"obbE");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSubSampleGround("ground")),"下采样地面点云");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSubSampleObb(obbA,"obbA")),"下采样obbA");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSubSampleObb(obbB, "obbB")),"下采样obbB");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSubSampleObb(obbD, "obbD")),"下采样obbD");
-////        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSubSampleObb(obbE, "obbE")),"下采样obbE");
-//        o.generateObb(obbA, "obbA");
-////        list.addAll(LaserHelper.laserBydegree(o.generateObb(obbB, "obbB")));
-////        list.addAll(LaserHelper.laserBydegree(o.generateObb(obbD, "obbD")));
-////        list.addAll(LaserHelper.laserBydegree(o.generateObb(obbE, "obbE")));
-//
-////        list.addAll(o.generateObb(obbA, "obbA"));
-////        list.addAll(o.generateObb(obbB,"obbB"));
-////        list.addAll(o.generateObb(obbC,"obbC"));
-////        list.addAll(o.generateObb(obbD, "obbD"));
-////        list.addAll(o.generateObb(obbE, "obbE"));
-//
-////        List list1 = LaserHelper.laserBydegree(list);
-////        LaserHelper.printDividPointCloud(list1,"普通点云");
-////        List list2 = LaserHelper.subsample(list1);
-////        LaserHelper.printPointCloud(list1, "所有点云");
-////        LaserHelper.printRandPoint("随机点");
-////        LaserHelper.printPointCloud(list2, "下采样");
-////        LaserHelper.printPointCloud(list2, "下采样");
-////        LaserHelper.printNode(list,"obstacleAll");
+
+//        点云修复
+//       LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2021-01-06-22-11-25点云分离obbA","obbA")),"修复obbA") ;
+//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2021-01-06-22-11-25点云分离obbB","obbB")),"修复obbB") ;
+//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2021-01-06-22-11-25点云分离obbD","obbD")),"修复obbD") ;
+//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2021-01-06-22-11-25点云分离obbE","obbE")),"修复obbE") ;
+//        LaserHelper.printPointCloud(o.fix(o.getPointFromFile("2021-01-06-22-11-25点云分离球体","球体")),"修复球体") ;
+//        //生成包络
+
+
+//        ObbEnvelope.generateEnvelopObb(
+//                o.getPointFromFile("2021-01-05-21-45-06修复obbA","obbA"));
     }
 
     public List<Point> fix(List<Point>points)

@@ -185,11 +185,13 @@ public class LaserHelper {
 //        fillLaserPointMap(30,3);
 
         CopyOnWriteArrayList<Point> ret = new CopyOnWriteArrayList<>();
-        CountDownLatch countDownLatch = new CountDownLatch(4);
+//        CountDownLatch countDownLatch = new CountDownLatch(4);
+                CountDownLatch countDownLatch = new CountDownLatch(2);
+
         laser(points, 60, 0, ret, countDownLatch);
         laser(points, 60, 1, ret, countDownLatch);
-        laser(points, 30, 2, ret, countDownLatch);
-        laser(points, 30, 3, ret, countDownLatch);
+//        laser(points, 30, 2, ret, countDownLatch);
+//        laser(points, 30, 3, ret, countDownLatch);
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -215,7 +217,8 @@ public class LaserHelper {
     }
 
     public static void laser(List<Point> points, double revDegree, int i, List<Point> ret, CountDownLatch countDownLatch) {
-        fillLaserPointMap(revDegree, i);
+//        fillLaserPointMap(revDegree, i);
+        fillLaserPointMapRevolving(i);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -271,7 +274,19 @@ public class LaserHelper {
 
 
     }
+    private static void fillLaserPointMapRevolving(int i)
+    {
+        double degree = -90;
 
+        while (degree <= 90) {
+            if (i % 2 == 0) {
+                laserPointMap[i].put(degree, BaseHandInfo.getLaserPointOneRevolving(degree));
+            } else {
+                laserPointMap[i].put(degree, BaseHandInfo.getLaserPointTwoRevolving(degree));
+            }
+            degree += 1.5;
+        }
+    }
     private static void fillLaserPointMap(double revDegree, int i) {
         double degree = -90;
         while (degree <= 90) {
@@ -534,12 +549,12 @@ public class LaserHelper {
         try {
             while (iterator.hasNext())
             {
-               Point point=iterator.next();
-               if(!point.getName().equals("ground"))
-               {
-                   write(out,point);
+                Point point=iterator.next();
+                if(!point.getName().equals("ground"))
+                {
+                    write(out,point);
 
-               }
+                }
             }
         }
         catch (FileNotFoundException e) {
@@ -548,13 +563,70 @@ public class LaserHelper {
             e.printStackTrace();
         } finally {
 
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            }
+
+        }
+
+
+
+
+        System.out.println(name + "打印已结束");
+    }
+    public static void printNonRand(List list, String name) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        String str = df.format(new Date());
+        String prepath = "E:\\file\\点云\\";
+        String path = prepath + str + name +".txt";
+        File file = new File(path);
+        System.out.println(path);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        BufferedWriter out = null ;
+        try {
+            out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(path, true)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } ;
+
+        Iterator<Point> iterator = list.iterator();
+        try {
+            while (iterator.hasNext())
+            {
+                Point point=iterator.next();
+                if(!point.getName().equals("随机点")&&!point.getName().equals("ground"))
+                {
+                    write(out,point);
+
+                }
+            }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
 
