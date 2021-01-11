@@ -40,10 +40,12 @@ public class generateObstacle {
         //测试盒
         Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors30, new double[]{100, 75, 100});
         Obb obbB = new Obb("obstacle2", new Point(1900, 500, 750), vectors, new double[]{150, 500, 100});
-//        Obb obbC = new Obb("obstacle3", new Point(1900, 0, 65), vectors, new double[]{50, 50, 150});
         Obb obbD = new Obb("obstacle4", new Point(1300.0, 300, 65.0), vectors60, new double[]{100, 75, 100});
         Obb obbE = new Obb("obstacle5", new Point(1600.0, -300, 65.0), vectors, new double[]{100, 75, 100});
         List<Point>list=new ArrayList();
+        //生成带圆
+//        LaserHelper.printPointCloud(o.generateGroundWithRound("ground",700,1750,750),"地面点云");
+            LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundWithRound("ground",700,1750,750)),"地面点云");
         //生成点云数据
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGround("ground")),"地面点云");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(1200, -300, 65),122,"球体")),"球形");
@@ -52,19 +54,19 @@ public class generateObstacle {
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbD, "obbD")),"obbD");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE, "obbE")),"obbE");
         //生成所有点云合在一起照片
-        list.addAll(o.getPointFromFile("2021-01-05-20-45-26地面点云","ground"));
-        list.addAll(o.getPointFromFile("2021-01-07-10-17-10obbA","obbA"));
-        list.addAll(o.getPointFromFile("2021-01-07-10-18-18obbB","obbB"));
-        list.addAll(o.getPointFromFile("2021-01-07-10-18-21obbD","obbD"));
-        list.addAll(o.getPointFromFile("2021-01-07-10-18-23obbE","obbE"));
-        list.addAll(o.getPointFromFile("2020-12-30-11-55-21随机点","随机点"));
-        list.addAll(o.getPointFromFile("2021-01-07-10-17-08球形","球体"));
-        List list1=LaserHelper.laserBydegree(list);
-        LaserHelper.printPointCloud(list1,"所有点云");
-        LaserHelper.printRandPoint("随机点");
-        LaserHelper.printDividPointCloud(list1,"点云分离");
-        LaserHelper.printNonGround(list1,"障碍物");
-        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
+//        list.addAll(o.getPointFromFile("2021-01-05-20-45-26地面点云","ground"));
+//        list.addAll(o.getPointFromFile("2021-01-07-10-17-10obbA","obbA"));
+//        list.addAll(o.getPointFromFile("2021-01-07-10-18-18obbB","obbB"));
+//        list.addAll(o.getPointFromFile("2021-01-07-10-18-21obbD","obbD"));
+//        list.addAll(o.getPointFromFile("2021-01-07-10-18-23obbE","obbE"));
+//        list.addAll(o.getPointFromFile("2020-12-30-11-55-21随机点","随机点"));
+//        list.addAll(o.getPointFromFile("2021-01-07-10-17-08球形","球体"));
+//        List list1=LaserHelper.laserBydegree(list);
+//        LaserHelper.printPointCloud(list1,"所有点云");
+//        LaserHelper.printRandPoint("随机点");
+//        LaserHelper.printDividPointCloud(list1,"点云分离");
+//        LaserHelper.printNonGround(list1,"障碍物");
+//        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
 
 
 //        点云修复
@@ -79,7 +81,6 @@ public class generateObstacle {
 //        ObbEnvelope.generateEnvelopObb(
 //                o.getPointFromFile("2021-01-05-21-45-06修复obbA","obbA"));
     }
-
     public List<Point> fix(List<Point>points)
     {
         List<Point>ret=new ArrayList<>();
@@ -312,7 +313,121 @@ public class generateObstacle {
         return points;
 
     }
+    public List<Point> generateGroundWithRound(String name,double startX,double xlength,double yradius) {
+        List<Point> points = new ArrayList<>();
+        double maxHeight = -50;
+        double minHeight = -150;
+        double help[][] = new double[(int)xlength+1][2*(int)yradius+1];
+        //生成长方形
+        help[0][0] = -100;
+        for (int i = (int) startX; i <= startX+xlength; i += 1) {
+            for (int j = (int)-yradius; j <= yradius; j += 1) {
+                double val1 = -100;
+                Random random = new Random();
+                while (true) {
+                    double val = 0;
+                    if (i == startX && j == (int)-yradius) {
+                        break;
+                    }
+                    if (i == startX) {
+                        val = help[i - (int)startX][j + (int)yradius-1];
+                    } else if (j == -(int)yradius) {
+                        val = help[i - (int)startX-1][j + (int)yradius];
+                    } else {
+                        val = (help[i - (int)startX][j + (int)yradius-1] + help[i - (int)startX-1][j + (int)yradius]) / 2;
+                    }
+                    val1 = val + (Math.random() > 0.5 ? 1 : -1) * (Math.random() + random.nextInt(20));
+                    if (val1 >= maxHeight || val1 <= minHeight) {
+                        continue;
+                    }
 
+                    help[i - (int)startX][j + (int)yradius] = val1;
+                    break;
+                }
+
+            }
+        }
+        //打印长方形
+        for (int i = (int) startX; i <=  startX+xlength; i += 1) {
+            for (int j = -(int)yradius; j <= yradius; j += 1) {
+                Point point = new Point(i, j, help[i - (int) startX][j + (int)yradius]);
+                point.setName(name);
+                points.add(point);
+            }
+
+        }
+        double help2[][] =  new  double[(int)yradius+1][2*(int)yradius+1];
+        //为圆形初始化
+        for(int i=0;i<2*(int)yradius+1;i++)
+        {
+            help2[0][i]=help[help.length-1][i];
+        }
+        //生成圆形
+        boolean flag=false;
+
+        for (int i = (int) (startX+xlength)+1; i <= startX+xlength+yradius; i += 1) {
+            for (int j = (int)-yradius; j <= yradius; j += 1) {
+                if(Math.pow(i-(startX+xlength),2)+Math.pow(j,2)>=Math.pow(yradius,2))
+                {
+                    flag=true;
+                    continue;
+                }
+                double val1 = -100;
+                Random random = new Random();
+                while (true) {
+                    if(i==2452&&j==-749)
+                    {
+                        System.out.println("i:"+i+"j:"+j);
+
+                    }
+                    double val = 0;
+                    if (i == startX+xlength && j == (int)-yradius) {
+                        break;
+                    }
+                    if (i == startX+xlength) {
+                        val = help2[i - (int)(startX+xlength)][j + (int)yradius-1];
+                    } else if (j == -(int)yradius) {
+                        val = help2[i - (int)(startX+xlength)-1][j + (int)yradius];
+                    } else {
+                        if(flag)
+                        {
+                            val=help2[i - (int)(startX+xlength)-1][j + (int)yradius];
+                        }
+                        else
+                        {
+                            double var1=help2[i - (int)(startX+xlength)][j + (int)yradius-1];
+                            double var2=help2[i - (int)(startX+xlength)-1][j + (int)yradius];
+                            val = (help2[i - (int)(startX+xlength)][j + (int)yradius-1] + help2[i - (int)(startX+xlength)-1][j + (int)yradius]) / 2;
+                        }
+                    }
+                    val1 = val + (Math.random() > 0.5 ? 1 : -1) * (Math.random() + random.nextInt(20));
+                    if (val1 >= maxHeight || val1 <= minHeight) {
+                        continue;
+                    }
+                    help2[i - (int)(startX+xlength)][j + (int)yradius] = val1;
+                    flag=false;
+                    break;
+                }
+            }
+            }
+        //打印圆形
+        for (int i = (int) (startX+xlength)+1; i <= startX+xlength+yradius; i += 1) {
+            for (int j = (int)-yradius; j <= yradius; j += 1) {
+                if(Math.pow(i-(startX+xlength),2)+Math.pow(j,2)>=Math.pow(yradius,2))
+                {
+                    break;
+                }
+                Point point = new Point(i, j, help2[i - (int) (startX+xlength)][j + (int)yradius]);
+                point.setName(name);
+                points.add(point);
+            }
+
+        }
+        System.out.println(name + "生成已完成");
+
+        return points;
+
+    }
 
     public List<Point> generateGround(String name) {
         List<Point> points = new ArrayList<>();
@@ -371,7 +486,72 @@ public class generateObstacle {
         return points;
 
     }
+    public List generateObbWithRand(Obb obb, String name) {
+        List<Point> list = new ArrayList<>();
+        double x = obb.halfLength[0];
+        double y = obb.halfLength[1];
+        double z = obb.halfLength[2];
+        for (int i = (int) -x; i <= x; i += 1) {
+            double pointX = i;
+//            for (int i1 = 0; i1 < 2; i1++) {
+//                pointX = i + i1 * 0.5;
 
+            for (int j = (int) -y; j <= y; j += 1) {
+                double pointY = j;
+//                    for (int j1 = 0; j1 < 2; j1++) {
+//                        pointY = j + j1 * 0.5;
+
+                Point point = create(obb, pointX, pointY, z + 1 * (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(), name);
+                list.add(point);
+
+                point = create(obb, pointX, pointY, -z + 1 * (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(), name);
+                list.add(point);
+            }
+//                }
+//            }
+        }
+        for (int i = (int) -y; i <= y; i += 1) {
+            double pointY = i;
+//            for (int i1 = 0; i1 < 2; i1++) {
+//                pointY = i + i1 * 0.5;
+
+            for (int j = (int) -z; j <= z; j += 1) {
+                double pointZ = j;
+//                    for (int j1 = 0; j1 < 2; j1++) {
+//                        pointZ = j + j1 * 0.5;
+
+                Point point = create(obb, x + 1 * (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(), pointY, pointZ, name);
+                list.add(point);
+
+                point = create(obb, -x + 1 * (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(), pointY, pointZ, name);
+                list.add(point);
+            }
+//                }
+//            }
+        }
+        for (int i = (int) -x; i <= x; i += 1) {
+            double pointX = i;
+//            for (int i1 = 0; i1 < 2; i1++) {
+//                pointX = i + i1 * 0.5;
+
+            for (int j = (int) -z; j <= z; j += 1) {
+                double pointZ = j;
+//                    for (int j1 = 0; j1 < 2; j1++) {
+//                        pointZ = j + j1 * 0.5;
+
+                Point point = create(obb, pointX, y + 1 * (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(), pointZ, name);
+                list.add(point);
+
+                point = create(obb, pointX, -y + 1 * (Math.random() > 0.5 ? 1 : -1) * 10 * Math.random(), pointZ, name);
+                list.add(point);
+            }
+//                }
+//            }
+        }
+        System.out.println(name + "生成已完成");
+        System.out.println(list.size());
+        return list;
+    }
     public List generateObb(Obb obb, String name) {
         List<Point> list = new ArrayList<>();
         double x = obb.halfLength[0];

@@ -46,15 +46,15 @@ public class Plan {
 //        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
         obstacles.add(obbA);
-//        obstacles.add(obbB);
-//        obstacles.add(obbC);
-//        obstacles.add(obbD);
-//        obstacles.add(obbE);
+        obstacles.add(obbB);
+        obstacles.add(obbC);
+        obstacles.add(obbD);
+        obstacles.add(obbE);
         handJointInfo handJointInfo=p.reCalculateDegree(start.point);
         BaseHandInfo.changehand(handJointInfo);
 //        System.out.println(p.intersection(start.point));
         long time=System.currentTimeMillis();
-        for (int i=0;i<10;i++)
+//        for (int i=0;i<10;i++)
 //        {
 //        p.rrt(start,end);
             p.union(start,end);
