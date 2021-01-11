@@ -415,7 +415,7 @@ public class generateObstacle {
             for (int j = (int)-yradius; j <= yradius; j += 1) {
                 if(Math.pow(i-(startX+xlength),2)+Math.pow(j,2)>=Math.pow(yradius,2))
                 {
-                    break;
+                    continue ;
                 }
                 Point point = new Point(i, j, help2[i - (int) (startX+xlength)][j + (int)yradius]);
                 point.setName(name);
