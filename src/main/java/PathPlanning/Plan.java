@@ -19,11 +19,11 @@ public class Plan {
         Node start=new Node();
         start.root=start;
         start.level=1;
-        start.point=new Point(1000.0,0.0,280.0);
+        start.point=new Point(1200.0,0.0,280.0);
         Node end=new Node();
         end.root=end;
         end.level=1;
-        end.point=new Point(2280.0,0.0,0.0);
+        end.point=new Point(2480.0,0.0,0.0);
         Vector vectorX1=new Vector(1,0,0);
         Vector vectorY1=new Vector(0,1,0);
         Vector vectorZ1=new Vector(0,0,1);
@@ -34,10 +34,10 @@ public class Plan {
         Vector[]vectors2=new Vector[]{vectorX1,vectorY,vectorZ};
         //最老的obb
         Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
-        Obb obbB=new Obb("obstacle2",new Point(1380,0.0,800),vectors1,new double[]{50,50,50});
-        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors1,new double[]{50,50,50});
+        Obb obbE=new Obb("obstacle2",new Point(850,0.0,800),vectors1,new double[]{50,50,50});
+        Obb obbB=new Obb("obstacle3",new Point(1600,50,300),vectors1,new double[]{50,50,50});
         Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
-        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
+        Obb obbC=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
 //                Obb obbB=new Obb("obstacle2",new Point(1380,0.0,800),vectors1,new double[]{50,50,50});
@@ -50,9 +50,9 @@ public class Plan {
         obstacles.add(obbC);
         obstacles.add(obbD);
         obstacles.add(obbE);
-        handJointInfo handJointInfo=p.reCalculateDegree(start.point);
+        handJointInfo handJointInfo=p.reCalculateDegree(end.point);
         BaseHandInfo.changehand(handJointInfo);
-//        System.out.println(p.intersection(start.point));
+        System.out.println(p.intersection(end.point));
         long time=System.currentTimeMillis();
 //        for (int i=0;i<10;i++)
 //        {
@@ -287,13 +287,15 @@ public class Plan {
 
     }
 
+
+
     private boolean islocalOptimum(KdTree kdTreeMe, Point point) {
         List<Node>list=kdTreeMe.getLastTenList();
-        if(list.size()<5)
+        if(list.size()<10)
         {
             return false;
         }
-        for(int i=list.size()-1;i<list.size()-5;i--)
+        for(int i=list.size()-1;i>list.size()-10;i--)
         {
             if(Utils.getDistance(point,list.get(i).point)>=50)
             {
@@ -399,7 +401,7 @@ public class Plan {
         while (node!=node.root)
         {
             for (Node n:node.tree.list) {
-                if(Utils.getDistance(n.point,node.point)<2.5*APFInfo.stepLength)
+                if(Utils.getDistance(n.point,node.point)<5*APFInfo.stepLength)
                 {
                     list.add(n);
                 }
@@ -431,12 +433,7 @@ public class Plan {
                 Node node1=list.get(i);
                 if(node1.level<node.level)
                 {
-                    if(intersection(new Point((node.point.x+node1.point.x)/2,(node.point.y+node1.point.y)/2,
-                    (node.point.z+node1.point.z)/2)))
-                    {
-                        continue;
-                    }
-                    else
+                    if(intersectionLine(node,node1))
                     {
                         node.father=node1;
                         node.level=node.father.level+1;
@@ -447,6 +444,22 @@ public class Plan {
             }
             node=node.father;
         }
+    }
+
+    private boolean intersectionLine(Node node, Node node1) {
+        Point point=node1.point;
+        while (Utils.getDistance(node.point,point)>1.5*APFInfo.stepLength)
+        {
+            Point midP=new Point((node.point.x+point.x)/2,(node.point.y+point.y)/2,
+                    (node.point.z+point.z)/2);
+            if(intersection(midP))
+            {
+                return false;
+            }
+            point=midP;
+
+        }
+        return true;
     }
 
     private void printObstacles(List<Obb> obstacles,String str) {
@@ -629,6 +642,56 @@ public class Plan {
         }
 
     }
+    private Node generateByRandByLongStep(Node preNode) {
+        Node node=null;
+        while (true)
+        {
+            double a=Math.random();
+            if(Math.random()<0.5)
+            {
+                a=-a;
+            }
+            double b=Math.random();
+            if(Math.random()<0.5)
+            {
+                b=-b;
+            }
+            double c=Math.random();
+            if(Math.random()<0.5)
+            {
+                c=-c;
+            }
+            Vector vector=new Vector(a,b,c);
+            Utils.standardization(vector);
+            double rand=Math.random();
+            if(rand>RRTInfo.p0&&preNode.father!=null&&preNode.father.father!=null)
+            {
+                Node grandfather=preNode.father.father;
+                node  = extendTreeLongStep(grandfather,vector);
+            }
+            else if(rand>RRTInfo.p1&&rand<=RRTInfo.p0&&preNode.father!=null)
+            {
+                Node father=preNode.father;
+                node=extendTreeLongStep(father,vector);
+            }
+            else  if(rand>RRTInfo.p2&&rand<=RRTInfo.p1)
+            {
+                node=extendTreeLongStep(preNode,vector);
+            }
+
+            else
+            {
+                node=extendTree(preNode.getTree().getRandNode(),vector);
+            }
+            if(node==null)
+            {
+                continue;
+            }
+
+            return  node;
+
+        }
+    }
     private Node generateByRand(Node preNode) {
         Node node=null;
         while (true)
@@ -671,7 +734,6 @@ public class Plan {
                 node=extendTree(preNode.getTree().getRandNode(),vector);
             }
             if(node==null)
-
             {
                 continue;
             }
@@ -699,6 +761,23 @@ public class Plan {
 
 
     }
+    private Node extendTreeLongStep(Node node, Vector vector) {
+
+        Point point= new Point(node.point.x+1.5*APFInfo.stepLength*vector.vextorX,
+                node.point.y+1.5*APFInfo.stepLength*vector.vextorY,
+                node.point.z+1.5*APFInfo.stepLength*vector.vextorZ);
+        if(intersection(point))
+        {
+            return null;
+        }
+        else
+        {
+            return createNode(point,node);
+        }
+
+
+
+    }
 
     private Node createNode(Point point, Node node) {
         Node newNode =new Node();
@@ -710,7 +789,7 @@ public class Plan {
 
 
     //逆运算关节角度
-    public  handJointInfo reCalculateDegree(Point point) {
+    public  static  handJointInfo reCalculateDegree(Point point) {
         double theta1 = Math.toDegrees(Math.atan2(point.y,point.x));
         double xs=Math.sqrt(point.x*point.x+point.y*point.y)-BaseHandInfo.a0;
         double ys=point.z-BaseHandInfo.d0;
