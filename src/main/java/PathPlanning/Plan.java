@@ -23,7 +23,7 @@ public class Plan {
         Node end=new Node();
         end.root=end;
         end.level=1;
-        end.point=new Point(2480.0,0.0,0.0);
+        end.point=new Point(2480.0,0.0,-200);
         Vector vectorX1=new Vector(1,0,0);
         Vector vectorY1=new Vector(0,1,0);
         Vector vectorZ1=new Vector(0,0,1);
@@ -34,7 +34,7 @@ public class Plan {
         Vector[]vectors2=new Vector[]{vectorX1,vectorY,vectorZ};
         //最老的obb
         Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
-        Obb obbE=new Obb("obstacle2",new Point(850,0.0,800),vectors1,new double[]{50,50,50});
+        Obb obbE=new Obb("obstacle2",new Point(850,0.0,800),vectors1,new double[]{100,50,50});
         Obb obbB=new Obb("obstacle3",new Point(1600,50,300),vectors1,new double[]{50,50,50});
         Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
         Obb obbC=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
@@ -53,6 +53,8 @@ public class Plan {
         handJointInfo handJointInfo=p.reCalculateDegree(end.point);
         BaseHandInfo.changehand(handJointInfo);
         System.out.println(p.intersection(end.point));
+         handJointInfo=p.reCalculateDegree(start.point);
+        BaseHandInfo.changehand(handJointInfo);
         long time=System.currentTimeMillis();
 //        for (int i=0;i<10;i++)
 //        {

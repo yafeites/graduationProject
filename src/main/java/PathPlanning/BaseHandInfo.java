@@ -31,7 +31,7 @@ public class BaseHandInfo {
     //旋转平台与基坐标高度差
     static final double d0 = 320;
     static final double arm1_x = 830;
-    static final double arm1_y = 250;
+    static final double arm1_y = 300;
     static final double arm1_z = 130;
     static final double arm2_x = 750;
     static final double arm2_y = 240;
