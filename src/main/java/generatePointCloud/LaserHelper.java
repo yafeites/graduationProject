@@ -284,7 +284,12 @@ public class LaserHelper {
             } else {
                 laserPointMap[i].put(degree, BaseHandInfo.getLaserPointTwoRevolving(degree));
             }
-            degree += 1.5;
+//                        degree += 1;
+            degree += BaseHandInfo.LaserGap;
+//                        degree += 1;
+
+
+//            degree += 1.5;
         }
     }
     private static void fillLaserPointMap(double revDegree, int i) {
@@ -295,7 +300,7 @@ public class LaserHelper {
             } else {
                 laserPointMap[i].put(degree, BaseHandInfo.getLaserPointTwo(degree, revDegree));
             }
-            degree += 1.5;
+            degree += 3;
         }
     }
 

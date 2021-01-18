@@ -9,10 +9,11 @@ public class BaseHandInfo {
     public static void main(String[] args) {
 
     }
-    static  final double bias=200;
-    static  final double biasRevolvingHeight=1000;
+    public  static  double LaserGap=1;
+    static  final double bias=500;
+    static  final double biasRevolvingHeight=1100;
     //铲斗与水平方向夹角
-    static final double thetaPoint = -90.0;
+    public  static  double thetaPoint = -90.0;
     //todo
     //基本信息
     static final double L1 = 1350;
