@@ -9,7 +9,7 @@ public class BaseHandInfo {
     public static void main(String[] args) {
 
     }
-    public  static  double LaserGap=1;
+    public  static  double LaserGap=2;
     static  final double bias=500;
     static  final double biasRevolvingHeight=1100;
     //铲斗与水平方向夹角

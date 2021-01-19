@@ -67,7 +67,7 @@ public class LaserHelper {
     public static void printPointCloud(List<Point> points, String name) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String str = df.format(new Date());
-        String prepath = "E:\\file\\点云\\";
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
         String path = prepath + str + name + ".txt";
         File file = new File(path);
         System.out.println(path);
@@ -147,7 +147,7 @@ public class LaserHelper {
     {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String str = df.format(new Date());
-        String prepath = "E:\\file\\点云\\";
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
         String path = prepath + str + name + ".txt";
         File file = new File(path);
         System.out.println(path);
@@ -204,7 +204,7 @@ public class LaserHelper {
     private static void writeRand(BufferedWriter out) throws IOException {
         Random random = new Random();
         int i = 0;
-        while (i < 10) {
+        while (i < 5 ){
             double x = random.nextInt(1500);
             x += 1000;
             double y = random.nextInt(2000);
@@ -472,7 +472,7 @@ public class LaserHelper {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String str = df.format(new Date());
-        String prepath = "E:\\file\\点云\\";
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
         Map<String ,BufferedWriter>map=new HashMap<>();
         BufferedWriter out = null;
         Iterator<Point> iterator = list.iterator();
@@ -529,7 +529,7 @@ public class LaserHelper {
     public static void printNonGround(List list, String name) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String str = df.format(new Date());
-        String prepath = "E:\\file\\点云\\";
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
         String path = prepath + str + name +".txt";
         File file = new File(path);
         System.out.println(path);
@@ -586,7 +586,7 @@ public class LaserHelper {
     public static void printNonRand(List list, String name) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String str = df.format(new Date());
-        String prepath = "E:\\file\\点云\\";
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
         String path = prepath + str + name +".txt";
         File file = new File(path);
         System.out.println(path);

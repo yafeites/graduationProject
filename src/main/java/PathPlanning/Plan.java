@@ -11,7 +11,7 @@ import java.util.*;
  * @Date 2020/12/16
  */
 public class Plan {
-    String prepath = "E:\\file\\";
+    String prepath = "E:\\graduateDesignTxt\\";
 
     static List<Obb> obstacles = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class Plan {
         Node end = new Node();
         end.root = end;
         end.level = 1;
-        end.point = new Point(2280, 0.0, -200);
+        end.point = new Point(2480, 0.0, 0);
         Vector vectorX1 = new Vector(1, 0, 0);
         Vector vectorY1 = new Vector(0, 1, 0);
         Vector vectorZ1 = new Vector(0, 0, 1);
@@ -35,10 +35,10 @@ public class Plan {
         Vector[] vectors2 = new Vector[]{vectorX1, vectorY, vectorZ};
         //最老的obb
         Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbB = new Obb("obstacle2", new Point(1600, 50, 300), vectors1, new double[]{50, 50, 50});
+        Obb obbB = new Obb("obstacle2", new Point(1600, 50, 400), vectors1, new double[]{50, 50, 50});
         Obb obbC = new Obb("obstacle3", new Point(1700.0, -50, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbD = new Obb("obstacle4", new Point(1500.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbE = new Obb("obstacle5", new Point(850, 600, 800), vectors1, new double[]{100, 600, 75});
+        Obb obbE = new Obb("obstacle5", new Point(850,0.0,800 ), vectors1, new double[]{50, 50, 50});
 
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
@@ -47,42 +47,67 @@ public class Plan {
 //        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors2,new double[]{50,50,50});
 //        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
-        //        obstacles.add(obbA);
+        obstacles.add(obbA);
 //        obstacles.add(obbB);
 //        obstacles.add(obbC);
-//        obstacles.add(obbD);
-//        obstacles.add(obbE);
+        obstacles.add(obbD);
+        obstacles.add(obbE);
         //实验1
-        BaseHandInfo.thetaPoint = -90;
-        start.point = new Point(1200.0, 0.0, 280.0);
-        end.point = new Point(2280, 0.0, -200);
+//        BaseHandInfo.thetaPoint = -90;
+//        start.point = new Point(1200.0, 0.0, 280.0);
+//        end.point = new Point(2280, 0.0, -200);
 //        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,55,110});
 //                        obstacles.add(obb1);
-        Vector vectorEX1 = new Vector(0.9999917896676187, 0.004052233625149753, 0);
-        Vector vectorEY1 = new Vector(-0.004052233625149753, 0.9999917896676187, 0);
-        Vector vectorEZ1 = new Vector(0, 0,1 );
-        Vector[] vectorsE1 = new Vector[]{vectorX1, vectorY1, vectorZ1};
-        Obb obb1 = new Obb("obstacle1", new Point(1878.8424834265804, -0.0043320454585780155, -160.0017074511839),
-                vectorsE1, new double[]{168.9698656966724, 85.44732829925721, 129.9982925488161});
-        obstacles.add(obb1);
+//        Vector vectorE1X1 = new Vector(0.9999917896676187, 0.004052233625149753, 0);
+//        Vector vectorE1Y1 = new Vector(-0.004052233625149753, 0.9999917896676187, 0);
+//        Vector vectorE1Z1 = new Vector(0, 0,1 );
+//        Vector[] vectorsE1O1 = new Vector[]{vectorX1, vectorY1, vectorZ1};
+//        Obb obb1 = new Obb("obstacle1", new Point(1878.8424834265804, -0.0043320454585780155, -160.0017074511839),
+//                vectorsE1O1, new double[]{168.9698656966724, 85.44732829925721, 129.9982925488161});
+//        obstacles.add(obb1);
 
-        //实验2
-//        start.point=new Point(1770,0.0,630);
-//        end.point=new Point(2600,0.0,-280);
+//        实验2
+//        start.point = new Point(1770, 0.0, 630);
+//        end.point = new Point(2600, 0.0, -280);
 
 //        角度-30
-//        BaseHandInfo.thetaPoint=-30;
-//        Obb obb1=new Obb("obstacle2",new Point(1130,600,985),vectors1,new double[]{140,600,65});
-//        Obb obb2=new Obb("obstacle2",new Point(1890,0,-225),vectors1,new double[]{150,110,55});
-//                        obstacles.add(obb1);
-//        obstacles.add(obb2);
-//        //实验3
-        //        BaseHandInfo.thetaPoint=-90;
-//        start.point=new Point(1090,0.0,340);
-//        end.point=new Point(2280,0.0,-280);
+//        BaseHandInfo.thetaPoint = -30;
+        ////        Obb obb1 = new Obb("obstacle1", new Point(1130,600,985), vectorsE2O1, new double[]{140,600,65});
+////        Obb obb2 = new Obb("obstacle2", new Point(1890,0,-225), vectorsE2O2, new double[]{150,110,55});
+////        Vector vectorE2X1 = new Vector(-0.9999661492160795, 0.008228026614298273, 0);
+////        Vector vectorE2Y1 = new Vector(-0.008228026614298273, -0.9999661492160795, 0);
+////        Vector vectorE2Z1 = new Vector(0, 0, 1);
+////        Vector[] vectorsE2O1 = new Vector[]{vectorE2X1, vectorE2Y1, vectorE2Z1};
+////        Vector vectorE2X2 = new Vector(0.9999925866549344, 0.0038505369980848334, 0);
+////        Vector vectorE2Y2 = new Vector(-0.0038505369980848334, 0.9999925866549344, 0);
+////        Vector vectorE2Z2 = new Vector(0, 0, 1);
+////        Vector[] vectorsE2O2 = new Vector[]{vectorE2X2, vectorE2Y2, vectorE2Z2};
+////        Obb obb1 = new Obb("obstacle1", new Point(1122.2443997948117, 591.8190900456055, 985.0317098103676), vectorsE2O1, new double[]{167.10996413595126, 622.8374185878532, 94.96770075139898});
+////        Obb obb2 = new Obb("obstacle2", new Point(1880.4613915109232, 0.18929223345776958, -217.0048951484784), vectorsE2O2, new double[]{170.76005769684195, 140.13471487588748, 76.9951048515216});
+////        obstacles.add(obb1);
+////        obstacles.add(obb2);
+        //实验3
+//        BaseHandInfo.thetaPoint = -90;
+//        start.point = new Point(1090, 0.0, 340);
+//        end.point = new Point(2280, 0.0, -280);
 //        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,55,110});
 //        Obb obb2=new Obb("obstacle1",new Point(1650.0,600,330),vectors1,new double[]{140,600,65});
 //        Obb obb3=new Obb("obstacle1",new Point(1650.0,-355,-95),vectors1,new double[]{150,105,175});
+//        Vector vectorE3X1 = new Vector(0.987467177036046, 0.15782450467675121, 0);
+//        Vector vectorE3Y1 = new Vector(-0.15782450467675121, 0.987467177036046, 0);
+//        Vector vectorE3Z1 = new Vector(0, 0, 1);
+//        Vector[] vectorsE3O1 = new Vector[]{vectorE3X1, vectorE3Y1, vectorE3Z1};
+//        Vector vectorE3X2 = new Vector(-0.9999970729800213, 0.002419510568241216, 0);
+//        Vector vectorE3Y2 = new Vector(-0.002419510568241216, -0.9999970729800213, 0);
+//        Vector vectorE3Z2 = new Vector(0, 0, 1);
+//        Vector[] vectorsE3O2 = new Vector[]{vectorE3X2, vectorE3Y2, vectorE3Z2};
+//        Vector vectorE3X3 = new Vector(0.9804835073705236, -0.19660135242260204, 0);
+//        Vector vectorE3Y3 = new Vector(0.19660135242260204, 0.9804835073705236, 0);
+//        Vector vectorE3Z3 = new Vector(0, 0, 1);
+//        Vector[] vectorsE3O3 = new Vector[]{vectorE3X3, vectorE3Y3, vectorE3Z3};
+//        Obb obb1 = new Obb("obstacle1", new Point(1875.167714805176, 0.6627199221402975, -162.5049839944751), vectorsE3O1, new double[]{171.97168355146755, 104.51532823318954, 132.4950160055249});
+//        Obb obb2 = new Obb("obstacle2", new Point(1642.2829841554785, 599.0209976102934, 330.6484956657735), vectorsE3O2, new double[]{163.5900775929398, 629.201819753647, 94.35145489411593});
+//        Obb obb3 = new Obb("obstacle3", new Point(1635.929073871934, -350.2882430107377, -87.00022023874618), vectorsE3O3, new double[]{182.69573873137233, 160.23344321311694, 196.99977976125382});
 //        obstacles.add(obb1);
 //        obstacles.add(obb2);
 //        obstacles.add(obb3);
@@ -131,7 +156,21 @@ public class Plan {
                 printPoint(initNode, targetNode, str);
                 break;
             }
-            //计算人工势能场引力
+            Node near = kdTreeYou.getNearestNode(initNode);
+            if (Utils.getDistance(initNode.point, near.point) < APFInfo.stepLength) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                String str = df.format(new Date());
+                str = str.replace(' ', '_');
+                printTree(start, end, str);
+                printNode(initNode, near, str);
+                printObstacles(obstacles, str);
+                opt(initNode);
+                opt(near);
+                printNode(initNode, near, str + "opt");
+                printPoint(initNode, near, str);
+                break;
+            }
+            //计算rrt引力
             force.vextorX = targetNode.point.x - initNode.point.x;
             force.vextorY = targetNode.point.y - initNode.point.y;
             force.vextorZ = targetNode.point.z - initNode.point.z;
@@ -615,7 +654,7 @@ public class Plan {
             }
             Vector vector = new Vector(a, b, c);
             Utils.standardization(vector);
-            node = extendTree(preNode, vector);
+            node = extendTree(preNode.getTree().getRandNode(), vector);
             if (node == null) {
                 continue;
             }

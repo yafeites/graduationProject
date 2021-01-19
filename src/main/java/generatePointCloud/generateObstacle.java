@@ -48,7 +48,7 @@ public class generateObstacle {
         //实验1障碍物
         Obb obbE1o1 = new Obb("E1obstacle1", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE1o1,"E1obstacle1")),"E1obstacle1");
-//                list.addAll(o.getPointFromFile("2021-01-18-11-03-38处理后地面点云","ground"));
+//                list.addAll(o.getPointFromFile("2021-01-18-20-09-05处理后地面点云","ground"));
 //        list.addAll(o.getPointFromFile("2021-01-18-12-02-34E1obstacle1","E1obstacle1"));
 //        List list1 = LaserHelper.laserBydegree(list);
 //        LaserHelper.printPointCloud(list1, "所有点云");
@@ -57,13 +57,19 @@ public class generateObstacle {
 //        LaserHelper.printNonGround(list1,"障碍物");
 //        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
         //实验2障碍物
-        Obb obbE2o1 = new Obb("E2obstacle1", new Point(1130, 600, 985), vectors, new double[]{140, 600, 65});
-        Obb obbE2o2 = new Obb("E2obstacle2", new Point(1890, 0, -225), vectors, new double[]{150, 110, 55});
+//        Obb obbE2o1 = new Obb("E2obstacle1", new Point(1130, 600, 985), vectors, new double[]{140, 600, 65});
+//        Obb obbE2o2 = new Obb("E2obstacle2", new Point(1890, 0, -225), vectors, new double[]{150, 110, 55});
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE2o1,"E2obstacle1")),"E2obstacle1");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE2o2,"E2obstacle2")),"E2obstacle2");
-//        list.addAll(o.getPointFromFile("2021-01-16-12-06-24E2obstacle1","E2obstacle1"));
-        //list.addAll(o.getPointFromFile("2021-01-16-12-06-28E2obstacle2","E2obstacle2"));
-
+//        list.addAll(o.getPointFromFile("2021-01-18-15-53-44E2obstacle1","E2obstacle1"));
+//        list.addAll(o.getPointFromFile("2021-01-18-15-53-48E2obstacle2","E2obstacle2"));
+//                        list.addAll(o.getPointFromFile("2021-01-18-20-09-05处理后地面点云","ground"));
+//        List list1 = LaserHelper.laserBydegree(list);
+//        LaserHelper.printPointCloud(list1, "所有点云");
+//                LaserHelper.printRandPoint("随机点");
+//        LaserHelper.printDividPointCloud(list1,"点云分离");
+//        LaserHelper.printNonGround(list1,"障碍物");
+//        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
 
         //实验三障碍物
         Obb obbE3o1 = new Obb("E3obstacle1", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
@@ -72,9 +78,16 @@ public class generateObstacle {
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE3o1,"E3obstacle1")),"E3obstacle1");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE3o2,"E3obstacle2")),"E3obstacle2");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE3o3,"E3obstacle3")),"E3obstacle3");
-//        list.addAll(o.getPointFromFile("2021-01-16-12-06-31E3obstacle1", "E3obstacle1"));
-//        list.addAll(o.getPointFromFile("2021-01-16-12-07-25E3obstacle2", "E3obstacle2"));
-//        list.addAll(o.getPointFromFile("2021-01-16-12-07-38E3obstacle3", "E3obstacle3"));
+//        list.addAll(o.getPointFromFile("2021-01-18-18-53-59E3obstacle1", "E3obstacle1"));
+//        list.addAll(o.getPointFromFile("2021-01-18-18-55-12E3obstacle2", "E3obstacle2"));
+//        list.addAll(o.getPointFromFile("2021-01-18-18-55-29E3obstacle3", "E3obstacle3"));
+//        list.addAll(o.getPointFromFile("2021-01-18-20-09-05处理后地面点云", "ground"));
+//        List list1 = LaserHelper.laserBydegree(list);
+//        LaserHelper.printPointCloud(list1, "所有点云");
+//                LaserHelper.printRandPoint("随机点");
+//        LaserHelper.printDividPointCloud(list1,"点云分离");
+//        LaserHelper.printNonGround(list1,"障碍物");
+//        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
 
 
         //激光雷达实验
@@ -82,23 +95,25 @@ public class generateObstacle {
         Obb obbELo2 = new Obb("Elobstacle2", new Point(1790, 600, 330), vectors, new double[]{140, 600, 65});
         Obb obbELo3 = new Obb("Elobstacle3", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
         Obb obbELo4 = new Obb("Elobstacle4", new Point(1290, 450, -205), vectorsp30, new double[]{100, 75, 75});
+        BaseHandInfo.LaserGap=3;
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(1290, -420, -180), 100, "El球体")), "El球体");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo1,"Elobstacle1")),"Elobstacle1");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo2,"Elobstacle2")),"Elobstacle2");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo3,"Elobstacle3")),"Elobstacle3");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo4,"Elobstacle4")),"Elobstacle4");
-//        list.addAll(o.getPointFromFile("2021-01-17-23-21-10处理后地面点云","ground"));
-//        list.addAll(o.getPointFromFile("2021-01-17-23-19-31El球体", "El球体"));
-//        list.addAll(o.getPointFromFile("2021-01-17-23-19-48Elobstacle1", "Elobstacle1"));
-//        list.addAll(o.getPointFromFile("2021-01-17-23-13-04Elobstacle2", "Elobstacle2"));
-//        list.addAll(o.getPointFromFile("2021-01-17-23-21-07Elobstacle3", "Elobstacle3"));
-//        list.addAll(o.getPointFromFile("2021-01-17-23-21-10Elobstacle4", "Elobstacle4"));
-//        List list1 = LaserHelper.laserBydegree(list);
-//        LaserHelper.printPointCloud(list1, "所有点云");
-//                LaserHelper.printRandPoint("随机点");
-//        LaserHelper.printDividPointCloud(list1,"点云分离");
-//        LaserHelper.printNonGround(list1,"障碍物");
-//        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
+//        LaserHelper.printRandPoint("随机点");
+        list.addAll(o.getPointFromFile("2021-01-19-16-16-05处理后地面点云", "ground"));
+        list.addAll(o.getPointFromFile("2021-01-19-16-24-24El球体", "El球体"));
+        list.addAll(o.getPointFromFile("2021-01-19-16-24-33Elobstacle1", "Elobstacle1"));
+        list.addAll(o.getPointFromFile("2021-01-19-16-25-30Elobstacle2", "Elobstacle2"));
+        list.addAll(o.getPointFromFile("2021-01-19-16-25-33Elobstacle3", "Elobstacle3"));
+        list.addAll(o.getPointFromFile("2021-01-19-16-25-35Elobstacle4", "Elobstacle4"));
+//        list.addAll(o.getPointFromFile("2021-01-18-22-10-15随机点", "随机点"));
+        List list1 = LaserHelper.laserBydegree(list);
+        LaserHelper.printPointCloud(list1, "所有点云");
+        LaserHelper.printDividPointCloud(list1, "点云分离");
+        LaserHelper.printNonGround(list1, "障碍物");
+        LaserHelper.printNonRand(list1, "过滤随机剩下障碍物");
         //测试
 //        Obb test=new Obb("Elobstacle1", new Point(1650, -355, -95), vectorsp30, new double[]{300, 50, 50});
 //                LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(test,"Elobstacle1")),"Elobstacle1");
@@ -108,25 +123,25 @@ public class generateObstacle {
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundWithRound("ground", 690, 1750, 600)), "地面点云");
 
 //        LaserHelper.printPointCloud(o.generateGroundWithRound("ground", 690, 1800, 1200),"地面点云");
-        BaseHandInfo.LaserGap=1;
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
-        BaseHandInfo.LaserGap=1.5;
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
-        BaseHandInfo.LaserGap=2;
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
-        BaseHandInfo.LaserGap=3;
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
-        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
-//        list.addAll(o.getPointFromFile("2021-01-16-22-05-37边界点云", "groundBound"));
-//        list.addAll(o.getPointFromFile("处理ground", "ground"));
+//        BaseHandInfo.LaserGap=1;
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
+//        BaseHandInfo.LaserGap=1.5;
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
+//        BaseHandInfo.LaserGap=2;
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
+//        BaseHandInfo.LaserGap=3;
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.getPointFromFile("2021-01-18-12-56-07地面点云",BaseHandInfo.LaserGap+"未处理ground")),"未处理地面ground");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateGroundBound(BaseHandInfo.LaserGap+"groundBound", 690, 1800, 1200)), "边界点云");
+//        BaseHandInfo.LaserGap=3;
+//        list.addAll(o.getPointFromFile("2021-01-19-07-23-45边界点云", "groundBound"));
+//        list.addAll(o.getPointFromFile("2021-01-19-06-57-18未处理地面ground", "ground"));
 //        List list2 = new ArrayList(LaserHelper.laserBydegree(list));
 //        deleteBound(list2);
 //        LaserHelper.printPointCloud(list2, "处理后地面点云");
 //            LaserHelper.printPointCloud(LaserHelper.laserBydegengree(o.generateGroundWithRound("ground",700,1750,750)),"地面点云");
-
 
 
         //生成测试点云数据
@@ -168,13 +183,11 @@ public class generateObstacle {
     private static void deleteBound(List<Point> list) {
         Iterator<Point> iterator;
         iterator = list.iterator();
-        while (iterator.hasNext())
-        {
-                    Point p=iterator.next();
-                    if(p.getName().equals("groundBound"))
-                    {
-                        iterator.remove();
-                    }
+        while (iterator.hasNext()) {
+            Point p = iterator.next();
+            if (p.getName().equals("groundBound")) {
+                iterator.remove();
+            }
         }
 
     }
@@ -288,7 +301,7 @@ public class generateObstacle {
     public List<Point> getPointFromFile(String path, String name) {
         List<Point> ret = new ArrayList<>();
 
-        String prepath = "E:\\file\\点云\\";
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
         String path1 = prepath + path + ".txt";
         String line = "";
         BufferedReader in = null;
