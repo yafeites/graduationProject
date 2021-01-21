@@ -194,6 +194,8 @@ public class LaserHelper {
 //        laser(points, 30, 3, ret, countDownLatch);
         try {
             countDownLatch.await();
+            laserPointMap[0].clear();
+            laserPointMap[1].clear();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -640,4 +642,14 @@ public class LaserHelper {
 
         System.out.println(name + "打印已结束");
     }
+    public  static  void cluster(List<Point>list,String name)
+    {
+        Map<Point,Set<Point>>map=new HashMap<>();
+        boolean help[]=new boolean[list.size()];
+        for (int i = 0; i <list.size() ; i++) {
+            if()
+        }
+
+    }
+
 }

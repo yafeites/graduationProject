@@ -45,10 +45,13 @@ public class generateObstacle {
         Obb obbD = new Obb("obstacle4", new Point(1300.0, 300, 65.0), vectors60, new double[]{100, 75, 100});
         Obb obbE = new Obb("obstacle5", new Point(1600.0, -300, 65.0), vectors, new double[]{100, 75, 100});
         List<Point> list = new ArrayList();
+        testDis(o.getPointFromFile("2021-01-20-09-57-05El球体","球体"));
+
         //实验1障碍物
-        Obb obbE1o1 = new Obb("E1obstacle1", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
+//        Obb obbE1o1 = new Obb("E1obstacle1", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE1o1,"E1obstacle1")),"E1obstacle1");
 //                list.addAll(o.getPointFromFile("2021-01-18-20-09-05处理后地面点云","ground"));
+//
 //        list.addAll(o.getPointFromFile("2021-01-18-12-02-34E1obstacle1","E1obstacle1"));
 //        List list1 = LaserHelper.laserBydegree(list);
 //        LaserHelper.printPointCloud(list1, "所有点云");
@@ -56,7 +59,7 @@ public class generateObstacle {
 //        LaserHelper.printDividPointCloud(list1,"点云分离");
 //        LaserHelper.printNonGround(list1,"障碍物");
 //        LaserHelper.printNonRand(list1,"过滤随机剩下障碍物");
-        //实验2障碍物
+        //实验2障碍物`
 //        Obb obbE2o1 = new Obb("E2obstacle1", new Point(1130, 600, 985), vectors, new double[]{140, 600, 65});
 //        Obb obbE2o2 = new Obb("E2obstacle2", new Point(1890, 0, -225), vectors, new double[]{150, 110, 55});
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbE2o1,"E2obstacle1")),"E2obstacle1");
@@ -96,24 +99,24 @@ public class generateObstacle {
         Obb obbELo3 = new Obb("Elobstacle3", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
         Obb obbELo4 = new Obb("Elobstacle4", new Point(1290, 450, -205), vectorsp30, new double[]{100, 75, 75});
         BaseHandInfo.LaserGap=3;
-//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(1290, -420, -180), 100, "El球体")), "El球体");
+//        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(1290, -420, -180), 123, "El球体")), "El球体");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo1,"Elobstacle1")),"Elobstacle1");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo2,"Elobstacle2")),"Elobstacle2");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo3,"Elobstacle3")),"Elobstacle3");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo4,"Elobstacle4")),"Elobstacle4");
 //        LaserHelper.printRandPoint("随机点");
-        list.addAll(o.getPointFromFile("2021-01-19-16-16-05处理后地面点云", "ground"));
-        list.addAll(o.getPointFromFile("2021-01-19-16-24-24El球体", "El球体"));
-        list.addAll(o.getPointFromFile("2021-01-19-16-24-33Elobstacle1", "Elobstacle1"));
-        list.addAll(o.getPointFromFile("2021-01-19-16-25-30Elobstacle2", "Elobstacle2"));
-        list.addAll(o.getPointFromFile("2021-01-19-16-25-33Elobstacle3", "Elobstacle3"));
-        list.addAll(o.getPointFromFile("2021-01-19-16-25-35Elobstacle4", "Elobstacle4"));
+//        list.addAll(o.getPointFromFile("2021-01-19-16-16-05处理后地面点云", "ground"));
+//        list.addAll(o.getPointFromFile("2021-01-19-16-24-24El球体", "El球体"));
+//        list.addAll(o.getPointFromFile("2021-01-19-16-24-33Elobstacle1", "Elobstacle1"));
+//        list.addAll(o.getPointFromFile("2021-01-19-16-25-30Elobstacle2", "Elobstacle2"));
+//        list.addAll(o.getPointFromFile("2021-01-19-16-25-33Elobstacle3", "Elobstacle3"));
+//        list.addAll(o.getPointFromFile("2021-01-19-16-25-35Elobstacle4", "Elobstacle4"));
 //        list.addAll(o.getPointFromFile("2021-01-18-22-10-15随机点", "随机点"));
-        List list1 = LaserHelper.laserBydegree(list);
-        LaserHelper.printPointCloud(list1, "所有点云");
-        LaserHelper.printDividPointCloud(list1, "点云分离");
-        LaserHelper.printNonGround(list1, "障碍物");
-        LaserHelper.printNonRand(list1, "过滤随机剩下障碍物");
+//        List list1 = LaserHelper.laserBydegree(list);
+//        LaserHelper.printPointCloud(list1, "所有点云");
+//        LaserHelper.printDividPointCloud(list1, "点云分离");
+//        LaserHelper.printNonGround(list1, "障碍物");
+//        LaserHelper.printNonRand(list1, "过滤随机剩下障碍物");
         //测试
 //        Obb test=new Obb("Elobstacle1", new Point(1650, -355, -95), vectorsp30, new double[]{300, 50, 50});
 //                LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(test,"Elobstacle1")),"Elobstacle1");
@@ -179,7 +182,38 @@ public class generateObstacle {
 //        ObbEnvelope.generateEnvelopObb(
 //                o.getPointFromFile("2021-01-05-21-45-06修复obbA","obbA"));
     }
+    private static  void testDis(List<Point>list)
+    {
+        double max=Integer.MIN_VALUE;
+        for (int i = 0; i <list.size(); i++) {
+            double min=Integer.MAX_VALUE;
+            Point p1=list.get(i);
+            PriorityQueue<Point>queue=new PriorityQueue<Point>(new Comparator<Point>() {
+                @Override
+                public int compare(Point o1, Point o2) {
+                    return (int)(Utils.getDistance(p1,o1)-Utils.getDistance(p1,o2));
+                }
+            });
+            for(int j=0;j<list.size();j++)
+            {
+                if(j!=i)
+                queue.add(list.get(j));
+            }
 
+//            queue.poll();
+            if(queue.isEmpty())
+            {
+                continue;
+            }
+            Point point1=queue.peek();
+//            if(Utils.getDistance(point1,p1)<10)
+//            {
+//                continue;
+//            }
+            max=Math.max(max,Utils.getDistance(point1,p1));
+        }
+        System.out.println(max);
+    }
     private static void deleteBound(List<Point> list) {
         Iterator<Point> iterator;
         iterator = list.iterator();
@@ -832,6 +866,5 @@ public class generateObstacle {
         return point;
 
     }
-
 
 }
