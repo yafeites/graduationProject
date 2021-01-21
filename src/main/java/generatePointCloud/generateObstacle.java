@@ -45,7 +45,10 @@ public class generateObstacle {
         Obb obbD = new Obb("obstacle4", new Point(1300.0, 300, 65.0), vectors60, new double[]{100, 75, 100});
         Obb obbE = new Obb("obstacle5", new Point(1600.0, -300, 65.0), vectors, new double[]{100, 75, 100});
         List<Point> list = new ArrayList();
-        testDis(o.getPointFromFile("2021-01-20-09-57-05El球体","球体"));
+//        testDis(o.getPointFromFile("2021-01-20-09-57-05El球体","球体"));
+//        testShortestPoint(o.getPointFromFile("2021-01-19-16-28-51点云分离El球体","球体"));
+     //   list.addAll(o.getPointFromFile("2021-01-19-16-28-51点云分离El球体","球体"));
+//        List list1 = LaserHelper.laserBydegree(list);
 
         //实验1障碍物
 //        Obb obbE1o1 = new Obb("E1obstacle1", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
@@ -98,7 +101,7 @@ public class generateObstacle {
         Obb obbELo2 = new Obb("Elobstacle2", new Point(1790, 600, 330), vectors, new double[]{140, 600, 65});
         Obb obbELo3 = new Obb("Elobstacle3", new Point(1890.0, 0.0, -170), vectors, new double[]{150, 55, 110});
         Obb obbELo4 = new Obb("Elobstacle4", new Point(1290, 450, -205), vectorsp30, new double[]{100, 75, 75});
-        BaseHandInfo.LaserGap=3;
+//        BaseHandInfo.LaserGap=3;
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateSphere(new Point(1290, -420, -180), 123, "El球体")), "El球体");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo1,"Elobstacle1")),"Elobstacle1");
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo2,"Elobstacle2")),"Elobstacle2");
@@ -106,12 +109,12 @@ public class generateObstacle {
 //        LaserHelper.printPointCloud(LaserHelper.laserBydegree(o.generateObb(obbELo4,"Elobstacle4")),"Elobstacle4");
 //        LaserHelper.printRandPoint("随机点");
 //        list.addAll(o.getPointFromFile("2021-01-19-16-16-05处理后地面点云", "ground"));
-//        list.addAll(o.getPointFromFile("2021-01-19-16-24-24El球体", "El球体"));
-//        list.addAll(o.getPointFromFile("2021-01-19-16-24-33Elobstacle1", "Elobstacle1"));
-//        list.addAll(o.getPointFromFile("2021-01-19-16-25-30Elobstacle2", "Elobstacle2"));
-//        list.addAll(o.getPointFromFile("2021-01-19-16-25-33Elobstacle3", "Elobstacle3"));
-//        list.addAll(o.getPointFromFile("2021-01-19-16-25-35Elobstacle4", "Elobstacle4"));
-//        list.addAll(o.getPointFromFile("2021-01-18-22-10-15随机点", "随机点"));
+//        list.addAll(o.getPointFromFile("2021-01-21-16-30-22El球体", "El球体"));
+//        list.addAll(o.getPointFromFile("2021-01-21-16-31-22Elobstacle1", "Elobstacle1"));
+//        list.addAll(o.getPointFromFile("2021-01-21-16-40-12Elobstacle2", "Elobstacle2"));
+//        list.addAll(o.getPointFromFile("2021-01-21-16-40-18Elobstacle3", "Elobstacle3"));
+//        list.addAll(o.getPointFromFile("2021-01-21-16-40-23Elobstacle4", "Elobstacle4"));
+////        list.addAll(o.getPointFromFile("2021-01-18-22-10-15随机点", "随机点"));
 //        List list1 = LaserHelper.laserBydegree(list);
 //        LaserHelper.printPointCloud(list1, "所有点云");
 //        LaserHelper.printDividPointCloud(list1, "点云分离");
@@ -181,6 +184,28 @@ public class generateObstacle {
 
 //        ObbEnvelope.generateEnvelopObb(
 //                o.getPointFromFile("2021-01-05-21-45-06修复obbA","obbA"));
+//        聚类
+        LaserHelper.cluster(o.getPointFromFile("2021-01-21-16-46-07过滤随机剩下障碍物","聚类"),33);
+//                LaserHelper.cluster(o.getPointFromFile("2021-01-21-16-25-34Elobstacle3","聚类"),50);
+
+    }
+    private  static  void testShortestPoint(List<Point>list)
+    {
+        Point p=new Point(1390.0,-420.0,-180.0);
+        Point p2=null;
+        double min=Integer.MAX_VALUE;
+        for (int i = 0; i <list.size(); i++) {
+            Point p1=list.get(i);
+            if(Utils.getDistance(p1,p)!=0)
+            {
+                if(Utils.getDistance(p1,p)<min)
+                {
+                    min=Utils.getDistance(p1,p);
+                    p2=p1;
+                }
+            }
+        }
+        System.out.println(p2);
     }
     private static  void testDis(List<Point>list)
     {
@@ -719,10 +744,10 @@ public class generateObstacle {
 //                    for (int j1 = 0; j1 < 2; j1++) {
 //                        pointY = j + j1 * 0.5;
 
-                Point point = create(obb, pointX, pointY, z + 1 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), name);
+                Point point = create(obb, pointX, pointY, z + 0 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), name);
                 list.add(point);
 
-                point = create(obb, pointX, pointY, -z + 1 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), name);
+                point = create(obb, pointX, pointY, -z + 0 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), name);
                 list.add(point);
             }
 //                }
@@ -738,10 +763,10 @@ public class generateObstacle {
 //                    for (int j1 = 0; j1 < 2; j1++) {
 //                        pointZ = j + j1 * 0.5;
 
-                Point point = create(obb, x + 1 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointY, pointZ, name);
+                Point point = create(obb, x + 0 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointY, pointZ, name);
                 list.add(point);
 
-                point = create(obb, -x + 1 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointY, pointZ, name);
+                point = create(obb, -x + 0* (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointY, pointZ, name);
                 list.add(point);
             }
 //                }
@@ -757,10 +782,10 @@ public class generateObstacle {
 //                    for (int j1 = 0; j1 < 2; j1++) {
 //                        pointZ = j + j1 * 0.5;
 
-                Point point = create(obb, pointX, y + 1 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointZ, name);
+                Point point = create(obb, pointX, y + 0 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointZ, name);
                 list.add(point);
 
-                point = create(obb, pointX, -y + 1 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointZ, name);
+                point = create(obb, pointX, -y + 0 * (Math.random() > 0.5 ? 1 : -1) * 15 * Math.random(), pointZ, name);
                 list.add(point);
             }
 //                }

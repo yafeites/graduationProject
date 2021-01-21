@@ -99,6 +99,40 @@ public class LaserHelper {
         }
         System.out.println(name + "打印已结束");
     }
+    public static void printPointCloudByTime(List<Point> points, String name,String str) {
+
+        String prepath = "E:\\graduateDesignTxt\\点云\\";
+        String path = prepath + str + name + ".txt";
+        File file = new File(path);
+        System.out.println(path);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(path, true)));
+            write(out, points);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        System.out.println(name + "打印已结束");
+    }
     public static void printPointCloud(List<Double>[] points, String name) {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
@@ -262,6 +296,14 @@ public class LaserHelper {
                     for (Map.Entry<Double, PriorityQueue<Point>> entry1 : s.getMap().entrySet()) {
                         PriorityQueue<Point> queue = entry1.getValue();
                         Point point = queue.peek();
+                        if(point.x==1353.0&&point.y==-407.34525469695024&&point.z==-145.2313730309214)
+                        {
+                            System.out.println("i am here");
+                        }
+                        if(point.x==1390.0&&point.y==-420.0&&point.z==-180.0)
+                        {
+                            System.out.println("i am here");
+                        }
                         ret.add(queue.peek());
                     }
                 }
@@ -521,10 +563,6 @@ public class LaserHelper {
                 }
             }
         }
-
-
-
-
         System.out.println(name + "打印已结束");
     }
 
@@ -642,14 +680,46 @@ public class LaserHelper {
 
         System.out.println(name + "打印已结束");
     }
-    public  static  void cluster(List<Point>list,String name)
+    public  static  void cluster(List<Point>list,double radius)
     {
-        Map<Point,Set<Point>>map=new HashMap<>();
+        Map<Point,List<Point>>map=new HashMap<>();
         boolean help[]=new boolean[list.size()];
-        for (int i = 0; i <list.size() ; i++) {
-            if()
+        Iterator<Point> iterator=list.iterator();
+        while (iterator.hasNext())
+        {
+            List<Point>list1=new ArrayList<Point>();
+            Point p=iterator.next();
+            list1.add(p);
+            map.put(p,list1);
+            int i=0;
+            iterator.remove();
+            while (i<list1.size())
+            {
+                 p=list1.get(i);
+                iterator=list.iterator();
+                while (iterator.hasNext())
+                {
+                    Point p1=iterator.next();
+                    if(Utils.getDistance(p,p1)<radius)
+                    {
+                        list1.add(p1);
+                        iterator.remove();
+                    }
+                }
+                i++;
+            }
+            iterator=list.iterator();
+
         }
 
+            int i=0;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        String str = df.format(new Date());
+            for(List list1:map.values())
+            {
+                printPointCloudByTime(list1,"欧式聚类"+i,str);
+                i++;
+            }
     }
 
 }
