@@ -717,6 +717,10 @@ public class LaserHelper {
         String str = df.format(new Date());
             for(List list1:map.values())
             {
+                if(list1.size()<5)
+                {
+                    continue;
+                }
                 printPointCloudByTime(list1,"欧式聚类"+i,str);
                 i++;
             }

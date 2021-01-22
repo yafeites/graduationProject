@@ -6,6 +6,25 @@ package PathPlanning;
  * @Date 2021/1/14
  */
 public class hydraulicJointInfo {
+    //铲斗与水平方向夹角
+    public  static  double thetaPoint = -90.0;
+    //todo
+    //基本信息
+    static final double L1 = 1620;
+    //大臂三角形前杆长
+//    static final double L1_AB = 1000;
+    static final double L1_AB = 1085;
+
+    //大臂三角形上赶长
+//    static final double L1_BC = 850;
+    static final double L1_BC = 853;
+
+    static final double L2 = 850;
+    static final double L3 = 415;
+    //大臂关节与旋转平台水平距离
+    static final double a0 = 118;
+    //旋转平台与基坐标高度差
+    static final double d0 = 200;
     double lamba1=0;
     double lamba2=0;
     double lamba3=0;
@@ -50,11 +69,27 @@ public class hydraulicJointInfo {
 //        double ego2=?
 //        double o2go3=?
         double ho3o4=Utils.cos((Math.pow(ho3,2)+Math.pow(o3o4,2)-Math.pow(ho4,2))/(2*o3o4*ho3));
+        double
 
 //        double o3gf=Utils.acos((Math.pow(go3,2)+Math.pow(fg,2)-Math.pow(fo3,2))/(2*go3*fg));
 //        double egf=360-ego2-o2go3-o3gf;
 //        lamba3=Math.sqrt(Math.pow(ge,2)+Math.pow(fg,2)-2*ge*fg*Utils.cos(egf));
 
+    }
+    public static handJointInfo reCalculateDegree(Point point) {
+        double theta1 = Math.toDegrees(Math.atan2(point.y, point.x));
+        double xs = Math.sqrt(point.x * point.x + point.y * point.y) - hydraulicJointInfo.a0;
+        double ys = point.z - hydraulicJointInfo.d0;
+        double x3 = xs - hydraulicJointInfo.L3 * Math.cos(Math.toRadians(hydraulicJointInfo.thetaPoint));
+        double y3 = ys - hydraulicJointInfo.L3 * Math.sin(Math.toRadians(hydraulicJointInfo.thetaPoint));
+        double theta3 = -Math.toDegrees(Math.acos((x3 * x3 + y3 * y3 - Math.pow(hydraulicJointInfo.L1, 2) - Math.pow(hydraulicJointInfo.L2, 2))
+                / (2 * hydraulicJointInfo.L1 * hydraulicJointInfo.L2)));
+        double k1 = hydraulicJointInfo.L1 + hydraulicJointInfo.L2 * Math.cos(Math.toRadians(theta3));
+        double k2 = hydraulicJointInfo.L2 * Math.sin(Math.toRadians(theta3));
+        double theta2 = Math.toDegrees(Math.atan2(y3, x3) - Math.atan2(k2, k1));
+        double theta4 = hydraulicJointInfo.thetaPoint - theta2 - theta3;
+        handJointInfo ret = new handJointInfo(theta1, theta2, theta3, theta4, hydraulicJointInfo.thetaPoint, point);
+        return ret;
     }
 
 }

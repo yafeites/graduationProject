@@ -185,7 +185,7 @@ public class generateObstacle {
 //        ObbEnvelope.generateEnvelopObb(
 //                o.getPointFromFile("2021-01-05-21-45-06修复obbA","obbA"));
 //        聚类
-        LaserHelper.cluster(o.getPointFromFile("2021-01-21-16-46-07过滤随机剩下障碍物","聚类"),33);
+        LaserHelper.cluster(o.getPointFromFile("2021-01-21-16-46-07过滤随机剩下障碍物","聚类"),35);
 //                LaserHelper.cluster(o.getPointFromFile("2021-01-21-16-25-34Elobstacle3","聚类"),50);
 
     }
