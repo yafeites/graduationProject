@@ -22,4 +22,16 @@ public class handJointInfo {
         this.degree = degree;
         this.point = point;
     }
+
+    @Override
+    public String toString() {
+        return "handJointInfo{" +
+                "theta1=" + theta1 +
+                ", theta2=" + theta2 +
+                ", theta3=" + theta3 +
+                ", theta4=" + theta4 +
+                ", degree=" + degree +
+                ", point=" + point +
+                '}';
+    }
 }

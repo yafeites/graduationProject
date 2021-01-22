@@ -680,7 +680,7 @@ public class LaserHelper {
 
         System.out.println(name + "打印已结束");
     }
-    public  static  void cluster(List<Point>list,double radius)
+    public  static  void cluster(List<Point>list,double radius,int n)
     {
         Map<Point,List<Point>>map=new HashMap<>();
         boolean help[]=new boolean[list.size()];
@@ -714,16 +714,21 @@ public class LaserHelper {
 
             int i=0;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        List<Point>smallCluster=new ArrayList<>();
         String str = df.format(new Date());
             for(List list1:map.values())
             {
-                if(list1.size()<5)
+                if(list1.size()<n)
                 {
+                    smallCluster.addAll(list1);
                     continue;
                 }
                 printPointCloudByTime(list1,"欧式聚类"+i,str);
                 i++;
             }
+        printPointCloudByTime(smallCluster,"欧式聚类"+i,str);
+
+        System.out.println(map.size());
     }
 
 }
