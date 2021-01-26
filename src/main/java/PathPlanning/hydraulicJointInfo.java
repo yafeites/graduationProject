@@ -50,12 +50,18 @@ public class hydraulicJointInfo {
     double o1o2=1620;
     public static void main(String[] args) {
         Point point=new Point(1400,0,300);
-        for (int i = 0; i <=1000 ; i++) {
+        for (int i = 0; i <=800 ; i++) {
             handJointInfo handJointInfo=reCalculateDegree(point);
             switchDegree(handJointInfo);
             System.out.println(handJointInfo);
+            if(i>=500&&i<600)
+            {
+                point.x+=3;
+                continue;
+            }
             point.x+=1;
         }
+
 
     }
     public static void switchDegree(handJointInfo handJointInfo){
