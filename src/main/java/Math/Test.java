@@ -16,7 +16,7 @@ public class Test {
         Point  point=new Point(-300,399,1420);
         Point point1=new Point(1390,-420,-180);
             System.out.println(Utils.getDistance(point1,point));
-            System.out.println(3000*Utils.sin(0.25));
+            System.out.println(2460*Utils.sin(1.2));
 
     }
 }
