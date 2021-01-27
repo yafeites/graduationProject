@@ -268,18 +268,18 @@ public class LaserHelper {
                     while (iterator.hasNext()) {
                         Point point = iterator.next();
                         double theta = Utils.atan2(point.y - c.y, point.x - c.x);
-                        if (Math.abs(theta - degree) <= 0.5) {
+                        if (Math.abs(theta - degree) <= 0.25) {
                             put(map, c, degree, point, revDegree);
                             iterator.remove();
                         }
                         if (degree >= 0) {
 
-                            if (Math.abs(theta - degree + 180) <= 0.5) {
+                            if (Math.abs(theta - degree + 180) <= 0.25) {
                                 iterator.remove();
                                 put(map, c, degree, point, revDegree);
                             }
                         } else {
-                            if (Math.abs(theta - degree - 180) <= 0.5) {
+                            if (Math.abs(theta - degree - 180) <= 0.25) {
                                 iterator.remove();
                                 put(map, c, degree, point, revDegree);
                             }
@@ -296,14 +296,7 @@ public class LaserHelper {
                     for (Map.Entry<Double, PriorityQueue<Point>> entry1 : s.getMap().entrySet()) {
                         PriorityQueue<Point> queue = entry1.getValue();
                         Point point = queue.peek();
-                        if(point.x==1353.0&&point.y==-407.34525469695024&&point.z==-145.2313730309214)
-                        {
-                            System.out.println("i am here");
-                        }
-                        if(point.x==1390.0&&point.y==-420.0&&point.z==-180.0)
-                        {
-                            System.out.println("i am here");
-                        }
+
                         ret.add(queue.peek());
                     }
                 }
