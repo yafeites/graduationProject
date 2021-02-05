@@ -637,7 +637,28 @@ public class Plan {
         }
     }
 
+    private  void printNodeNum(Node start, Node end, String str) {
+        cntNodeNum( start, end);
+    }
 
+    private void cntNodeNum(Node start, Node end) {
+
+        System.out.println(cnt(start));
+        System.out.println(cnt(end));
+
+    }
+
+    private int cnt(Node node) {
+        int i = 1;
+        if (node.sons.size() > 0) {
+            for (Node n : node.sons) {
+                i += cnt(n);
+            }
+        }
+
+        return i;
+
+    }
     private void printTree(Node start, Node end, String str) {
 
         String path = prepath + str + "tree.txt";
