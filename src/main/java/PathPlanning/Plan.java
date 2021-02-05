@@ -113,7 +113,7 @@ public class Plan {
 //        obstacles.add(obb3);
         handJointInfo handJointInfo = p.reCalculateDegree(end.point);
         BaseHandInfo.changehand(handJointInfo);
-        System.out.println(p.intersection(end.point));
+//        System.out.println(p.intersection(end.point));
         long time = System.currentTimeMillis();
 //        for (int i=0;i<10;i++)
 //        {
@@ -121,7 +121,7 @@ public class Plan {
         p.union(start, end);
 //        }
         System.out.println(System.currentTimeMillis() - time);
-
+        System.out.println(KdTree.i);
     }
 
     public void rrt(Node start, Node end) {
@@ -147,6 +147,7 @@ public class Plan {
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
                 str = str + "rrt";
+                printNodeNum(start,end,str);
                 printTree(start, end, str);
                 printNode(initNode, targetNode, str);
                 printObstacles(obstacles, str);
@@ -161,6 +162,7 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
+                printNodeNum(start,end,str);
                 printTree(start, end, str);
                 printNode(initNode, near, str);
                 printObstacles(obstacles, str);
@@ -190,8 +192,6 @@ public class Plan {
                 kdTreeMe.insert(node);
                 System.out.println(node.tree.name);
                 System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
-
-
                 KdTree temp = kdTreeMe;
                 kdTreeMe = kdTreeYou;
                 kdTreeYou = temp;
@@ -238,6 +238,7 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
+//                printNodeNum(start,end,str);
                 printTree(start, end, str);
                 printNode(initNode, targetNode, str);
                 printObstacles(obstacles, str);
@@ -252,6 +253,7 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
+//                printNodeNum(start,end,str);
                 printTree(start, end, str);
                 printNode(initNode, near, str);
                 printObstacles(obstacles, str);
@@ -311,8 +313,8 @@ public class Plan {
                     kdTreeMe.insert(node);
                     kdTreeMe.getLastTenList().add(node);
                     lastNewNode = node;
-                    System.out.println(node.tree.name);
-                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+//                    System.out.println(node.tree.name);
+//                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
                 KdTree temp = kdTreeMe;
@@ -340,8 +342,8 @@ public class Plan {
             kdTreeMe.insert(newNode);
             kdTreeMe.getLastTenList().add(newNode);
             lastNewNode = newNode;
-            System.out.println(newNode.tree.name);
-            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+//            System.out.println(newNode.tree.name);
+//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -378,16 +380,20 @@ public class Plan {
     }
 
     private void writePoint(String path, Node initNode, Node targetNode) {
+        double dis=0;
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(path, true)));
             if (initNode.tree.name.equals("初始树")) {
-                writePointFromRoot(out, initNode);
-                writePointFromPoint(out, targetNode);
+               dis+= writePointFromRoot(out, initNode);
+               dis+= writePointFromPoint(out, targetNode);
+//               System.out.println("node长度"+dis);
             } else {
-                writePointFromRoot(out, targetNode);
-                writePointFromPoint(out, initNode);
+                dis+= writePointFromRoot(out, targetNode);
+                dis+= writePointFromPoint(out, initNode);
+//                System.out.println("node长度"+dis);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -402,7 +408,8 @@ public class Plan {
         }
     }
 
-    private void writePointFromRoot(BufferedWriter out, Node node) throws IOException {
+    private double writePointFromRoot(BufferedWriter out, Node node) throws IOException {
+        double dis=0;
         List<Node> list = new ArrayList<>();
         while (node != null) {
             list.add(node);
@@ -410,6 +417,10 @@ public class Plan {
         }
         for (int i = list.size() - 1; i >= 0; i--) {
             node = list.get(i);
+            if(i!=list.size()-1)
+            {
+                dis+=Utils.getDistance(list.get(i).point,list.get(i+1).point);
+            }
 //            if(i==list.size()-1)
 //            {
 //                for (int j = 0; j <4 ; j++) {
@@ -419,10 +430,13 @@ public class Plan {
 //            }
             out.write(node.point.x + "," + node.point.y + "," + node.point.z + "\r\n");
         }
+        return dis;
 
     }
 
-    private void writePointFromPoint(BufferedWriter out, Node node) throws IOException {
+    private double writePointFromPoint(BufferedWriter out, Node node) throws IOException {
+        double dis=0;
+        Node temp=null;
         while (node != null) {
 //                if(node.root==node)
 //                {
@@ -432,8 +446,15 @@ public class Plan {
 //                    return;
 //                }
             out.write(node.point.x + "," + node.point.y + "," + node.point.z + "\r\n");
+            if(temp!=null)
+            {
+                dis+=Utils.getDistance(temp.point,node.point);
+            }
+            temp=node;
             node = node.father;
+
         }
+        return dis;
     }
 
     private boolean inRange(Point point, Obb obb) {
@@ -450,20 +471,24 @@ public class Plan {
         List<Node> list = new ArrayList<>();
         while (node != node.root) {
             for (Node n : node.tree.list) {
-                if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
+                if(n.level<node.level)
+                {
                     list.add(n);
+
                 }
+//                if (Utils.getDistance(n.point, node.point) < 1000* APFInfo.stepLength) {
+//                }
             }
             Collections.sort(list, new Comparator<Node>() {
                 @Override
                 public int compare(Node node1, Node node2) {
-                    if (node1.level != node2.level) {
-                        return -node1.level + node2.level;
-                    } else {
+//                    if (node1.level != node2.level) {
+//                        return -node1.level + node2.level;
+//                    } else {
                         double dis1 = Utils.getDistance(node1.point, node1.root.point);
                         double dis2 = Utils.getDistance(node2.point, node1.root.point);
                         return -Double.compare(dis1, dis2);
-                    }
+//                    }
 
 //                         return (-Utils.getDistance(node1.point,node1.root.point)+
 //                            Utils.getDistance(node2.point,node1.root.point));
@@ -477,7 +502,7 @@ public class Plan {
                     if (intersectionLine(node, node1)) {
                         node.father = node1;
                         node.level = node.father.level + 1;
-                        System.out.println(node.point);
+//                        System.out.println(node.point);
                         break;
                     }
                 }
@@ -578,6 +603,28 @@ public class Plan {
         }
     }
 
+    private  void printNodeNum(Node start, Node end, String str) {
+        cntNodeNum( start, end);
+    }
+
+    private void cntNodeNum(Node start, Node end) {
+
+            System.out.println(cnt(start));
+            System.out.println(cnt(end));
+
+    }
+
+    private int cnt(Node node) {
+        int i = 1;
+        if (node.sons.size() > 0) {
+            for (Node n : node.sons) {
+                    i += cnt(n);
+            }
+        }
+
+        return i;
+
+    }
 
     private void printTree(Node start, Node end, String str) {
 
@@ -600,9 +647,9 @@ public class Plan {
             out = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(path, true)));
             out.write("起始树" + "\r\n");
-            write(out, start);
+            System.out.println(write(out, start));
             out.write("目标树" + "\r\n");
-            write(out, end);
+            System.out.println(write(out, end));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -618,19 +665,23 @@ public class Plan {
         }
     }
 
-    private void write(BufferedWriter out, Node node) {
+    private int write(BufferedWriter out, Node node) {
+        int i = 1;
         if (node.sons.size() > 0) {
             for (Node n : node.sons) {
                 try {
                     write(out, node, n);
-                    write(out, n);
+                i += write(out, n);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
+            }
+
+            return i;
         }
-    }
+
 
     private void write(BufferedWriter out, Node node1, Node node2) throws IOException {
         out.write(node1.point.x + "," + node1.point.y + "," + node1.point.z + " " +
