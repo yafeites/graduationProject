@@ -394,6 +394,8 @@ public class LaserHelper {
 
     private static void write(BufferedWriter out, Point point) throws IOException {
         out.write(point.x + "," + point.y + "," + point.z +","+point.getName()+ "\r\n");
+//                out.write(point.x + "," + point.y + "," + point.z +","+point.getName()+ "\r\n");
+
     }
 
     public static List subsample(List<Point> list) {

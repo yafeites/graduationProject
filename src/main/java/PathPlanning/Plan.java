@@ -38,7 +38,7 @@ public class Plan {
         Obb obbB = new Obb("obstacle2", new Point(1600, 50, 400), vectors1, new double[]{50, 50, 50});
         Obb obbC = new Obb("obstacle3", new Point(1700.0, -50, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbD = new Obb("obstacle4", new Point(1500.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbE = new Obb("obstacle5", new Point(850,0.0,800 ), vectors1, new double[]{50, 50, 50});
+        Obb obbE = new Obb("obstacle5", new Point(850, 0.0, 800), vectors1, new double[]{50, 50, 50});
 
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
@@ -48,10 +48,10 @@ public class Plan {
 //        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
         obstacles.add(obbA);
-//        obstacles.add(obbB);
-//        obstacles.add(obbC);
-        obstacles.add(obbD);
-        obstacles.add(obbE);
+        obstacles.add(obbB);
+        obstacles.add(obbC);
+//        obstacles.add(obbD);
+//        obstacles.add(obbE);
         //实验1
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1200.0, 0.0, 280.0);
@@ -87,27 +87,27 @@ public class Plan {
 ////        obstacles.add(obb1);
 ////        obstacles.add(obb2);
         //实验3
-//        BaseHandInfo.thetaPoint = -90;
+        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1090, 0.0, 340);
 //        end.point = new Point(2280, 0.0, -280);
 //        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,55,110});
 //        Obb obb2=new Obb("obstacle1",new Point(1650.0,600,330),vectors1,new double[]{140,600,65});
 //        Obb obb3=new Obb("obstacle1",new Point(1650.0,-355,-95),vectors1,new double[]{150,105,175});
-//        Vector vectorE3X1 = new Vector(0.987467177036046, 0.15782450467675121, 0);
-//        Vector vectorE3Y1 = new Vector(-0.15782450467675121, 0.987467177036046, 0);
-//        Vector vectorE3Z1 = new Vector(0, 0, 1);
-//        Vector[] vectorsE3O1 = new Vector[]{vectorE3X1, vectorE3Y1, vectorE3Z1};
-//        Vector vectorE3X2 = new Vector(-0.9999970729800213, 0.002419510568241216, 0);
-//        Vector vectorE3Y2 = new Vector(-0.002419510568241216, -0.9999970729800213, 0);
-//        Vector vectorE3Z2 = new Vector(0, 0, 1);
-//        Vector[] vectorsE3O2 = new Vector[]{vectorE3X2, vectorE3Y2, vectorE3Z2};
-//        Vector vectorE3X3 = new Vector(0.9804835073705236, -0.19660135242260204, 0);
-//        Vector vectorE3Y3 = new Vector(0.19660135242260204, 0.9804835073705236, 0);
-//        Vector vectorE3Z3 = new Vector(0, 0, 1);
-//        Vector[] vectorsE3O3 = new Vector[]{vectorE3X3, vectorE3Y3, vectorE3Z3};
-//        Obb obb1 = new Obb("obstacle1", new Point(1875.167714805176, 0.6627199221402975, -162.5049839944751), vectorsE3O1, new double[]{171.97168355146755, 104.51532823318954, 132.4950160055249});
-//        Obb obb2 = new Obb("obstacle2", new Point(1642.2829841554785, 599.0209976102934, 330.6484956657735), vectorsE3O2, new double[]{163.5900775929398, 629.201819753647, 94.35145489411593});
-//        Obb obb3 = new Obb("obstacle3", new Point(1635.929073871934, -350.2882430107377, -87.00022023874618), vectorsE3O3, new double[]{182.69573873137233, 160.23344321311694, 196.99977976125382});
+        Vector vectorE3X1 = new Vector(0.9488946499151186, 0.31559300271467433, 0);
+        Vector vectorE3Y1 = new Vector(-0.31559300271467433, 0.9488946499151186, 0);
+        Vector vectorE3Z1 = new Vector(0, 0, 1);
+        Vector[] vectorsE3O1 = new Vector[]{vectorE3X1, vectorE3Y1, vectorE3Z1};
+        Vector vectorE3X2 = new Vector(-0.9999720512985647, 0.007476404332330456, 0);
+        Vector vectorE3Y2 = new Vector(-0.007476404332330456, -0.9999720512985647, 0);
+        Vector vectorE3Z2 = new Vector(0, 0, 1);
+        Vector[] vectorsE3O2 = new Vector[]{vectorE3X2, vectorE3Y2, vectorE3Z2};
+        Vector vectorE3X3 = new Vector(0.9949412036909069, -0.1004589528020727, 0);
+        Vector vectorE3Y3 = new Vector(0.1004589528020727, 0.9949412036909069, 0);
+        Vector vectorE3Z3 = new Vector(0, 0, 1);
+        Vector[] vectorsE3O3 = new Vector[]{vectorE3X3, vectorE3Y3, vectorE3Z3};
+//        Obb obb1 = new Obb("obstacle1", new Point(1865.2099668079006, -6.184233828903871, -159.27005549440443), vectorsE3O1, new double[]{226.75880751711134, 185.11286466516694, 181.89386984278653});
+//        Obb obb2 = new Obb("obstacle2", new Point(1647.6690084242457, 598.6353967665938, 330.9841067287022), vectorsE3O2, new double[]{217.28106970836893, 676.103294731309,90.2363828770723});
+//        Obb obb3 = new Obb("obstacle3", new Point(1646.5002561992715, -361.24013372295246, -84.2200902763146), vectorsE3O3, new double[]{228.58419719138033, 203.60158738882512, 201.5744830865014});
 //        obstacles.add(obb1);
 //        obstacles.add(obb2);
 //        obstacles.add(obb3);
@@ -305,14 +305,17 @@ public class Plan {
                 initNode = kdTreeYou.getNearestNode(initNode);
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 if (targetNode == lastInitOneNode && initNode == lastInitTwoNode) {
-                    Node node = generateByRand(preNode);
+//                    Node node =generateByMySelf(preNode);
+//                    Node node = generateByBack(preNode);
+                    Node node = generateByRRT(preNode);
+//                    Node node = generateByRand(preNode);
                     initNode = kdTreeYou.getNearestNode(node);
                     targetNode = kdTreeMe.getNearestNode(initNode);
                     kdTreeMe.insert(node);
                     kdTreeMe.getLastTenList().add(node);
                     lastNewNode = node;
-                    System.out.println(node.tree.name);
-                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+//                    System.out.println(node.tree.name);
+//                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
                 KdTree temp = kdTreeMe;
@@ -324,7 +327,10 @@ public class Plan {
             }
             Node nearestNode = kdTreeMe.getNearestNode(point);
             if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
-                Node node = generateByRand(initNode);
+//                Node node =generateByMySelf(initNode);
+                Node node = generateByRRT(initNode);
+//                Node node = generateByBack(initNode);
+//                Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 kdTreeMe.insert(node);
@@ -340,8 +346,8 @@ public class Plan {
             kdTreeMe.insert(newNode);
             kdTreeMe.getLastTenList().add(newNode);
             lastNewNode = newNode;
-            System.out.println(newNode.tree.name);
-            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+//            System.out.println(newNode.tree.name);
+//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -448,33 +454,56 @@ public class Plan {
 
     private void opt(Node node) {
         List<Node> list = new ArrayList<>();
+
         while (node != node.root) {
-            for (Node n : node.tree.list) {
-                if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
-                    list.add(n);
-                }
-            }
-            Collections.sort(list, new Comparator<Node>() {
+            final Node temp = new Node();
+            temp.setPoint(node.point);
+            ;
+            PriorityQueue<Node> queue = new PriorityQueue<>(new Comparator<Node>() {
                 @Override
                 public int compare(Node node1, Node node2) {
-                    if (node1.level != node2.level) {
-                        return -node1.level + node2.level;
-                    } else {
-                        double dis1 = Utils.getDistance(node1.point, node1.root.point);
-                        double dis2 = Utils.getDistance(node2.point, node1.root.point);
-                        return -Double.compare(dis1, dis2);
-                    }
-
-//                         return (-Utils.getDistance(node1.point,node1.root.point)+
-//                            Utils.getDistance(node2.point,node1.root.point));
-
-
+                    double dis1 = Utils.getDistance(node1.point, node1.root.point) + Utils.getDistance(node1.point, temp.point);
+                    double dis2 = Utils.getDistance(node2.point, node1.root.point) + Utils.getDistance(node2.point, temp.point);
+                    return Double.compare(dis1, dis2);
+//                if (node1.level != node2.level) {
+//                        return node1.level - node2.level;
+//                    } else {
+//                        double dis1 = Utils.getDistance(node1.point, node1.root.point);
+//                        double dis2 = Utils.getDistance(node2.point, node2.root.point);
+//                        return Double.compare(dis1, dis2);
+//
+//            }
                 }
             });
-            for (int i = list.size() - 1; i >= 0; i--) {
-                Node node1 = list.get(i);
+            for (Node n : node.tree.list) {
+                if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
+                    queue.add(n);
+                }
+            }
+//            Collections.sort(list, new Comparator<Node>() {
+//                @Override
+//                public int compare(Node node1, Node node2) {
+//                    if (node1.level != node2.level) {
+//                        return -node1.level + node2.level;
+//                    } else {
+//                        double dis1 = Utils.getDistance(node1.point, node1.root.point);
+//                        double dis2 = Utils.getDistance(node2.point, node1.root.point);
+//                        return -Double.compare(dis1, dis2);
+//                    }
+////                    double dis1 = Utils.getDistance(node1.point, node1.root.point);
+////                        double dis2 = Utils.getDistance(node2.point, node1.root.point);
+////                        return -Double.compare(dis1, dis2);
+//
+////                         return (-Utils.getDistance(node1.point,node1.root.point)+
+////                            Utils.getDistance(node2.point,node1.root.point));
+//
+//
+//                }
+//            });
+            while (!queue.isEmpty()) {
+                Node node1 = queue.poll();
                 if (node1.level < node.level) {
-                    if (intersectionLine(node, node1)) {
+                    if (intersectionLine(node, node1, queue)) {
                         node.father = node1;
                         node.level = node.father.level + 1;
                         System.out.println(node.point);
@@ -486,15 +515,30 @@ public class Plan {
         }
     }
 
-    private boolean intersectionLine(Node node, Node node1) {
+    private boolean intersectionLine(Node node, Node node1, PriorityQueue<Node> queue) {
         Point point = node1.point;
-        while (Utils.getDistance(node.point, point) > 1.5 * APFInfo.stepLength) {
-            Point midP = new Point((node.point.x + point.x) / 2, (node.point.y + point.y) / 2,
-                    (node.point.z + point.z) / 2);
-            if (intersection(midP)) {
+        while (Utils.getDistance(node.point, node1.point) > 1.5 * APFInfo.stepLength) {
+            Vector force = new Vector(0, 0, 0);
+            force.vextorX = node.point.x - node1.point.x;
+            force.vextorY = node.point.y - node1.point.y;
+            force.vextorZ = node.point.z - node1.point.z;
+            Utils.standardization(force);
+            force.vextorX *= APFInfo.stepLength;
+            force.vextorY *= APFInfo.stepLength;
+            force.vextorZ *= APFInfo.stepLength;
+            Point P = new Point(node1.point.x + force.vextorX, node1.point.y + force.vextorY,
+                    node1.point.z + force.vextorZ);
+            if (intersection(P)) {
                 return false;
             }
-            point = midP;
+            Node newNode = new Node();
+            newNode.setPoint(P);
+            Node node2 = node.tree.getNearestNode(newNode);
+            if (!node2.point.equals(P)) {
+                newNode.addAttr(node1);
+                queue.add(newNode);
+            }
+            node1 = newNode;
 
         }
         return true;
@@ -636,7 +680,32 @@ public class Plan {
         out.write(node1.point.x + "," + node1.point.y + "," + node1.point.z + " " +
                 node2.point.x + "," + node2.point.y + "," + node2.point.z + "\r\n");
     }
+    private Node generateByMySelf(Node preNode){
+        Node node = null;
+        while (true) {
+            double a = Math.random();
+            if (Math.random() < 0.5) {
+                a = -a;
+            }
+            double b = Math.random();
+            if (Math.random() < 0.5) {
+                b = -b;
+            }
+            double c = Math.random();
+            if (Math.random() < 0.5) {
+                c = -c;
+            }
+            Vector vector = new Vector(a, b, c);
+            Utils.standardization(vector);
+            node = extendTree(preNode, vector);
+            if (node == null) {
+                continue;
+            }
 
+            return node;
+
+        }
+    }
     private Node generateByRRT(Node preNode) {
         Node node = null;
         while (true) {
@@ -701,6 +770,46 @@ public class Plan {
             return node;
 
         }
+    }
+
+    private Node generateByBack(Node preNode) {
+        while (true) {
+            double rand = Math.random();
+            Node node = null;
+            double a = Math.random();
+            if (Math.random() < 0.5) {
+                a = -a;
+            }
+            double b = Math.random();
+            if (Math.random() < 0.5) {
+                b = -b;
+            }
+            double c = Math.random();
+            if (Math.random() < 0.5) {
+                c = -c;
+            }
+            Vector vector = new Vector(a, b, c);
+            Utils.standardization(vector);
+            if (rand <= RRTInfo.backp1) {
+                node = extendTree(preNode.getTree().getRandNode(), vector);
+            } else {
+                while (preNode.father != null) {
+                    rand = Math.random();
+                    if (rand <= RRTInfo.backnow) {
+                        break;
+                    } else preNode = preNode.father;
+                }
+
+                node = extendTree(preNode.getTree().getRandNode(), vector);
+
+            }
+            if (node == null) {
+                continue;
+            }
+
+            return node;
+        }
+
     }
 
     private Node generateByRand(Node preNode) {
