@@ -50,21 +50,29 @@ public class hydraulicJointInfo {
     double o1o2=1620;
     public static void main(String[] args) {
         Point point=new Point(1000,0,300);
-        double step=1;
+        double step=0;
         int cnt = 0;
-        for (double i = 0; cnt < 1001 ; i+=step,step+=0.0007) {
-
+        for (; cnt < 333 ; step+=0.005,++cnt) {
             handJointInfo handJointInfo=reCalculateDegree(point);
             switchDegree(handJointInfo);
             System.out.println(handJointInfo);
-            if(i>=500&&i<600)
-            {
-                point.x+=1;
-                continue;
-            }
             point.x+=step;
-            ++cnt;
         }
+        for (step = 3; cnt < 666; ++cnt) {
+            handJointInfo handJointInfo=reCalculateDegree(point);
+            switchDegree(handJointInfo);
+            System.out.println(handJointInfo);
+            point.x+=step/2;
+            point.y+=step;
+        }
+        for (step = 1; cnt < 1000; step -= 0.003,++cnt) {
+            handJointInfo handJointInfo=reCalculateDegree(point);
+            switchDegree(handJointInfo);
+            System.out.println(handJointInfo);
+            point.x-=step/3;
+        }
+
+
 
 
     }

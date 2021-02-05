@@ -38,7 +38,7 @@ public class Plan {
         Obb obbB = new Obb("obstacle2", new Point(1600, 50, 400), vectors1, new double[]{50, 50, 50});
         Obb obbC = new Obb("obstacle3", new Point(1700.0, -50, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbD = new Obb("obstacle4", new Point(1500.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbE = new Obb("obstacle5", new Point(850, 0.0, 800), vectors1, new double[]{50, 50, 50});
+        Obb obbE = new Obb("obstacle5", new Point(850,0.0,800 ), vectors1, new double[]{50, 50, 50});
 
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
@@ -48,10 +48,10 @@ public class Plan {
 //        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
         obstacles.add(obbA);
-        obstacles.add(obbB);
-        obstacles.add(obbC);
-//        obstacles.add(obbD);
-//        obstacles.add(obbE);
+//        obstacles.add(obbB);
+//        obstacles.add(obbC);
+        obstacles.add(obbD);
+        obstacles.add(obbE);
         //实验1
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1200.0, 0.0, 280.0);
@@ -87,27 +87,27 @@ public class Plan {
 ////        obstacles.add(obb1);
 ////        obstacles.add(obb2);
         //实验3
-        BaseHandInfo.thetaPoint = -90;
+//        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1090, 0.0, 340);
 //        end.point = new Point(2280, 0.0, -280);
 //        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,55,110});
 //        Obb obb2=new Obb("obstacle1",new Point(1650.0,600,330),vectors1,new double[]{140,600,65});
 //        Obb obb3=new Obb("obstacle1",new Point(1650.0,-355,-95),vectors1,new double[]{150,105,175});
-        Vector vectorE3X1 = new Vector(0.9488946499151186, 0.31559300271467433, 0);
-        Vector vectorE3Y1 = new Vector(-0.31559300271467433, 0.9488946499151186, 0);
-        Vector vectorE3Z1 = new Vector(0, 0, 1);
-        Vector[] vectorsE3O1 = new Vector[]{vectorE3X1, vectorE3Y1, vectorE3Z1};
-        Vector vectorE3X2 = new Vector(-0.9999720512985647, 0.007476404332330456, 0);
-        Vector vectorE3Y2 = new Vector(-0.007476404332330456, -0.9999720512985647, 0);
-        Vector vectorE3Z2 = new Vector(0, 0, 1);
-        Vector[] vectorsE3O2 = new Vector[]{vectorE3X2, vectorE3Y2, vectorE3Z2};
-        Vector vectorE3X3 = new Vector(0.9949412036909069, -0.1004589528020727, 0);
-        Vector vectorE3Y3 = new Vector(0.1004589528020727, 0.9949412036909069, 0);
-        Vector vectorE3Z3 = new Vector(0, 0, 1);
-        Vector[] vectorsE3O3 = new Vector[]{vectorE3X3, vectorE3Y3, vectorE3Z3};
-//        Obb obb1 = new Obb("obstacle1", new Point(1865.2099668079006, -6.184233828903871, -159.27005549440443), vectorsE3O1, new double[]{226.75880751711134, 185.11286466516694, 181.89386984278653});
-//        Obb obb2 = new Obb("obstacle2", new Point(1647.6690084242457, 598.6353967665938, 330.9841067287022), vectorsE3O2, new double[]{217.28106970836893, 676.103294731309,90.2363828770723});
-//        Obb obb3 = new Obb("obstacle3", new Point(1646.5002561992715, -361.24013372295246, -84.2200902763146), vectorsE3O3, new double[]{228.58419719138033, 203.60158738882512, 201.5744830865014});
+//        Vector vectorE3X1 = new Vector(0.987467177036046, 0.15782450467675121, 0);
+//        Vector vectorE3Y1 = new Vector(-0.15782450467675121, 0.987467177036046, 0);
+//        Vector vectorE3Z1 = new Vector(0, 0, 1);
+//        Vector[] vectorsE3O1 = new Vector[]{vectorE3X1, vectorE3Y1, vectorE3Z1};
+//        Vector vectorE3X2 = new Vector(-0.9999970729800213, 0.002419510568241216, 0);
+//        Vector vectorE3Y2 = new Vector(-0.002419510568241216, -0.9999970729800213, 0);
+//        Vector vectorE3Z2 = new Vector(0, 0, 1);
+//        Vector[] vectorsE3O2 = new Vector[]{vectorE3X2, vectorE3Y2, vectorE3Z2};
+//        Vector vectorE3X3 = new Vector(0.9804835073705236, -0.19660135242260204, 0);
+//        Vector vectorE3Y3 = new Vector(0.19660135242260204, 0.9804835073705236, 0);
+//        Vector vectorE3Z3 = new Vector(0, 0, 1);
+//        Vector[] vectorsE3O3 = new Vector[]{vectorE3X3, vectorE3Y3, vectorE3Z3};
+//        Obb obb1 = new Obb("obstacle1", new Point(1875.167714805176, 0.6627199221402975, -162.5049839944751), vectorsE3O1, new double[]{171.97168355146755, 104.51532823318954, 132.4950160055249});
+//        Obb obb2 = new Obb("obstacle2", new Point(1642.2829841554785, 599.0209976102934, 330.6484956657735), vectorsE3O2, new double[]{163.5900775929398, 629.201819753647, 94.35145489411593});
+//        Obb obb3 = new Obb("obstacle3", new Point(1635.929073871934, -350.2882430107377, -87.00022023874618), vectorsE3O3, new double[]{182.69573873137233, 160.23344321311694, 196.99977976125382});
 //        obstacles.add(obb1);
 //        obstacles.add(obb2);
 //        obstacles.add(obb3);
@@ -147,6 +147,7 @@ public class Plan {
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
                 str = str + "rrt";
+                printNodeNum(start,end,str);
                 printTree(start, end, str);
                 printNode(initNode, targetNode, str);
                 printObstacles(obstacles, str);
@@ -161,6 +162,7 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
+                printNodeNum(start,end,str);
                 printTree(start, end, str);
                 printNode(initNode, near, str);
                 printObstacles(obstacles, str);
@@ -314,8 +316,8 @@ public class Plan {
                     kdTreeMe.insert(node);
                     kdTreeMe.getLastTenList().add(node);
                     lastNewNode = node;
-//                    System.out.println(node.tree.name);
-//                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+                    System.out.println(node.tree.name);
+                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
                 KdTree temp = kdTreeMe;
@@ -327,10 +329,7 @@ public class Plan {
             }
             Node nearestNode = kdTreeMe.getNearestNode(point);
             if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
-//                Node node =generateByMySelf(initNode);
-                Node node = generateByRRT(initNode);
-//                Node node = generateByBack(initNode);
-//                Node node = generateByRand(initNode);
+                Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 kdTreeMe.insert(node);
@@ -346,8 +345,8 @@ public class Plan {
             kdTreeMe.insert(newNode);
             kdTreeMe.getLastTenList().add(newNode);
             lastNewNode = newNode;
-//            System.out.println(newNode.tree.name);
-//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+            System.out.println(newNode.tree.name);
+            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -384,16 +383,17 @@ public class Plan {
     }
 
     private void writePoint(String path, Node initNode, Node targetNode) {
+        double dis=0;
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(path, true)));
             if (initNode.tree.name.equals("初始树")) {
-                writePointFromRoot(out, initNode);
-                writePointFromPoint(out, targetNode);
+                dis+= writePointFromRoot(out, initNode);
+                dis+= writePointFromPoint(out, targetNode);
             } else {
-                writePointFromRoot(out, targetNode);
-                writePointFromPoint(out, initNode);
+                dis+= writePointFromRoot(out, targetNode);
+                dis+= writePointFromPoint(out, initNode);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -408,7 +408,8 @@ public class Plan {
         }
     }
 
-    private void writePointFromRoot(BufferedWriter out, Node node) throws IOException {
+    private double writePointFromRoot(BufferedWriter out, Node node) throws IOException {
+        double dis=0;
         List<Node> list = new ArrayList<>();
         while (node != null) {
             list.add(node);
@@ -416,6 +417,10 @@ public class Plan {
         }
         for (int i = list.size() - 1; i >= 0; i--) {
             node = list.get(i);
+            if(i!=list.size()-1)
+            {
+                dis+=Utils.getDistance(list.get(i).point,list.get(i+1).point);
+            }
 //            if(i==list.size()-1)
 //            {
 //                for (int j = 0; j <4 ; j++) {
@@ -425,10 +430,13 @@ public class Plan {
 //            }
             out.write(node.point.x + "," + node.point.y + "," + node.point.z + "\r\n");
         }
+        return dis;
 
     }
 
-    private void writePointFromPoint(BufferedWriter out, Node node) throws IOException {
+    private double writePointFromPoint(BufferedWriter out, Node node) throws IOException {
+        double dis=0;
+        Node temp=null;
         while (node != null) {
 //                if(node.root==node)
 //                {
@@ -438,8 +446,15 @@ public class Plan {
 //                    return;
 //                }
             out.write(node.point.x + "," + node.point.y + "," + node.point.z + "\r\n");
+            if(temp!=null)
+            {
+                dis+=Utils.getDistance(temp.point,node.point);
+            }
+            temp=node;
             node = node.father;
+
         }
+        return dis;
     }
 
     private boolean inRange(Point point, Obb obb) {
@@ -644,9 +659,9 @@ public class Plan {
             out = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(path, true)));
             out.write("起始树" + "\r\n");
-            write(out, start);
+            System.out.println(write(out, start));
             out.write("目标树" + "\r\n");
-            write(out, end);
+            System.out.println(write(out, end));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -662,18 +677,21 @@ public class Plan {
         }
     }
 
-    private void write(BufferedWriter out, Node node) {
+    private int write(BufferedWriter out, Node node) {
+        int i = 1;
         if (node.sons.size() > 0) {
             for (Node n : node.sons) {
                 try {
                     write(out, node, n);
-                    write(out, n);
+                    i += write(out, n);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
         }
+
+        return i;
     }
 
     private void write(BufferedWriter out, Node node1, Node node2) throws IOException {
@@ -771,7 +789,6 @@ public class Plan {
 
         }
     }
-
     private Node generateByBack(Node preNode) {
         while (true) {
             double rand = Math.random();
@@ -811,7 +828,6 @@ public class Plan {
         }
 
     }
-
     private Node generateByRand(Node preNode) {
         Node node = null;
         while (true) {

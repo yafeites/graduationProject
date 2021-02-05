@@ -8,6 +8,7 @@ import java.util.*;
  * @Date 2020/12/16
  */
 public class KdTree {
+    static  int i=0;
     String name;
 
     public String getName() {
@@ -30,6 +31,8 @@ public class KdTree {
 
     Node getNearestNode (Node node)
     {
+
+        i++;
         double distance=Double.MAX_VALUE;
         Node ret=null;
         for (Node n :list) {
@@ -46,6 +49,7 @@ public class KdTree {
     }
     Node getNearestNode (Point point)
     {
+        i++;
         double distance=Double.MAX_VALUE;
         Node ret=null;
         for (Node n :list) {
