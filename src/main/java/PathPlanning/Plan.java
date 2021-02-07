@@ -54,8 +54,8 @@ public class Plan {
         obstacles.add(obbC);
         obstacles.add(obbD);
         obstacles.add(obbE);
-//        obstacles.add(obbF);
-//        obstacles.add(obbG);
+        obstacles.add(obbF);
+        obstacles.add(obbG);
         //实验1
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1200.0, 0.0, 280.0);
@@ -121,12 +121,12 @@ public class Plan {
 //        System.out.println(p.intersection(end.point));
 
         long time = System.currentTimeMillis();
-        for (int i=0;i<10;i++)
-        {
+//        for (int i=0;i<10;i++)
+//        {
 //        p.rrt(start,end);
         p.union(start, end);
-        System.out.println("i:"+i+"over");
-        }
+//        System.out.println("i:"+i+"over");
+//        }
         System.out.println(System.currentTimeMillis() - time);
 
     }
@@ -315,16 +315,16 @@ public class Plan {
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 if (targetNode == lastInitOneNode && initNode == lastInitTwoNode) {
 //                    Node node =generateByMySelf(preNode);
-//                    Node node = generateByBack(preNode);
+                    Node node = generateByBack(preNode);
 //                    Node node = generateByRRT(preNode);
-                    Node node = generateByRand(preNode);
+//                    Node node = generateByRand(preNode);
                     initNode = kdTreeYou.getNearestNode(node);
                     targetNode = kdTreeMe.getNearestNode(initNode);
                     kdTreeMe.insert(node);
                     kdTreeMe.getLastTenList().add(node);
                     lastNewNode = node;
-//                    System.out.println(node.tree.name);
-//                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+                    System.out.println(node.tree.name);
+                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
                 KdTree temp = kdTreeMe;
@@ -336,9 +336,11 @@ public class Plan {
             }
             Node nearestNode = kdTreeMe.getNearestNode(point);
             if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
+//                        if (nearestNode.point.equals(point)) {
+
 //                Node node = generateByRRT(initNode);
-//                Node node = generateByBack(initNode);
-                Node node = generateByRand(initNode);
+                Node node = generateByBack(initNode);
+//                Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 kdTreeMe.insert(node);
@@ -354,8 +356,8 @@ public class Plan {
             kdTreeMe.insert(newNode);
             kdTreeMe.getLastTenList().add(newNode);
             lastNewNode = newNode;
-//            System.out.println(newNode.tree.name);
-//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+            System.out.println(newNode.tree.name);
+            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -371,7 +373,7 @@ public class Plan {
             return false;
         }
         for (int i = list.size() - 1; i > list.size() - 10; i--) {
-            if (Utils.getDistance(point, list.get(i).point) >= 50) {
+            if (Utils.getDistance(point, list.get(i).point) >= 100) {
                 return false;
             }
         }
@@ -732,21 +734,8 @@ public class Plan {
     private Node generateByMySelf(Node preNode){
         Node node = null;
         while (true) {
-            double a = Math.random();
-            if (Math.random() < 0.5) {
-                a = -a;
-            }
-            double b = Math.random();
-            if (Math.random() < 0.5) {
-                b = -b;
-            }
-            double c = Math.random();
-            if (Math.random() < 0.5) {
-                c = -c;
-            }
-            Vector vector = new Vector(a, b, c);
-            Utils.standardization(vector);
-            node = extendTree(preNode, vector);
+
+            node = extendTree(preNode);
             if (node == null) {
                 continue;
             }
@@ -772,7 +761,7 @@ public class Plan {
             }
             Vector vector = new Vector(a, b, c);
             Utils.standardization(vector);
-            node = extendTree(preNode.getTree().getRandNode(), vector);
+            node = extendTree(preNode.getTree().getRandNode());
             if (node == null) {
                 continue;
             }
@@ -783,63 +772,37 @@ public class Plan {
 
     }
 
-    private Node generateByRandByLongStep(Node preNode) {
-        Node node = null;
-        while (true) {
-            double a = Math.random();
-            if (Math.random() < 0.5) {
-                a = -a;
-            }
-            double b = Math.random();
-            if (Math.random() < 0.5) {
-                b = -b;
-            }
-            double c = Math.random();
-            if (Math.random() < 0.5) {
-                c = -c;
-            }
-            Vector vector = new Vector(a, b, c);
-            Utils.standardization(vector);
-            double rand = Math.random();
-            if (rand > RRTInfo.p0 && preNode.father != null && preNode.father.father != null) {
-                Node grandfather = preNode.father.father;
-                node = extendTreeLongStep(grandfather, vector);
-            } else if (rand > RRTInfo.p1 && rand <= RRTInfo.p0 && preNode.father != null) {
-                Node father = preNode.father;
-                node = extendTreeLongStep(father, vector);
-            } else if (rand > RRTInfo.p2 && rand <= RRTInfo.p1) {
-                node = extendTreeLongStep(preNode, vector);
-            } else {
-                node = extendTree(preNode.getTree().getRandNode(), vector);
-            }
-            if (node == null) {
-                continue;
-            }
-
-            return node;
-
-        }
-    }
+//    private Node generateByRandByLongStep(Node preNode) {
+//        Node node = null;
+//        while (true) {
+//
+//            double rand = Math.random();
+//            if (rand > RRTInfo.p0 && preNode.father != null && preNode.father.father != null) {
+//                Node grandfather = preNode.father.father;
+//                node = extendTreeLongStep(grandfather);
+//            } else if (rand > RRTInfo.p1 && rand <= RRTInfo.p0 && preNode.father != null) {
+//                Node father = preNode.father;
+//                node = extendTreeLongStep(father);
+//            } else if (rand > RRTInfo.p2 && rand <= RRTInfo.p1) {
+//                node = extendTreeLongStep(preNode);
+//            } else {
+//                node = extendTree(preNode.getTree().getRandNode());
+//            }
+//            if (node == null) {
+//                continue;
+//            }
+//
+//            return node;
+//
+//        }
+//    }
     private Node generateByBack(Node preNode) {
         while (true) {
             double rand = Math.random();
             Node node = null;
-            double a = Math.random();
-            if (Math.random() < 0.5) {
-                a = -a;
-            }
-            double b = Math.random();
-            if (Math.random() < 0.5) {
-                b = -b;
-            }
-            double c = Math.random();
-            if (Math.random() < 0.5) {
-                c = -c;
-            }
-            Vector vector = new Vector(a, b, c);
-            Utils.standardization(vector);
+
             if (rand <= RRTInfo.backp1) {
-                node = extendTree(preNode.getTree().getRandNode(), vector);
+                node = extendTree(preNode.getTree().getRandNode());
             } else {
                 while (preNode.father != null) {
                     rand = Math.random();
@@ -848,7 +811,7 @@ public class Plan {
                     } else preNode = preNode.father;
                 }
 
-                node = extendTree(preNode.getTree().getRandNode(), vector);
+                node = extendTree(preNode);
 
             }
             if (node == null) {
@@ -862,6 +825,33 @@ public class Plan {
     private Node generateByRand(Node preNode) {
         Node node = null;
         while (true) {
+
+            double rand = Math.random();
+            if (rand > RRTInfo.p0 && preNode.father != null && preNode.father.father != null) {
+                Node grandfather = preNode.father.father;
+                node = extendTree(grandfather);
+            } else if (rand > RRTInfo.p1 && rand <= RRTInfo.p0 && preNode.father != null) {
+                Node father = preNode.father;
+                node = extendTree(father);
+            } else if (rand > RRTInfo.p2 && rand <= RRTInfo.p1) {
+                node = extendTree(preNode);
+            } else {
+                node = extendTree(preNode.getTree().getRandNode());
+            }
+            if (node == null) {
+                continue;
+            }
+
+            return node;
+
+        }
+
+    }
+
+    private Node extendTree(Node node) {
+            int cnt=0;
+        while (cnt<=100)
+        {
             double a = Math.random();
             if (Math.random() < 0.5) {
                 a = -a;
@@ -876,38 +866,30 @@ public class Plan {
             }
             Vector vector = new Vector(a, b, c);
             Utils.standardization(vector);
-            double rand = Math.random();
-            if (rand > RRTInfo.p0 && preNode.father != null && preNode.father.father != null) {
-                Node grandfather = preNode.father.father;
-                node = extendTree(grandfather, vector);
-            } else if (rand > RRTInfo.p1 && rand <= RRTInfo.p0 && preNode.father != null) {
-                Node father = preNode.father;
-                node = extendTree(father, vector);
-            } else if (rand > RRTInfo.p2 && rand <= RRTInfo.p1) {
-                node = extendTree(preNode, vector);
+            Point point = new Point(node.point.x + APFInfo.stepLength * vector.vextorX,
+                    node.point.y + APFInfo.stepLength * vector.vextorY,
+                    node.point.z + APFInfo.stepLength * vector.vextorZ);
+            if (intersection(point)) {
+               cnt++;
+               continue;
             } else {
-                node = extendTree(preNode.getTree().getRandNode(), vector);
+                List<Node>sons=node.sons;
+                for (int i=0;i<sons.size();i++)
+                {
+                    Node son=sons.get(i);
+                    if(Utils.getDistance(son.point,point)<30)
+                    {
+                            cnt++;
+                            continue;
+                    }
+                }
+                return createNode(point, node);
             }
-            if (node == null) {
-                continue;
-            }
-
-            return node;
-
         }
+        return  null;
 
-    }
 
-    private Node extendTree(Node node, Vector vector) {
 
-        Point point = new Point(node.point.x + APFInfo.stepLength * vector.vextorX,
-                node.point.y + APFInfo.stepLength * vector.vextorY,
-                node.point.z + APFInfo.stepLength * vector.vextorZ);
-        if (intersection(point)) {
-            return null;
-        } else {
-            return createNode(point, node);
-        }
 
 
     }
