@@ -154,9 +154,11 @@ public class BaseHandInfo {
         pb.x = L1_AB * Utils.cos(theta1) * Utils.cos(theta2t) + a0 * Utils.cos(theta1);
         pb.y = L1_AB * Utils.cos(theta2t) * Utils.sin(theta1) + a0 * Utils.sin(theta1);
         pb.z = L1_AB * Utils.sin(theta2t) + d0;
+//        System.out.println(pb);
         pc.x = L1 * Utils.cos(theta1) * Utils.cos(theta2) + a0 * Utils.cos(theta1);
         pc.y = L1 * Utils.cos(theta2) * Utils.sin(theta1) + a0 * Utils.sin(theta1);
         pc.z = L1 * Utils.sin(theta2) + d0;
+//        System.out.println(pc);
         arm2.vectors[0].vextorX = Utils.cos(theta1) * Utils.cos(theta2f);
         arm2.vectors[0].vextorY = Utils.sin(theta1) * Utils.cos(theta2f);
         arm2.vectors[0].vextorZ = Utils.sin(theta2f);

@@ -20,11 +20,11 @@ public class Plan {
         Node start = new Node();
         start.root = start;
         start.level = 1;
-        start.point = new Point(1200.0, 0.0, 280.0);
+        start.point = new Point(1300.0, 0.0, 380.0);
         Node end = new Node();
         end.root = end;
         end.level = 1;
-        end.point = new Point(2480, 0.0, 0);
+        end.point = new Point(2280, 0.0, 0);
         Vector vectorX1 = new Vector(1, 0, 0);
         Vector vectorY1 = new Vector(0, 1, 0);
         Vector vectorZ1 = new Vector(0, 0, 1);
@@ -35,12 +35,12 @@ public class Plan {
         Vector[] vectors2 = new Vector[]{vectorX1, vectorY, vectorZ};
         //最老的obb
         Obb obbA = new Obb("obstacle1", new Point(1890.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbB = new Obb("obstacle2", new Point(1600, 50, 400), vectors1, new double[]{50, 50, 50});
+        Obb obbB = new Obb("obstacle2", new Point(1700, 600, 400), vectors1, new double[]{50, 600, 50});
         Obb obbC = new Obb("obstacle3", new Point(1700.0, -50, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbD = new Obb("obstacle4", new Point(1500.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbE = new Obb("obstacle5", new Point(850,0.0,800 ), vectors1, new double[]{50, 50, 50});
-        Obb obbF = new Obb("obstacle6", new Point(1750.0,-400.0,200.0), vectors1, new double[]{50, 50, 50});
-        Obb obbG = new Obb("obstacle7", new Point(2000.0,-300.0,0.0 ), vectors1, new double[]{50, 50, 50});
+        Obb obbE = new Obb("obstacle5", new Point(1000,600,1050), vectors1, new double[]{50, 600, 50});
+        Obb obbF = new Obb("obstacle6", new Point(1750.0,-600,300.0), vectors1, new double[]{50, 600, 50});
+        Obb obbG = new Obb("obstacle7", new Point(1900,-300.0,65.0 ), vectors1, new double[]{50, 50, 50});
 
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
@@ -54,8 +54,8 @@ public class Plan {
         obstacles.add(obbC);
         obstacles.add(obbD);
         obstacles.add(obbE);
-        obstacles.add(obbF);
-        obstacles.add(obbG);
+//        obstacles.add(obbF);
+//        obstacles.add(obbG);
         //实验1
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1200.0, 0.0, 280.0);
@@ -115,15 +115,18 @@ public class Plan {
 //        obstacles.add(obb1);
 //        obstacles.add(obb2);
 //        obstacles.add(obb3);
-        handJointInfo handJointInfo = p.reCalculateDegree(end.point);
-        BaseHandInfo.changehand(handJointInfo);
-        System.out.println(p.intersection(end.point));
+        handJointInfo handJointInfo = p.reCalculateDegree(start.point);
+//        System.out.println(p.intersection(start.point));
+        handJointInfo = p.reCalculateDegree(end.point);
+//        System.out.println(p.intersection(end.point));
+
         long time = System.currentTimeMillis();
-//        for (int i=0;i<10;i++)
-//        {
+        for (int i=0;i<10;i++)
+        {
 //        p.rrt(start,end);
         p.union(start, end);
-//        }
+        System.out.println("i:"+i+"over");
+        }
         System.out.println(System.currentTimeMillis() - time);
 
     }
@@ -334,6 +337,7 @@ public class Plan {
             Node nearestNode = kdTreeMe.getNearestNode(point);
             if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
 //                Node node = generateByRRT(initNode);
+//                Node node = generateByBack(initNode);
                 Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = kdTreeMe.getNearestNode(initNode);
@@ -526,7 +530,7 @@ public class Plan {
                     if (intersectionLine(node, node1, queue)) {
                         node.father = node1;
                         node.level = node.father.level + 1;
-                        System.out.println(node.point);
+//                        System.out.println(node.point);
                         break;
                     }
                 }
