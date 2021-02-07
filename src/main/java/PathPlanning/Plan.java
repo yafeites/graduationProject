@@ -39,6 +39,8 @@ public class Plan {
         Obb obbC = new Obb("obstacle3", new Point(1700.0, -50, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbD = new Obb("obstacle4", new Point(1500.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbE = new Obb("obstacle5", new Point(850,0.0,800 ), vectors1, new double[]{50, 50, 50});
+        Obb obbF = new Obb("obstacle6", new Point(1750.0,-400.0,200.0), vectors1, new double[]{50, 50, 50});
+        Obb obbG = new Obb("obstacle7", new Point(2000.0,-300.0,0.0 ), vectors1, new double[]{50, 50, 50});
 
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
@@ -48,10 +50,12 @@ public class Plan {
 //        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
         obstacles.add(obbA);
-//        obstacles.add(obbB);
-//        obstacles.add(obbC);
+        obstacles.add(obbB);
+        obstacles.add(obbC);
         obstacles.add(obbD);
         obstacles.add(obbE);
+        obstacles.add(obbF);
+        obstacles.add(obbG);
         //实验1
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1200.0, 0.0, 280.0);
@@ -147,14 +151,14 @@ public class Plan {
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
                 str = str + "rrt";
-                printNodeNum(start,end,str);
-                printTree(start, end, str);
-                printNode(initNode, targetNode, str);
-                printObstacles(obstacles, str);
+//                printNodeNum(start,end,str);
+//                printTree(start, end, str);
+//                printNode(initNode, targetNode, str);
+//                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(targetNode);
-                printNode(initNode, targetNode, str + "opt");
-                printPoint(initNode, targetNode, str);
+//                printNode(initNode, targetNode, str + "opt");
+//                printPoint(initNode, targetNode, str);
                 break;
             }
             Node near = kdTreeYou.getNearestNode(initNode);
@@ -162,14 +166,14 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
-                printNodeNum(start,end,str);
-                printTree(start, end, str);
-                printNode(initNode, near, str);
-                printObstacles(obstacles, str);
+//                printNodeNum(start,end,str);
+//                printTree(start, end, str);
+//                printNode(initNode, near, str);
+//                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(near);
-                printNode(initNode, near, str + "opt");
-                printPoint(initNode, near, str);
+//                printNode(initNode, near, str + "opt");
+//                printPoint(initNode, near, str);
                 break;
             }
             //计算rrt引力
@@ -190,8 +194,8 @@ public class Plan {
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = node;
                 kdTreeMe.insert(node);
-                System.out.println(node.tree.name);
-                System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+//                System.out.println(node.tree.name);
+//                System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
 
                 KdTree temp = kdTreeMe;
@@ -205,8 +209,8 @@ public class Plan {
             Node newNode = createNode(point, initNode);
             initNode = newNode;
             kdTreeMe.insert(newNode);
-            System.out.println(newNode.tree.name);
-            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+//            System.out.println(newNode.tree.name);
+//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -240,13 +244,13 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
-                printTree(start, end, str);
-                printNode(initNode, targetNode, str);
-                printObstacles(obstacles, str);
+//                printTree(start, end, str);
+//                printNode(initNode, targetNode, str);
+//                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(targetNode);
-                printNode(initNode, targetNode, str + "opt");
-                printPoint(initNode, targetNode, str);
+//                printNode(initNode, targetNode, str + "opt");
+//                printPoint(initNode, targetNode, str);
                 break;
             }
             Node near = kdTreeYou.getNearestNode(initNode);
@@ -254,13 +258,13 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
-                printTree(start, end, str);
-                printNode(initNode, near, str);
-                printObstacles(obstacles, str);
+//                printTree(start, end, str);
+//                printNode(initNode, near, str);
+//                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(near);
-                printNode(initNode, near, str + "opt");
-                printPoint(initNode, near, str);
+//                printNode(initNode, near, str + "opt");
+//                printPoint(initNode, near, str);
                 break;
             }
             //计算人工势能场引力
@@ -309,15 +313,15 @@ public class Plan {
                 if (targetNode == lastInitOneNode && initNode == lastInitTwoNode) {
 //                    Node node =generateByMySelf(preNode);
 //                    Node node = generateByBack(preNode);
-                    Node node = generateByRRT(preNode);
-//                    Node node = generateByRand(preNode);
+//                    Node node = generateByRRT(preNode);
+                    Node node = generateByRand(preNode);
                     initNode = kdTreeYou.getNearestNode(node);
                     targetNode = kdTreeMe.getNearestNode(initNode);
                     kdTreeMe.insert(node);
                     kdTreeMe.getLastTenList().add(node);
                     lastNewNode = node;
-                    System.out.println(node.tree.name);
-                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+//                    System.out.println(node.tree.name);
+//                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
                 KdTree temp = kdTreeMe;
@@ -329,6 +333,7 @@ public class Plan {
             }
             Node nearestNode = kdTreeMe.getNearestNode(point);
             if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
+//                Node node = generateByRRT(initNode);
                 Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = kdTreeMe.getNearestNode(initNode);
@@ -345,8 +350,8 @@ public class Plan {
             kdTreeMe.insert(newNode);
             kdTreeMe.getLastTenList().add(newNode);
             lastNewNode = newNode;
-            System.out.println(newNode.tree.name);
-            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+//            System.out.println(newNode.tree.name);
+//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -473,19 +478,19 @@ public class Plan {
         while (node != node.root) {
             final Node temp = new Node();
             temp.setPoint(node.point);
-            ;
+
             PriorityQueue<Node> queue = new PriorityQueue<>(new Comparator<Node>() {
                 @Override
                 public int compare(Node node1, Node node2) {
-                    double dis1 = Utils.getDistance(node1.point, node1.root.point) + Utils.getDistance(node1.point, temp.point);
-                    double dis2 = Utils.getDistance(node2.point, node1.root.point) + Utils.getDistance(node2.point, temp.point);
-                    return Double.compare(dis1, dis2);
+//                    double dis1 = Utils.getDistance(node1.point, node1.root.point) + Utils.getDistance(node1.point, temp.point);
+//                    double dis2 = Utils.getDistance(node2.point, node1.root.point) + Utils.getDistance(node2.point, temp.point);
+//                    return Double.compare(dis1, dis2);
 //                if (node1.level != node2.level) {
 //                        return node1.level - node2.level;
 //                    } else {
-//                        double dis1 = Utils.getDistance(node1.point, node1.root.point);
-//                        double dis2 = Utils.getDistance(node2.point, node2.root.point);
-//                        return Double.compare(dis1, dis2);
+                        double dis1 = Utils.getDistance(node1.point, node1.root.point);
+                        double dis2 = Utils.getDistance(node2.point, node2.root.point);
+                        return Double.compare(dis1, dis2);
 //
 //            }
                 }
@@ -549,9 +554,10 @@ public class Plan {
             Node newNode = new Node();
             newNode.setPoint(P);
             Node node2 = node.tree.getNearestNode(newNode);
+
             if (!node2.point.equals(P)) {
+//                queue.add(newNode);
                 newNode.addAttr(node1);
-                queue.add(newNode);
             }
             node1 = newNode;
 
