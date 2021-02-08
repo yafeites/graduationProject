@@ -149,6 +149,7 @@ public class Plan {
         Node targetNode = end;
         Vector force = new Vector(0, 0, 0);
         while (true) {
+
             if (Utils.getDistance(initNode.point, targetNode.point) < APFInfo.stepLength) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
@@ -241,6 +242,7 @@ public class Plan {
         Node targetNode = end;
         Vector force = new Vector(0, 0, 0);
         while (true) {
+
             lastInitTwoNode = lastInitOneNode;
             lastInitOneNode = initNode;
             if (Utils.getDistance(initNode.point, targetNode.point) < APFInfo.stepLength) {
@@ -268,6 +270,7 @@ public class Plan {
                 opt(near);
 //                printNode(initNode, near, str + "opt");
 //                printPoint(initNode, near, str);
+
                 break;
             }
             //计算人工势能场引力
@@ -316,15 +319,21 @@ public class Plan {
                 if (targetNode == lastInitOneNode && initNode == lastInitTwoNode) {
 //                    Node node =generateByMySelf(preNode);
                     Node node = generateByBack(preNode);
+                    if(APFInfo.randstep<2*APFInfo.stepLength)
+                    {
+                        APFInfo.randstep+=0.05;
+//                        System.out.println(APFInfo.randstep);
+                    }
+
 //                    Node node = generateByRRT(preNode);
 //                    Node node = generateByRand(preNode);
                     initNode = kdTreeYou.getNearestNode(node);
-                    targetNode = kdTreeMe.getNearestNode(initNode);
+//                    targetNode = kdTreeMe.getNearestNode(initNode);
+                    targetNode = node;
                     kdTreeMe.insert(node);
-                    kdTreeMe.getLastTenList().add(node);
-                    lastNewNode = node;
-                    System.out.println(node.tree.name);
-                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+//                    kdTreeMe.getLastTenList().add(node);
+//                    System.out.println(node.tree.name);
+//                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
                 KdTree temp = kdTreeMe;
@@ -335,16 +344,23 @@ public class Plan {
                 continue;
             }
             Node nearestNode = kdTreeMe.getNearestNode(point);
-            if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
+            if (nearestNode.point.equals(point)|| islocalOptimum(kdTreeMe, point)) {
 //                        if (nearestNode.point.equals(point)) {
 
 //                Node node = generateByRRT(initNode);
                 Node node = generateByBack(initNode);
+                if(APFInfo.randstep<2*APFInfo.stepLength)
+                {
+                    APFInfo.randstep+=0.05;
+//                    System.out.println(APFInfo.randstep);
+
+                }
 //                Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
-                targetNode = kdTreeMe.getNearestNode(initNode);
+//                targetNode = kdTreeMe.getNearestNode(initNode);
+                targetNode = node;
                 kdTreeMe.insert(node);
-                kdTreeMe.getLastTenList().add(node);
+//                kdTreeMe.getLastTenList().add(node);
                 KdTree temp = kdTreeMe;
                 kdTreeMe = kdTreeYou;
                 kdTreeYou = temp;
@@ -354,10 +370,10 @@ public class Plan {
             Node newNode = createNode(point, initNode);
             initNode = newNode;
             kdTreeMe.insert(newNode);
-            kdTreeMe.getLastTenList().add(newNode);
+//            kdTreeMe.getLastTenList().add(newNode);
             lastNewNode = newNode;
-            System.out.println(newNode.tree.name);
-            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+//            System.out.println(newNode.tree.name);
+//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -368,7 +384,7 @@ public class Plan {
 
 
     private boolean islocalOptimum(KdTree kdTreeMe, Point point) {
-        List<Node> list = kdTreeMe.getLastTenList();
+        List<Node> list = kdTreeMe.list;
         if (list.size() < 10) {
             return false;
         }
@@ -849,9 +865,7 @@ public class Plan {
     }
 
     private Node extendTree(Node node) {
-            int cnt=0;
-        while (cnt<=100)
-        {
+
             double a = Math.random();
             if (Math.random() < 0.5) {
                 a = -a;
@@ -866,27 +880,15 @@ public class Plan {
             }
             Vector vector = new Vector(a, b, c);
             Utils.standardization(vector);
-            Point point = new Point(node.point.x + APFInfo.stepLength * vector.vextorX,
-                    node.point.y + APFInfo.stepLength * vector.vextorY,
-                    node.point.z + APFInfo.stepLength * vector.vextorZ);
+            Point point = new Point(node.point.x + APFInfo.randstep * vector.vextorX,
+                    node.point.y + APFInfo.randstep * vector.vextorY,
+                    node.point.z + APFInfo.randstep * vector.vextorZ);
             if (intersection(point)) {
-               cnt++;
-               continue;
+               return null;
             } else {
-                List<Node>sons=node.sons;
-                for (int i=0;i<sons.size();i++)
-                {
-                    Node son=sons.get(i);
-                    if(Utils.getDistance(son.point,point)<30)
-                    {
-                            cnt++;
-                            continue;
-                    }
-                }
                 return createNode(point, node);
             }
-        }
-        return  null;
+
 
 
 
