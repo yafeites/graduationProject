@@ -38,9 +38,9 @@ public class Plan {
         Obb obbB = new Obb("obstacle2", new Point(1700, 600, 400), vectors1, new double[]{50, 600, 50});
         Obb obbC = new Obb("obstacle3", new Point(1700.0, -50, 65.0), vectors1, new double[]{50, 50, 50});
         Obb obbD = new Obb("obstacle4", new Point(1500.0, 0.0, 65.0), vectors1, new double[]{50, 50, 50});
-        Obb obbE = new Obb("obstacle5", new Point(1000,600,1050), vectors1, new double[]{50, 600, 50});
-        Obb obbF = new Obb("obstacle6", new Point(1750.0,-600,300.0), vectors1, new double[]{50, 600, 50});
-        Obb obbG = new Obb("obstacle7", new Point(1900,-300.0,65.0 ), vectors1, new double[]{50, 50, 50});
+        Obb obbE = new Obb("obstacle5", new Point(1000, 600, 1050), vectors1, new double[]{50, 600, 50});
+        Obb obbF = new Obb("obstacle6", new Point(1750.0, -600, 300.0), vectors1, new double[]{50, 600, 50});
+        Obb obbG = new Obb("obstacle7", new Point(1900, -300.0, 65.0), vectors1, new double[]{50, 50, 50});
 
 //        Obb obbA=new Obb("obstacle1",new Point(1890.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbB=new Obb("obstacle2",new Point(1800,500,1300),vectors1,new double[]{150,500,150});
@@ -49,13 +49,13 @@ public class Plan {
 //        Obb obbC=new Obb("obstacle3",new Point(1600,50,300),vectors2,new double[]{50,50,50});
 //        Obb obbD=new Obb("obstacle4",new Point(1500.0,0.0,65.0),vectors1,new double[]{50,50,50});
 //        Obb obbE=new Obb("obstacle5",new Point(1700.0,-50,65.0),vectors1,new double[]{50,50,50});
-        obstacles.add(obbA);
-        obstacles.add(obbB);
-        obstacles.add(obbC);
-        obstacles.add(obbD);
-        obstacles.add(obbE);
-        obstacles.add(obbF);
-        obstacles.add(obbG);
+//        obstacles.add(obbA);
+//        obstacles.add(obbB);
+//        obstacles.add(obbC);
+//        obstacles.add(obbD);
+//        obstacles.add(obbE);
+//        obstacles.add(obbF);
+//        obstacles.add(obbG);
         //实验1
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1200.0, 0.0, 280.0);
@@ -69,7 +69,12 @@ public class Plan {
 //        Obb obb1 = new Obb("obstacle1", new Point(1878.8424834265804, -0.0043320454585780155, -160.0017074511839),
 //                vectorsE1O1, new double[]{168.9698656966724, 85.44732829925721, 129.9982925488161});
 //        obstacles.add(obb1);
-
+        //仿真实验1
+//        BaseHandInfo.thetaPoint = -90;
+//        start.point = new Point(1200.0, 0.0, 280.0);
+//        end.point = new Point(2280, 0.0, -200);
+//        Obb obb1 = new Obb("obstacle1", new Point(1890.0, 0.0, -170), vectors1, new double[]{150, 55, 110});
+//        obstacles.add(obb1);
 //        实验2
 //        start.point = new Point(1770, 0.0, 630);
 //        end.point = new Point(2600, 0.0, -280);
@@ -90,7 +95,15 @@ public class Plan {
 ////        Obb obb2 = new Obb("obstacle2", new Point(1880.4613915109232, 0.18929223345776958, -217.0048951484784), vectorsE2O2, new double[]{170.76005769684195, 140.13471487588748, 76.9951048515216});
 ////        obstacles.add(obb1);
 ////        obstacles.add(obb2);
-        //实验3
+        //仿真实验2
+//        start.point = new Point(1770, 0.0, 630);
+//        end.point = new Point(2600, 0.0, -280);
+//        BaseHandInfo.thetaPoint = -30;
+//        Obb obb1 = new Obb("obstacle1", new Point(1130, 600, 980), vectors1, new double[]{140, 600, 60});
+//        Obb obb2 = new Obb("obstacle2", new Point(1890, 0, -220), vectors1, new double[]{150, 110, 50});
+//        obstacles.add(obb1);
+//        obstacles.add(obb2);
+//        实验3
 //        BaseHandInfo.thetaPoint = -90;
 //        start.point = new Point(1090, 0.0, 340);
 //        end.point = new Point(2280, 0.0, -280);
@@ -115,13 +128,22 @@ public class Plan {
 //        obstacles.add(obb1);
 //        obstacles.add(obb2);
 //        obstacles.add(obb3);
-        handJointInfo handJointInfo = p.reCalculateDegree(start.point);
+//        handJointInfo handJointInfo = p.reCalculateDegree(start.point);
 //        System.out.println(p.intersection(start.point));
-        handJointInfo = p.reCalculateDegree(end.point);
+//        handJointInfo = p.reCalculateDegree(end.point);
 //        System.out.println(p.intersection(end.point));
-
+//        仿真实验3
+        BaseHandInfo.thetaPoint = -90;
+        start.point = new Point(1090, 0.0, 340);
+        end.point = new Point(2280, 0.0, -280);
+        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,50,110});
+        Obb obb2=new Obb("obstacle1",new Point(1650.0,600,330),vectors1,new double[]{140,600,60});
+        Obb obb3=new Obb("obstacle1",new Point(1650.0,-350,-90),vectors1,new double[]{150,100,170});
+        obstacles.add(obb1);
+        obstacles.add(obb2);
+        obstacles.add(obb3);
         long time = System.currentTimeMillis();
-//        for (int i=0;i<10;i++)
+//        for (int i=0;i<20;i++)
 //        {
 //        p.rrt(start,end);
         p.union(start, end);
@@ -227,14 +249,21 @@ public class Plan {
         Node lastNewNode = null;
         Node lastInitOneNode = null;
         Node lastInitTwoNode = null;
+//        ThirdDTree kdTreeS = new ThirdDTree();
         KdTree kdTreeS = new KdTree();
         kdTreeS.setName("初始树");
         kdTreeS.insert(start);
+
+
+//        ThirdDTree kdTreeE = new ThirdDTree();
         KdTree kdTreeE = new KdTree();
         kdTreeE.setName("目标树");
         kdTreeE.insert(end);
+
         KdTree kdTreeMe = kdTreeS;
         KdTree kdTreeYou = kdTreeE;
+//        ThirdDTree kdTreeMe = kdTreeS;
+//        ThirdDTree kdTreeYou = kdTreeE;
 
         Node initNode = start;
         start.setTree(kdTreeS);
@@ -245,8 +274,9 @@ public class Plan {
 
             lastInitTwoNode = lastInitOneNode;
             lastInitOneNode = initNode;
-            if (Utils.getDistance(initNode.point, targetNode.point) < APFInfo.stepLength) {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            if (Utils.getFakeDistance(initNode.point, targetNode.point) < APFInfo.powerstepLength) {
+//                if (Utils.getDistance(initNode.point, targetNode.point) < APFInfo.stepLength) {
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
 //                printTree(start, end, str);
@@ -259,7 +289,7 @@ public class Plan {
                 break;
             }
             Node near = kdTreeYou.getNearestNode(initNode);
-            if (Utils.getDistance(initNode.point, near.point) < APFInfo.stepLength) {
+            if (Utils.getFakeDistance(initNode.point, near.point) < APFInfo.powerstepLength) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
@@ -318,14 +348,8 @@ public class Plan {
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 if (targetNode == lastInitOneNode && initNode == lastInitTwoNode) {
 //                    Node node =generateByMySelf(preNode);
-                    Node node = generateByBack(preNode);
-                    if(APFInfo.randstep<2*APFInfo.stepLength)
-                    {
-                        APFInfo.randstep+=0.05;
-//                        System.out.println(APFInfo.randstep);
-                    }
-
-//                    Node node = generateByRRT(preNode);
+//                    Node node = generateByBack(preNode);
+                    Node node = generateByRRT(preNode);
 //                    Node node = generateByRand(preNode);
                     initNode = kdTreeYou.getNearestNode(node);
 //                    targetNode = kdTreeMe.getNearestNode(initNode);
@@ -336,6 +360,7 @@ public class Plan {
 //                    System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
                 }
+//                ThirdDTree temp = kdTreeMe;
                 KdTree temp = kdTreeMe;
                 kdTreeMe = kdTreeYou;
                 kdTreeYou = temp;
@@ -344,23 +369,19 @@ public class Plan {
                 continue;
             }
             Node nearestNode = kdTreeMe.getNearestNode(point);
-            if (nearestNode.point.equals(point)|| islocalOptimum(kdTreeMe, point)) {
+            if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
 //                        if (nearestNode.point.equals(point)) {
 
-//                Node node = generateByRRT(initNode);
-                Node node = generateByBack(initNode);
-                if(APFInfo.randstep<2*APFInfo.stepLength)
-                {
-                    APFInfo.randstep+=0.05;
-//                    System.out.println(APFInfo.randstep);
+                Node node = generateByRRT(initNode);
+//                Node node = generateByBack(initNode);
 
-                }
 //                Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
 //                targetNode = kdTreeMe.getNearestNode(initNode);
                 targetNode = node;
                 kdTreeMe.insert(node);
 //                kdTreeMe.getLastTenList().add(node);
+//                ThirdDTree temp = kdTreeMe;
                 KdTree temp = kdTreeMe;
                 kdTreeMe = kdTreeYou;
                 kdTreeYou = temp;
@@ -395,6 +416,18 @@ public class Plan {
         }
         return true;
     }
+    private boolean islocalOptimum(ThirdDTree kdTreeMe, Point point) {
+        List<Node> list = kdTreeMe.list;
+        if (list.size() < 10) {
+            return false;
+        }
+        for (int i = list.size() - 1; i > list.size() - 10; i--) {
+            if (Utils.getDistance(point, list.get(i).point) >= 100) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void printPoint(Node initNode, Node targetNode, String str) {
         String path = prepath + str + "point.txt";
@@ -410,17 +443,17 @@ public class Plan {
     }
 
     private void writePoint(String path, Node initNode, Node targetNode) {
-        double dis=0;
+        double dis = 0;
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(path, true)));
             if (initNode.tree.name.equals("初始树")) {
-                dis+= writePointFromRoot(out, initNode);
-                dis+= writePointFromPoint(out, targetNode);
+                dis += writePointFromRoot(out, initNode);
+                dis += writePointFromPoint(out, targetNode);
             } else {
-                dis+= writePointFromRoot(out, targetNode);
-                dis+= writePointFromPoint(out, initNode);
+                dis += writePointFromRoot(out, targetNode);
+                dis += writePointFromPoint(out, initNode);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -436,7 +469,7 @@ public class Plan {
     }
 
     private double writePointFromRoot(BufferedWriter out, Node node) throws IOException {
-        double dis=0;
+        double dis = 0;
         List<Node> list = new ArrayList<>();
         while (node != null) {
             list.add(node);
@@ -444,9 +477,8 @@ public class Plan {
         }
         for (int i = list.size() - 1; i >= 0; i--) {
             node = list.get(i);
-            if(i!=list.size()-1)
-            {
-                dis+=Utils.getDistance(list.get(i).point,list.get(i+1).point);
+            if (i != list.size() - 1) {
+                dis += Utils.getDistance(list.get(i).point, list.get(i + 1).point);
             }
 //            if(i==list.size()-1)
 //            {
@@ -462,8 +494,8 @@ public class Plan {
     }
 
     private double writePointFromPoint(BufferedWriter out, Node node) throws IOException {
-        double dis=0;
-        Node temp=null;
+        double dis = 0;
+        Node temp = null;
         while (node != null) {
 //                if(node.root==node)
 //                {
@@ -473,11 +505,10 @@ public class Plan {
 //                    return;
 //                }
             out.write(node.point.x + "," + node.point.y + "," + node.point.z + "\r\n");
-            if(temp!=null)
-            {
-                dis+=Utils.getDistance(temp.point,node.point);
+            if (temp != null) {
+                dis += Utils.getDistance(temp.point, node.point);
             }
-            temp=node;
+            temp = node;
             node = node.father;
 
         }
@@ -510,15 +541,16 @@ public class Plan {
 //                if (node1.level != node2.level) {
 //                        return node1.level - node2.level;
 //                    } else {
-                        double dis1 = Utils.getDistance(node1.point, node1.root.point);
-                        double dis2 = Utils.getDistance(node2.point, node2.root.point);
-                        return Double.compare(dis1, dis2);
+                    double dis1 = Utils.getDistance(node1.point, node1.root.point);
+                    double dis2 = Utils.getDistance(node2.point, node2.root.point);
+                    return Double.compare(dis1, dis2);
 //
 //            }
                 }
             });
             for (Node n : node.tree.list) {
-                if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
+//                for (Node n : node.getThirdDTree().list) {
+                    if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
                     queue.add(n);
                 }
             }
@@ -576,6 +608,7 @@ public class Plan {
             Node newNode = new Node();
             newNode.setPoint(P);
             Node node2 = node.tree.getNearestNode(newNode);
+//            Node node2 = node.thirdDTree.getNearestNode(newNode);
 
             if (!node2.point.equals(P)) {
 //                queue.add(newNode);
@@ -665,8 +698,8 @@ public class Plan {
         }
     }
 
-    private  void printNodeNum(Node start, Node end, String str) {
-        cntNodeNum( start, end);
+    private void printNodeNum(Node start, Node end, String str) {
+        cntNodeNum(start, end);
     }
 
     private void cntNodeNum(Node start, Node end) {
@@ -687,6 +720,7 @@ public class Plan {
         return i;
 
     }
+
     private void printTree(Node start, Node end, String str) {
 
         String path = prepath + str + "tree.txt";
@@ -747,7 +781,8 @@ public class Plan {
         out.write(node1.point.x + "," + node1.point.y + "," + node1.point.z + " " +
                 node2.point.x + "," + node2.point.y + "," + node2.point.z + "\r\n");
     }
-    private Node generateByMySelf(Node preNode){
+
+    private Node generateByMySelf(Node preNode) {
         Node node = null;
         while (true) {
 
@@ -760,6 +795,7 @@ public class Plan {
 
         }
     }
+
     private Node generateByRRT(Node preNode) {
         Node node = null;
         while (true) {
@@ -788,7 +824,7 @@ public class Plan {
 
     }
 
-//    private Node generateByRandByLongStep(Node preNode) {
+    //    private Node generateByRandByLongStep(Node preNode) {
 //        Node node = null;
 //        while (true) {
 //
@@ -818,7 +854,12 @@ public class Plan {
             Node node = null;
 
             if (rand <= RRTInfo.backp1) {
+//                Point point=new Point(700+2300*Math.random(),-1000+2000*(Math.random()),-500+1500*(Math.random()));
+//                node = extendTree(preNode.getThirdDTree().getNearestNode(point));
+
+//                node = extendTree(preNode.getThirdDTree().getRandNode());
                 node = extendTree(preNode.getTree().getRandNode());
+
             } else {
                 while (preNode.father != null) {
                     rand = Math.random();
@@ -832,12 +873,16 @@ public class Plan {
             }
             if (node == null) {
                 continue;
-            }
 
+            }
+            if (APFInfo.randstep < 2 * APFInfo.stepLength) {
+                APFInfo.randstep += 0.05;
+            }
             return node;
         }
 
     }
+
     private Node generateByRand(Node preNode) {
         Node node = null;
         while (true) {
@@ -866,32 +911,31 @@ public class Plan {
 
     private Node extendTree(Node node) {
 
-            double a = Math.random();
-            if (Math.random() < 0.5) {
-                a = -a;
-            }
-            double b = Math.random();
-            if (Math.random() < 0.5) {
-                b = -b;
-            }
-            double c = Math.random();
-            if (Math.random() < 0.5) {
-                c = -c;
-            }
-            Vector vector = new Vector(a, b, c);
-            Utils.standardization(vector);
-            Point point = new Point(node.point.x + APFInfo.randstep * vector.vextorX,
-                    node.point.y + APFInfo.randstep * vector.vextorY,
-                    node.point.z + APFInfo.randstep * vector.vextorZ);
-            if (intersection(point)) {
-               return null;
-            } else {
-                return createNode(point, node);
-            }
-
-
-
-
+        double a = Math.random();
+        if (Math.random() < 0.5) {
+            a = -a;
+        }
+        double b = Math.random();
+        if (Math.random() < 0.5) {
+            b = -b;
+        }
+        double c = Math.random();
+        if (Math.random() < 0.5) {
+            c = -c;
+        }
+        Vector vector = new Vector(a, b, c);
+        Utils.standardization(vector);
+        Point point = new Point(node.point.x + APFInfo.randstep * vector.vextorX,
+                node.point.y + APFInfo.randstep * vector.vextorY,
+                node.point.z + APFInfo.randstep * vector.vextorZ);
+        Point point1 = new Point(node.point.x + APFInfo.randstep * vector.vextorX/2,
+                node.point.y + APFInfo.randstep * vector.vextorY/2,
+                node.point.z + APFInfo.randstep * vector.vextorZ/2);
+        if (intersection(point)&&intersection(point1)) {
+            return null;
+        } else {
+            return createNode(point, node);
+        }
 
 
     }

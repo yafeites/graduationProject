@@ -10,6 +10,8 @@ public class APFInfo {
     static final double repulsiveForceRatio=1500000;
     static final double minimumDistance2Obstacle=150;
     static final double stepLength =50;
+    static final double powerstepLength =2500;
+
     static  double randstep=stepLength;
 }
 

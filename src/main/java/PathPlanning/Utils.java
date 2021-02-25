@@ -12,6 +12,12 @@ public class Utils {
                 +Math.pow(point1.y-point2.y,2)
                 + Math.pow(point1.z-point2.z,2));
     }
+    public static  double getFakeDistance(Point point1,Point point2)
+    {
+        return (Math.pow(point1.x-point2.x,2)
+                +Math.pow(point1.y-point2.y,2)
+                + Math.pow(point1.z-point2.z,2));
+    }
     public  static void standardization(Vector vector)
     {
         double val=Math.sqrt(vector.vextorX*vector.vextorX+vector.vextorY*vector.vextorY

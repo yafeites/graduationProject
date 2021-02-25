@@ -36,7 +36,7 @@ public class KdTree {
         double distance=Double.MAX_VALUE;
         Node ret=null;
         for (Node n :list) {
-            double dis=Utils.getDistance(n.point,node.point);
+            double dis=Utils.getFakeDistance(n.point,node.point);
             if(dis<distance)
             {
                 distance=dis;
@@ -53,7 +53,7 @@ public class KdTree {
         double distance=Double.MAX_VALUE;
         Node ret=null;
         for (Node n :list) {
-            double dis=Utils.getDistance(n.point,point);
+            double dis=Utils.getFakeDistance(n.point,point);
             if(dis<distance)
             {
                 distance=dis;
