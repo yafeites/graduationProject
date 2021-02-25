@@ -38,6 +38,6 @@ public class Test {
 //        System.out.println(System.currentTimeMillis() - time);
 //        System.out.println((210+279+386+100+128+349+131)/7);
 
-        System.out.println((172+236+339+130+983+471+115)/7);
+        System.out.println((237+269+247+287+349+403+552)/7);
     }
 }

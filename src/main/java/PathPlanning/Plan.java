@@ -133,15 +133,31 @@ public class Plan {
 //        handJointInfo = p.reCalculateDegree(end.point);
 //        System.out.println(p.intersection(end.point));
 //        仿真实验3
+//        BaseHandInfo.thetaPoint = -90;
+//        start.point = new Point(1090, 0.0, 340);
+//        end.point = new Point(2280, 0.0, -280);
+//        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,50,110});
+//        Obb obb2=new Obb("obstacle1",new Point(1650.0,600,330),vectors1,new double[]{140,600,60});
+//        Obb obb3=new Obb("obstacle1",new Point(1650.0,-350,-90),vectors1,new double[]{150,100,170});
+//        obstacles.add(obb1);
+//        obstacles.add(obb2);
+//        obstacles.add(obb3);
+//        仿真实验4
+        start.point = new Point(1600, 0.0, 500);
+        end.point = new Point(2200, 0.0, -280);
         BaseHandInfo.thetaPoint = -90;
-        start.point = new Point(1090, 0.0, 340);
-        end.point = new Point(2280, 0.0, -280);
-        Obb obb1=new Obb("obstacle1",new Point(1890.0,0.0,-170),vectors1,new double[]{150,50,110});
-        Obb obb2=new Obb("obstacle1",new Point(1650.0,600,330),vectors1,new double[]{140,600,60});
-        Obb obb3=new Obb("obstacle1",new Point(1650.0,-350,-90),vectors1,new double[]{150,100,170});
+        Obb obb1 = new Obb("obstacle1", new Point(1130, 600, 1050), vectors1, new double[]{65, 600, 65});
+        Obb obb2 = new Obb("obstacle2", new Point(1890, 0, -220), vectors1, new double[]{150, 110, 50});
+        Obb obb3 = new Obb("obstacle3", new Point(1800, -600, 200), vectors1, new double[]{65, 600, 65});
+        Obb obb4 = new Obb("obstacle4", new Point(2000.0,-250,-90), vectors1, new double[]{150,100,170});
+
         obstacles.add(obb1);
         obstacles.add(obb2);
         obstacles.add(obb3);
+        obstacles.add(obb4);
+        System.out.println(p.intersection(start.point));
+        System.out.println(p.intersection(end.point));
+
         long time = System.currentTimeMillis();
 //        for (int i=0;i<20;i++)
 //        {
@@ -220,8 +236,8 @@ public class Plan {
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = node;
                 kdTreeMe.insert(node);
-//                System.out.println(node.tree.name);
-//                System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
+                System.out.println(node.tree.name);
+                System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
 
 
                 KdTree temp = kdTreeMe;
@@ -235,8 +251,8 @@ public class Plan {
             Node newNode = createNode(point, initNode);
             initNode = newNode;
             kdTreeMe.insert(newNode);
-//            System.out.println(newNode.tree.name);
-//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
+            System.out.println(newNode.tree.name);
+            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
 
             force.clean();
 
@@ -276,7 +292,7 @@ public class Plan {
             lastInitOneNode = initNode;
             if (Utils.getFakeDistance(initNode.point, targetNode.point) < APFInfo.powerstepLength) {
 //                if (Utils.getDistance(initNode.point, targetNode.point) < APFInfo.stepLength) {
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
 //                printTree(start, end, str);
@@ -348,8 +364,8 @@ public class Plan {
                 targetNode = kdTreeMe.getNearestNode(initNode);
                 if (targetNode == lastInitOneNode && initNode == lastInitTwoNode) {
 //                    Node node =generateByMySelf(preNode);
-//                    Node node = generateByBack(preNode);
-                    Node node = generateByRRT(preNode);
+                    Node node = generateByBack(preNode);
+//                    Node node = generateByRRT(preNode);
 //                    Node node = generateByRand(preNode);
                     initNode = kdTreeYou.getNearestNode(node);
 //                    targetNode = kdTreeMe.getNearestNode(initNode);
@@ -372,8 +388,8 @@ public class Plan {
             if (nearestNode.point.equals(point) || islocalOptimum(kdTreeMe, point)) {
 //                        if (nearestNode.point.equals(point)) {
 
-                Node node = generateByRRT(initNode);
-//                Node node = generateByBack(initNode);
+//                Node node = generateByRRT(initNode);
+                Node node = generateByBack(initNode);
 
 //                Node node = generateByRand(initNode);
                 initNode = kdTreeYou.getNearestNode(node);
@@ -416,6 +432,7 @@ public class Plan {
         }
         return true;
     }
+
     private boolean islocalOptimum(ThirdDTree kdTreeMe, Point point) {
         List<Node> list = kdTreeMe.list;
         if (list.size() < 10) {
@@ -550,7 +567,7 @@ public class Plan {
             });
             for (Node n : node.tree.list) {
 //                for (Node n : node.getThirdDTree().list) {
-                    if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
+                if (Utils.getDistance(n.point, node.point) < 5 * APFInfo.stepLength) {
                     queue.add(n);
                 }
             }
@@ -928,10 +945,10 @@ public class Plan {
         Point point = new Point(node.point.x + APFInfo.randstep * vector.vextorX,
                 node.point.y + APFInfo.randstep * vector.vextorY,
                 node.point.z + APFInfo.randstep * vector.vextorZ);
-        Point point1 = new Point(node.point.x + APFInfo.randstep * vector.vextorX/2,
-                node.point.y + APFInfo.randstep * vector.vextorY/2,
-                node.point.z + APFInfo.randstep * vector.vextorZ/2);
-        if (intersection(point)&&intersection(point1)) {
+        Point point1 = new Point(node.point.x + APFInfo.randstep * vector.vextorX / 2,
+                node.point.y + APFInfo.randstep * vector.vextorY / 2,
+                node.point.z + APFInfo.randstep * vector.vextorZ / 2);
+        if (intersection(point) && intersection(point1)) {
             return null;
         } else {
             return createNode(point, node);
