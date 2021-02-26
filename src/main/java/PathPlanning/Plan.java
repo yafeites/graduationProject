@@ -295,13 +295,13 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
-//                printTree(start, end, str);
-//                printNode(initNode, targetNode, str);
-//                printObstacles(obstacles, str);
+                printTree(start, end, str);
+                printNode(initNode, targetNode, str);
+                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(targetNode);
-//                printNode(initNode, targetNode, str + "opt");
-//                printPoint(initNode, targetNode, str);
+                printNode(initNode, targetNode, str + "opt");
+                printPoint(initNode, targetNode, str);
                 break;
             }
             Node near = kdTreeYou.getNearestNode(initNode);
@@ -309,13 +309,13 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
-//                printTree(start, end, str);
-//                printNode(initNode, near, str);
-//                printObstacles(obstacles, str);
+                printTree(start, end, str);
+                printNode(initNode, near, str);
+                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(near);
-//                printNode(initNode, near, str + "opt");
-//                printPoint(initNode, near, str);
+                printNode(initNode, near, str + "opt");
+                printPoint(initNode, near, str);
 
                 break;
             }
