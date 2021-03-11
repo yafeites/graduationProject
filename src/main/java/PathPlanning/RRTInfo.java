@@ -7,4 +7,7 @@ public class RRTInfo {
 
     static final double backp1=0.15;
     static final double backnow=0.85;
+
+    //B-rrt*
+    static  final double rrt_radius=101;
 }

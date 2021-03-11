@@ -149,19 +149,19 @@ public class Plan {
         Obb obb1 = new Obb("obstacle1", new Point(1130, 600, 1050), vectors1, new double[]{65, 600, 65});
         Obb obb2 = new Obb("obstacle2", new Point(1890, 0, -220), vectors1, new double[]{150, 110, 50});
         Obb obb3 = new Obb("obstacle3", new Point(1800, -600, 200), vectors1, new double[]{65, 600, 65});
-        Obb obb4 = new Obb("obstacle4", new Point(2000.0,-250,-90), vectors1, new double[]{150,100,170});
+        Obb obb4 = new Obb("obstacle4", new Point(2000.0, -250, -90), vectors1, new double[]{150, 100, 170});
 
         obstacles.add(obb1);
         obstacles.add(obb2);
         obstacles.add(obb3);
         obstacles.add(obb4);
-        System.out.println(p.intersection(start.point));
-        System.out.println(p.intersection(end.point));
+//        System.out.println(p.intersection(start.point));
+//        System.out.println(p.intersection(end.point));
 
         long time = System.currentTimeMillis();
 //        for (int i=0;i<20;i++)
 //        {
-//        p.rrt(start,end);
+//        p.rrt(start, end);
         p.union(start, end);
 //        System.out.println("i:"+i+"over");
 //        }
@@ -193,14 +193,14 @@ public class Plan {
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
                 str = str + "rrt";
-//                printNodeNum(start,end,str);
-//                printTree(start, end, str);
-//                printNode(initNode, targetNode, str);
-//                printObstacles(obstacles, str);
+                printNodeNum(start, end, str);
+                printTree(start, end, str);
+                printNode(initNode, targetNode, str);
+                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(targetNode);
-//                printNode(initNode, targetNode, str + "opt");
-//                printPoint(initNode, targetNode, str);
+                printNode(initNode, targetNode, str + "opt");
+                printPoint(initNode, targetNode, str);
                 break;
             }
             Node near = kdTreeYou.getNearestNode(initNode);
@@ -208,14 +208,14 @@ public class Plan {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String str = df.format(new Date());
                 str = str.replace(' ', '_');
-//                printNodeNum(start,end,str);
-//                printTree(start, end, str);
-//                printNode(initNode, near, str);
-//                printObstacles(obstacles, str);
+                printNodeNum(start, end, str);
+                printTree(start, end, str);
+                printNode(initNode, near, str);
+                printObstacles(obstacles, str);
                 opt(initNode);
                 opt(near);
-//                printNode(initNode, near, str + "opt");
-//                printPoint(initNode, near, str);
+                printNode(initNode, near, str + "opt");
+                printPoint(initNode, near, str);
                 break;
             }
             //计算rrt引力
@@ -236,10 +236,8 @@ public class Plan {
                 initNode = kdTreeYou.getNearestNode(node);
                 targetNode = node;
                 kdTreeMe.insert(node);
-                System.out.println(node.tree.name);
-                System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
-
-
+//                System.out.println(node.tree.name);
+//                System.out.println("x:" + node.point.x + " y:" + node.point.y + " z:" + node.point.z);
                 KdTree temp = kdTreeMe;
                 kdTreeMe = kdTreeYou;
                 kdTreeYou = temp;
@@ -248,12 +246,11 @@ public class Plan {
                 continue;
             }
 
-            Node newNode = createNode(point, initNode);
+            Node newNode = createNodeByRRT(point, initNode);
             initNode = newNode;
             kdTreeMe.insert(newNode);
-            System.out.println(newNode.tree.name);
-            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
-
+//            System.out.println(newNode.tree.name);
+//            System.out.println("x:" + newNode.point.x + " y:" + newNode.point.y + " z:" + newNode.point.z);
             force.clean();
 
         }
@@ -404,7 +401,9 @@ public class Plan {
                 force.clean();
                 continue;
             }
-            Node newNode = createNode(point, initNode);
+//            Node newNode = createNode(point, initNode);
+            Node newNode = createNodeByRRT(point, initNode);
+
             initNode = newNode;
             kdTreeMe.insert(newNode);
 //            kdTreeMe.getLastTenList().add(newNode);
@@ -830,7 +829,7 @@ public class Plan {
             }
             Vector vector = new Vector(a, b, c);
             Utils.standardization(vector);
-            node = extendTree(preNode.getTree().getRandNode());
+            node = extendTreeRRT(preNode.getTree().getRandNode());
             if (node == null) {
                 continue;
             }
@@ -951,7 +950,39 @@ public class Plan {
         if (intersection(point) && intersection(point1)) {
             return null;
         } else {
-            return createNode(point, node);
+//            return createNode(point, node);
+            return createNodeByRRT(point, node);
+        }
+
+
+    }
+
+    private Node extendTreeRRT(Node node) {
+
+        double a = Math.random();
+        if (Math.random() < 0.5) {
+            a = -a;
+        }
+        double b = Math.random();
+        if (Math.random() < 0.5) {
+            b = -b;
+        }
+        double c = Math.random();
+        if (Math.random() < 0.5) {
+            c = -c;
+        }
+        Vector vector = new Vector(a, b, c);
+        Utils.standardization(vector);
+        Point point = new Point(node.point.x + APFInfo.randstep * vector.vextorX,
+                node.point.y + APFInfo.randstep * vector.vextorY,
+                node.point.z + APFInfo.randstep * vector.vextorZ);
+        Point point1 = new Point(node.point.x + APFInfo.randstep * vector.vextorX / 2,
+                node.point.y + APFInfo.randstep * vector.vextorY / 2,
+                node.point.z + APFInfo.randstep * vector.vextorZ / 2);
+        if (intersection(point) && intersection(point1)) {
+            return null;
+        } else {
+            return createNodeByRRT(point, node);
         }
 
 
@@ -975,6 +1006,59 @@ public class Plan {
         Node newNode = new Node();
         newNode.setPoint(point);
         newNode.addAttr(node);
+        return newNode;
+    }
+
+    private Node createNodeByRRT(Point point, Node node) {
+        Node newNode = new Node();
+        newNode.setPoint(point);
+        newNode.tree = node.tree;
+        newNode.root = node.root;
+        double price = Double.MAX_VALUE;
+        Node father = null;
+        List<Node> list = newNode.getTree().list;
+        //重选父结点
+        for (int i = 0; i < list.size(); i++) {
+            Node node1 = list.get(i);
+            if (Utils.getDistance(node1.getPoint(), newNode.getPoint()) <=RRTInfo.rrt_radius) {
+                if (node1 != newNode) {
+                    double comPrice = Utils.getDistance(node1.point, newNode.point) + node1.price;
+                    if (price > comPrice) {
+                        price = comPrice;
+                        father = node1;
+                    }
+                }
+            }
+
+        }
+        newNode.father = father;
+        father.sons.add(newNode);
+        newNode.level=father.level+1;
+        newNode.price = price;
+        //重布线
+
+        for (int i = 0; i < list.size(); i++) {
+            Node node1 = list.get(i);
+            if (Utils.getDistance(node1.getPoint(), newNode.getPoint()) < RRTInfo.rrt_radius) {
+                if (node1 != newNode) {
+                    double comPrice = Utils.getDistance(node1.point, newNode.point) + newNode.price;
+                    if (comPrice < node1.price) {
+                        List sons = node1.father.sons;
+                        for (int j = 0; j < sons.size(); j++) {
+                            if (sons.get(j) == node1) {
+                                sons.remove(j);
+                                break;
+                            }
+                        }
+                        node1.father = newNode;
+                        node1.level=newNode.level+1;
+                        newNode.sons.add(node1);
+                    }
+                }
+            }
+
+
+        }
         return newNode;
     }
 

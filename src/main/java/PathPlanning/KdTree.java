@@ -18,8 +18,8 @@ public class KdTree {
     public void setName(String name) {
         this.name = name;
     }
-    List<Node>lastTenList=new ArrayList<>();
-    List<Node>list=new ArrayList<>();
+    public  List<Node>lastTenList=new ArrayList<>();
+    public  List<Node>list=new ArrayList<Node>();
 
     public List<Node> getLastTenList() {
         return lastTenList;

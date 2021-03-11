@@ -16,6 +16,15 @@ public class Node {
     Node root;
     Node father;
     List<Node> sons;
+    double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public Node getKdFather() {
         return kdFather;
@@ -66,6 +75,7 @@ public class Node {
         father=node;
         node.addSon(this);
     }
+
 
     private void addSon(Node node) {
         sons.add(node);
